@@ -1,26 +1,42 @@
 # DynamicKGConstruction
+
 A toolkit for tools inventory management and knowledge graph construction, enabling context-aware retrieval and reasoning for resilient and sustainable supply chains.
+
+---
+
+## ⚠️ Attribution & Acknowledgment
+
+> **This repository is a wrapper around [Docling](https://github.com/docling-project/docling)**, the powerful document conversion library developed by the **Docling Project team**.
+>
+> We extend our sincere gratitude and ethical acknowledgment to the creators and maintainers of Docling for their excellent work in building a robust, open-source document processing framework that supports 17+ document formats.
+>
+> **Docling Repository:** [https://github.com/docling-project/docling](https://github.com/docling-project/docling)
+>
+> This project adds a **semantic chunking layer** on top of Docling's document conversion capabilities to facilitate RAG (Retrieval-Augmented Generation) pipelines and knowledge graph construction.
+
+---
 
 # Docling Chunking - Semantic Document Processing
 
-A powerful Python toolkit for converting PDF documents to structured text and intelligently chunking them into semantic sections for better document understanding, embedding generation, and information retrieval.
+A Python toolkit that wraps [Docling](https://github.com/docling-project/docling) for multi-format document conversion and adds intelligent semantic chunking for better document understanding, embedding generation, and information retrieval.
 
 ## 📋 Overview
 
 This repository provides two main functionalities:
 
-1. **PDF to Text Conversion** - Extract and convert PDF documents to structured text format using Docling
+1. **Multi-Format Document Conversion** - Convert documents (PDF, DOCX, PPTX, XLSX, HTML, images, CSV, and more) to structured Markdown using Docling
 2. **Semantic Chunking** - Intelligently split documents into meaningful chunks based on headers, structure, and semantic coherence
 
 Perfect for **RAG (Retrieval-Augmented Generation)** systems, document analysis, and research paper processing.
 
 ## 🚀 Features
 
-### PDF Processing (`docling/`)
-- 📄 Batch process multiple PDF files from a folder
-- 🔄 Convert PDFs to structured Markdown format
+### Multi-Format Document Processing (`docling_ingest/`)
+- 📄 Batch process multiple documents from a folder
+- 🔄 Convert **17+ formats** to structured Markdown (PDF, DOCX, PPTX, XLSX, HTML, images, CSV, etc.)
 - 📊 Preserve document structure (headings, lists, tables)
 - 💾 Automatically save processed files with organized naming
+- 🔧 Configurable format options (OCR, table extraction, etc.)
 
 ### Semantic Chunking (`chunking_semantic/`)
 - 🎯 **Header-based chunking** - Splits documents by section headers (## markers)
@@ -35,20 +51,27 @@ Perfect for **RAG (Retrieval-Augmented Generation)** systems, document analysis,
 
 ### Prerequisites
 ```bash
-# Python 3.8 or higher required
+# Python 3.10 or higher required (Docling requirement)
 python --version
 ```
 
 ### Install Dependencies
 ```bash
-# Install Docling for PDF processing
+# Install Docling for multi-format document processing
 pip install docling docling-core
 
-# Standard library dependencies (usually pre-installed)
-# - pathlib
-# - re
-# - typing
-# - dataclasses
+# Optional: For OCR support
+pip install docling[ocr]
+
+# Optional: For audio transcription
+pip install docling[audio]
+```
+
+### Create a Conda Environment (Recommended)
+```bash
+conda create -n docling310 python=3.10 pip ipykernel
+conda activate docling310
+pip install docling docling-core
 ```
 
 ## 🛠️ Usage
@@ -69,18 +92,40 @@ This will:
 3. ✅ Export chunks in JSON, Markdown, and Text formats
 4. ✅ Display detailed statistics
 
-### 1. Convert PDFs to Text
+### 1. Convert Documents to Markdown
 
 ```python
-from docling.docling_multiple_document import process_pdfs_to_text
+from docling_ingest import convert_documents_to_markdown
+from docling.datamodel.base_models import InputFormat
 
-# Process all PDFs in a folder
-folder_path = "C:/path/to/your/pdfs"
-output_files = process_pdfs_to_text(folder_path, output_dir="build")
+# Process all documents in a folder (supports 17+ formats)
+folder_path = "C:/path/to/your/documents"
+output_files = convert_documents_to_markdown(
+    input_path=folder_path,
+    output_dir="build_docling",
+    allowed_formats=[InputFormat.PDF, InputFormat.DOCX, InputFormat.HTML],
+    enable_ocr=False,
+    enable_table_structure=True,
+)
 
-# Output: List of generated text file paths
+# Output: List of generated Markdown file paths
 print(f"Processed {len(output_files)} files")
 ```
+
+### Supported Input Formats
+
+| Format | Extensions |
+|--------|------------|
+| PDF | `.pdf` |
+| Word | `.docx`, `.dotx`, `.docm`, `.dotm` |
+| PowerPoint | `.pptx`, `.potx`, `.ppsx`, `.pptm` |
+| Excel | `.xlsx`, `.xlsm` |
+| HTML | `.html`, `.htm`, `.xhtml` |
+| Markdown | `.md` |
+| CSV | `.csv` |
+| Images | `.jpg`, `.jpeg`, `.png`, `.tif`, `.tiff`, `.bmp`, `.webp` |
+| Audio | `.wav`, `.mp3`, `.m4a` (requires ASR models) |
+| AsciiDoc | `.adoc`, `.asciidoc`, `.asc` |
 
 ### 2. Chunk Documents Semantically
 
@@ -128,14 +173,16 @@ with open('chunks.txt', 'w', encoding='utf-8') as f:
 ## 🏗️ Project Structure
 
 ```
-docling_chungking/
+DynamicKGConstruction/
 ├── chunking_semantic/
 │   ├── __init__.py
 │   └── chunking_semantic_by_header.py    # Semantic chunking engine
-├── docling/
+├── docling_ingest/
 │   ├── __init__.py
-│   └── docling_multiple_document.py      # PDF processing utilities
-├── main.py                               # Complete pipeline example
+│   └── docling_multiple_document.py      # Multi-format document conversion (wrapper around Docling)
+├── build_docling/                        # Output folder for converted Markdown files
+├── docling_multi_format_test.ipynb       # Jupyter notebook for testing
+├── test_docling_multiformat.py           # Python test script
 └── README.md
 ```
 
@@ -234,16 +281,15 @@ python main.py
 ```
 
 3. **Check the output**:
-   - Text files: `build/` directory
+   - Markdown files: `build_docling/` directory
    - Chunk files: `chunks_output/` directory (JSON, MD, TXT formats)
 
 ### Example Functions in main.py
 
-The script includes three example functions:
+The script includes two example functions:
 
-1. **`main()`** - Complete pipeline (PDF → Text → Chunks → Export)
-2. **`example_custom_chunking()`** - Shows different chunking configurations
-3. **`example_single_file()`** - Process one file at a time
+1. **`main()`** - Complete pipeline (Documents → Markdown → Chunks → Export)
+2. **`example_single_file()`** - Process one file at a time
 
 Uncomment the function calls at the bottom of `main.py` to try different examples.
 
@@ -282,7 +328,9 @@ This is a PhD research project. Contributions, suggestions, and feedback are wel
 
 ## 📝 License
 
-This project is part of PhD research. Please contact the author for usage permissions.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+Note: This project is a wrapper around [Docling](https://github.com/docling-project/docling). Please also refer to Docling's license for the underlying document conversion library.
 
 ## 👨‍🔬 Author
 
