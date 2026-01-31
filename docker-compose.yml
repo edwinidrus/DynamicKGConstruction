@@ -1,0 +1,141 @@
+# =============================================================================
+# DynamicKGConstruction - Docker Compose
+# =============================================================================
+# 
+# Usage:
+#   Start all services:     docker-compose up -d
+#   View logs:              docker-compose logs -f
+#   Stop all services:      docker-compose down
+#   Rebuild:                docker-compose up -d --build
+#
+# Services:
+#   - api: FastAPI application (port 8000)
+#   - ollama: Local LLM server (port 11434)
+#
+# =============================================================================
+
+version: "3.8"
+
+services:
+  # ===========================================================================
+  # DynamicKGConstruction API
+  # ===========================================================================
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dynamickg-api
+    ports:
+      - "${API_PORT:-8000}:8000"
+    environment:
+      # Server settings
+      - HOST=0.0.0.0
+      - PORT=8000
+      - RELOAD=false
+      
+      # Output directories (mounted volumes)
+      - OUTPUT_DIR=/app/data/build_docling
+      - CHUNKS_OUTPUT_DIR=/app/data/chunks_output
+      - KG_OUTPUT_DIR=/app/data/kg_output
+      - UPLOAD_DIR=/app/data/uploads
+      
+      # LLM Configuration
+      - LLM_PROVIDER=${LLM_PROVIDER:-ollama}
+      - LLM_MODEL=${LLM_MODEL:-qwen2.5:32b}
+      - EMBEDDINGS_MODEL=${EMBEDDINGS_MODEL:-nomic-embed-text}
+      - OLLAMA_BASE_URL=http://ollama:11434
+      
+      # API Keys (for OpenAI/Anthropic - optional)
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      
+      # CORS (comma-separated origins, * for all)
+      - CORS_ORIGINS=${CORS_ORIGINS:-*}
+    volumes:
+      # Persist output data
+      - dynamickg-data:/app/data
+      # Optional: Mount local documents for processing
+      # - ./documents:/app/documents:ro
+    depends_on:
+      ollama:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - dynamickg-network
+
+  # ===========================================================================
+  # Ollama - Local LLM Server
+  # ===========================================================================
+  ollama:
+    image: ollama/ollama:latest
+    container_name: dynamickg-ollama
+    ports:
+      - "${OLLAMA_PORT:-11434}:11434"
+    volumes:
+      # Persist downloaded models
+      - ollama-models:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    # GPU support (uncomment if you have NVIDIA GPU)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - dynamickg-network
+
+  # ===========================================================================
+  # Ollama Model Puller (one-time setup)
+  # ===========================================================================
+  ollama-pull:
+    image: ollama/ollama:latest
+    container_name: dynamickg-ollama-pull
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      - OLLAMA_HOST=ollama:11434
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        echo "Pulling LLM model: ${LLM_MODEL:-qwen2.5:32b}"
+        ollama pull ${LLM_MODEL:-qwen2.5:32b}
+        echo "Pulling embeddings model: ${EMBEDDINGS_MODEL:-nomic-embed-text}"
+        ollama pull ${EMBEDDINGS_MODEL:-nomic-embed-text}
+        echo "Models pulled successfully!"
+    networks:
+      - dynamickg-network
+    profiles:
+      - setup  # Only run with: docker-compose --profile setup up
+
+# =============================================================================
+# Volumes
+# =============================================================================
+volumes:
+  dynamickg-data:
+    driver: local
+  ollama-models:
+    driver: local
+
+# =============================================================================
+# Networks
+# =============================================================================
+networks:
+  dynamickg-network:
+    driver: bridge

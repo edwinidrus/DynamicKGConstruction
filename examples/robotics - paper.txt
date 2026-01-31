@@ -1,0 +1,705 @@
+Source: robotic for resilient supply chain.pdf
+Processing Date: 2025-11-01 14:57:39
+Word Count: 15,855
+Character Count: 119,919
+==================================================
+
+## ORIGINAL ARTICLE
+
+## Robot Built Different: How It Affects Supply Chain Resilience
+
+Yu Yu 1 |  Zhaoyue Li 2   |  Sachin Kumar Mangla 3,4 |  Malin Song 5
+
+1 School of Business, Nanjing Audit University, Nanjing, China  | 2 School of Management, Xiamen University, Xiamen, China  | 3 Jindal Global Business School, O P Jindal Global University, Sonipat, India  | 4 Plymouth Business School, University of Plymouth, Plymouth, UK  | 5 Collaborative Innovation Center for Ecological Economics and Management, Anhui University of Finance and Economics, Bengbu, China
+
+Correspondence: Malin Song (songmartin@163.com; songml@aufe.edu.cn)
+
+Received: 28 October 2024  | Revised: 17 May 2025  | Accepted: 12 June 2025
+
+Funding: This work was supported by National Natural Science Foundation of China (72171122, 71934001, 72171124).
+
+Keywords: digital transformation | dynamic capability theory | innovation strategy | robot adoption | spillover effects | supply chain resilience
+
+## ABSTRACT
+
+Technological evolution has driven the widespread adoption of industrial robots while increasing the resilience requirements of increasingly complex supply chains. However, the relationship between robot adoption and supply chain resilience remains underexplored. This study addresses this gap by empirically examining the impact of robot adoption on supply chain resilience, using a panel dataset of listed manufacturing firms in China from 2013 to 2022. The findings reveal that robot adoption not only significantly enhances a firm's own supply chain resilience but also exerts a positive spillover effect on the resilience of its upstream and downstream partners. Moreover, the study uncovers the moderating roles of enterprise innovation and digital strategies, which amplify the positive effects of robot adoption on supply chain resilience. By integrating technological, strategic, and network perspectives, this research offers novel empirical evidence on the interplay between automation and resilience in supply chains. The study's conclusions have important implications for both managerial practice and policymaking: while state-  owned and high-  tech enterprises should be encouraged to take the lead in robot adoption, firms more broadly can further enhance supply chain resilience by investing in innovation and digital transformation strategies.
+
+## 1   |   Introduction
+
+Economic  globalization  is  currently  facing  considerable  challenges, with an increase in trade protectionism and substantial shifts in the global governance system (Guedhami et al. 2022). The increasing uncertainty and unpredictability  in  the  global environment have led to frequent disruptions in logistics, shortages  of  raw  materials,  production  halts,  and  interruptions  in the supply of goods. These factors significantly impair the flow of  resources  and  make  supply  chain  risk  management  more challenging  (Mateska  et  al.  2024).  For  example,  in  2022,  the COVID-  19  outbreak  in  parts  of  China  forced  major  automobile manufacturers, such as NIO and Tesla, to halt production because they had insufficient parts, resulting in severe supply
+
+© 2025 Wiley Periodicals LLC.
+
+chain disruptions. This situation highlights the critical need for robust supply chain resilience among enterprises to mitigate risk (Zsidisin and Wagner 2010). The supply chain integration and the complexity of the supply chain put forward higher requirements for the resilience of the supply chain.
+
+In parallel, the swift advancement and broad implementation of  automation  technologies,  particularly  industrial  robots, have  emerged  as  crucial  drivers  of  productivity  and  supply chain efficiency (Antonioli et al. 2024; Cilekoglu et al. 2024). Many  enterprises  have  already  integrated  industrial  robots into  their  supply  chain  management  processes  (Maghazei et  al.  2022).  Industrial  robots  have  penetrated  the  manufacturing  industry  and  even  affected  the  development  of  the
+
+<!-- image -->
+
+industry, becoming a new hot topic in the field of supply chain management. For example, companies in industries such as automotive or electronics use robots to complete tasks such as assembly,  inspection,  and  quality  control,  helping  to  reduce production costs while increasing output and enhancing the flexibility  of  the  manufacturing  process  to  cope  with  interruptions. Automated mobile robots and robotic arms are deployed in the warehouse for inventory management and order sorting. Besides, robots are used in e-  commerce logistics order fulfillment systems for tasks such as sorting packages, sorting orders, and last-  mile delivery.
+
+This  phenomenon raises  the  following  important  questions: Can the adoption of advanced technologies, particularly  robots, stabilize and optimize supply chains in turbulent environments?  How  does  this  process  unfold?  Addressing  these questions  provides  a  theoretical  foundation  for  companies seeking to increase their supply chain resilience. Previous research has focused on the role of industrial robots in various parts of the supply chain. In particular, new technology, such as robotics, plays an important role in enhancing supply chain agility  and  supply  chain  collaboration  (George  et  al.  2022; Srinivasan  and  Swink  2018).  However,  theoretical  and  empirical  studies  on  robot  adoption  in  ensuring  supply  chain resilience remain scarce. Liu et al. (2016) explore the impact of new technologies and capacity allocation on supply chains from  the  perspective  of  resource  orchestration.  Industrial robots have an important effect on supply chain robustness. Our study further  extends  the  research  on  the  development of  supply  chain  resilience  from  the  perspective  of  industrial robot  adoption  by  providing  new  evidence  and  theoretical perspectives.
+
+With  the  widespread  deployment  of  industrial  robots  in  the manufacturing industry, more and more studies have begun to focus  on  their  role  in  enhancing  firms'  operational  efficiency, flexible production, and risk response capabilities (Grover and Ashraf 2024; Koreis et al. 2025; Rainer Jr et al. 2025). However, the literature has mostly focused on its direct impact on firm performance or manufacturing capability, ignoring the important  moderating  effect  that  firm  strategic  characteristics  may have on this relationship. In fact, in the process of introducing advanced manufacturing technologies such as industrial robots, a  firm's  own strategic orientation and development path often affect the effectiveness of technology adoption (Wei et al. 2022). In  particular,  digital  transformation  strategy  and  innovation strategy, as important directions for firms to cope with environmental uncertainty and seek long-  term competitive advantage, may, to varying degrees, strengthen or weaken the actual enhancement of supply chain resilience by technological inputs. In other words, even if firms adopt similar technological tools, their  improvement  effects  on  resilience  may  differ  depending on strategic differences (Negri 2025; Xu et al. 2024). Therefore, identifying and examining the moderating effects of these strategic variables can help clarify the boundary conditions of the Technology-  Resilience relationship and provide theoretical support for firms to formulate differentiated strategies.
+
+On this  basis,  does  the  adoption  of  industrial  robots  generate spillover  effects  in  the  supply  chain  network?  That  is  to  say, is  it  possible  that  the  technological  upgrading  behavior  of  an enterprise may indirectly affect the latter's supply chain resilience performance through the upstream and downstream enterprises with which it has cooperative, trading, or synergistic relationships?  In  a  highly  coupled  modern  supply  chain,  information, logistics, and value flows among enterprises are intertwined, and technological changes in one party often drive process adjustments and capacity building in related enterprises (Kumar and Raj 2025). For example, a core enterprise's digital manufacturing model may force suppliers to upgrade their systems or motivate downstream customers to optimize their operational resilience (Zhang, Liang, and Chen 2025). In this process, firms' technology adoption behaviors may be transmitted across firms  through  collaborative  mechanisms,  knowledge  sharing, or  strategic  imitation,  thus  systematically  affecting  the  resilience of the entire supply chain system. However, research on this supply chain resilience spillover effect is still very limited, and the related mechanisms have not been fully revealed, and there is a lack of systematic empirical evidence. The existence of spillovers not only expands the boundaries of technological value but also provides a theoretical basis for the evaluation of corporate return on investment and policymaking with a more external perspective.
+
+To  address  the  identified  research  gap,  this  study  empirically examines the impact of industrial robot adoption on the supply chain  resilience  of  Chinese  manufacturing  enterprises  using microlevel  data  from  domestically  listed  firms  between  2013 and 2022. A fixed effects regression model is employed to estimate the core relationship, followed by a heterogeneity analysis to identify variations across different firms. The study further explores  the  moderating  roles  of  firms'  digital  transformation and innovation strategies, using the Johnson-Neyman method to test the conditional effects. In addition, by integrating supply chain network structure data, the analysis investigates whether and  how  robot  adoption  by  focal  firms  influences  the  resilience of upstream and downstream partners, thereby identifying potential spillover effects within the supply chain network. Together, these analyses offer deeper insights into the mechanisms through which industrial robot adoption shapes supply chain  resilience  and  provide  evidence-  based  implications  for managerial practice and policy formulation.
+
+Compared with previous qualitative or descriptive research, this study offers new micro insights into the practical adoption of robots and mechanisms for enhancing supply chain resilience on the basis of an empirical analysis of relevant data. This  study  provides  new  evidence  for  robot  adoption  in  the manufacturing industry to promote the development of supply chain resilience. The theoretical insights of this study are essential for boosting confidence in robot adoption and advancing  the  development  of  supply  chain  resilience.  In  addition, the innovation of this paper is that it further explores the spillover effect in the supply chain. Observing the robot adoption of enterprises can also improve the supply chain resilience of suppliers and customers. Through heterogeneity analysis and moderating effect analysis, more detailed guidance for the development of enterprises and policymaking can be provided. On the one hand, policymaking should strengthen the leading role of state-  owned enterprises and high-  tech enterprises. On the other hand, enterprises can deepen the role of robot adoption in improving supply chain resilience by increasing
+
+attention to innovation and digital transformation strategies. This study complements the existing research, represents an advancement in the field, and contains originality.
+
+The rest of the paper is organized as follows: Section 2 presents related studies and research hypotheses. Section 3 defines key variables and describes the model and data sources. Section 4 derives  the  results  of  the  empirical  analyses.  The  findings  of the  mechanism  and  heterogeneity  studies  are  also  presented in Section 4. Section 5 investigates spillover effects in the supply chain. Conclusions and policy suggestions are provided in Section 6.
+
+## 2   |   Literature Review and Research Hypotheses
+
+## 2.1   |   Robot Adoption
+
+The growing adoption of robots has sparked debates over their economic viability. Many studies have concentrated on how robots affect the labor market and the structure of the workforce, although mixed results have been obtained. Some research indicates that robot adoption negatively affects low-  skilled workers (Kude et al. 2023), whereas others argue that it improves wage conditions and creates new job opportunities (Dixon et al. 2021). While robots may reduce the number of jobs in manufacturing, growth  in  business  services  often  compensates  for  this  loss. Moreover, robot adoption significantly boosts total factor productivity,  with  more  intensive  robot  use  correlating  positively with  higher  productivity  (Armstrong  and  Shah  2023).  Robot adoption also increases a firm's likelihood of exporting, leading to larger export volumes and contributing to international trade growth (Cilekoglu et al. 2024).
+
+Some studies suggest that the economic effects of robot adoption stem  from  its  role  in  promoting  firms'  innovation  and  digital transformation strategies (Armstrong and Shah 2023). In terms of  sustainability,  robots  contribute  to  energy  efficiency,  lower carbon emissions, and enhanced green efficiency, thus optimizing development structures (Tóth et al. 2022).
+
+Previous studies have explored the role of industrial robot adoption  in  all  aspects  of  the  manufacturing  industry.  However, research  on  the  advancement  of  industrial  robots  in  the  field of supply chains is relatively lacking. The existing research focuses on exploring the role of new technologies such as industrial robots in improving supply chain agility and supply chain collaboration (George et al. 2022; Srinivasan and Swink 2018). However, there is still a lack of theoretical and practical research on the adoption of robots in ensuring the resilience of the supply chain.
+
+## 2.2   |   Supply Chain Resilience
+
+In the early stage of supply chain resilience research, resilience was usually regarded as a static concept. Early theories focused on  structural  aspects,  such  as  maintaining  excess  capacity  or buffering  inventory  to  absorb  shocks  (Qi  et  al.  2023;  Wieland and Durach 2021). This capacity allows enterprises to recover to  their  original  state  or  even  improve  after  experiencing  a disruption. Resilience is measured by the supply chain's condition before and after the disruption, making it a static capability.
+
+In the context of supply chain resilience, the dynamic capability of enterprises is crucial because it enables the supply chain to maintain flexibility and responsiveness in the face of disruptions,  whether  due  to  natural  disasters,  economic  shocks,  or geopolitical events. Therefore, this paper explores supply chain resilience from the perspective of dynamic capability theory.
+
+Supply chain managers aim to build dynamic capabilities to respond to unexpected risks with minimal costs and losses (Todo et al. 2016; Wang et al. 2023). Dynamic capabilities refer to an enterprise's  ability  to  continually  update,  reset,  and  adapt  its resources  and  core  competencies  to  adjust  to  changing  environments, fostering continual improvement (Teece et al. 1997). Sodhi  and  Tang  (2021)  emphasized  that  to  thrive  in  evolving environments and meet future societal expectations, enterprises must build self-  sustaining supply chain resilience by developing dynamic  capabilities.  Furthermore,  Müller  et  al.  (2023)  contended  that  dynamic  capabilities  are  essential  for  effectively managing resilience within supply chains. Dynamic capability theory  emphasizes  active  management,  a  long-  term  strategic vision, and agile decision-  making, which is an important perspective for understanding and studying supply chain resilience.
+
+The concept of supply chain resilience (Pettit et al. 2010) aligns with  dynamic  capabilities  theory.  This  resilience  framework states that supply chain resilience depends on the unity of vulnerability factors and capabilities (Pettit et al. 2013). The framework posits  that  resilience  depends  on  balancing  vulnerability  and capability factors; excessive vulnerability leads to risk, whereas excessive capabilities lead to inefficiencies. Optimal resilience is achieved when these factors are balanced (Pettit et al. 2019). It is an active risk management framework that helps organizations build resilience before a crisis rather than just reacting after a crisis. This conceptual framework of resilience also encourages agile decision-  making, which is critical for quickly responding to disruptions in today's fast-  paced, interconnected global supply chains. This is the latest achievement of the dynamic capability theory framework in supply chain resilience management.
+
+The traditional measurement of supply chain resilience is from a static point of view. Although Pettit et al. (2010) proposed the concept  of  supply  chain  resilience,  which  is  consistent  with dynamic capability theory, they did not clearly propose a corresponding  measurement  method,  which  is  why  the  idea  has not been popularized. This paper first proposes a measurement method for supply chain resilience based on dynamic capability theory, which extends the advanced theory of Pettit et al. (2010).
+
+## 2.3   |   Spillover Effects
+
+Many studies have investigated the spillover effect of the supply chain: Bianchi and Giorcelli (2022) reported that management intervention had a positive spillover effect on the supply chain of trained companies. De Vito et al. (2025) study the spillover effect  of  a  corporate  tax  increase,  which  has  a  negative  effect within the enterprise and a positive effect among multinational companies. Huang and Kim (2019) studied the spillover effect of
+
+the competition of downstream enterprises in the supply chain on  the  capital  structure  decision  of  upstream  enterprises  and reported that the competitive behavior of downstream customers had a greater effect on the capital composition of upstream suppliers.
+
+Network  theory  emphasizes  the  interconnection  and  dependence between different entities in the supply chain network. The spillover effect is usually caused by the interconnection between enterprises in the supply chain. For example, suppliers may adopt new technologies or practices, and through direct or indirect relationships (such as buying houses, competitors, and even customers), this innovation is spread throughout the supply chain. Some studies have investigated the spillover effect of enterprise technology application in the supply chain. Zhang, Min Du, and Lin (2025) explained that the digitalization of customers promotes the spillover effect of suppliers from the perspective of supply chain spillover. Network theory suggests that the status of enterprises in the supply chain network enables their technology and capabilities to spread to other enterprises in the network through formal cooperation and informal knowledgesharing practices (Nwafor et al. 2023).
+
+The resource-  based view emphasizes that when an enterprise's resources or capabilities have an impact on the broader supply chain,  it  will  produce  spillover  effects.  Mao  and  Guo  (2025) reported  that  customers'  robot  adoption  optimized  the  employment  structure  of  supplier  enterprises  through  a  positive information  spillover  effect.  When  leading  enterprises  in  the supply chain develop new technologies or operational capabilities, the resources may overflow to other companies in the network through direct transfer, imitation, or collaboration (Geng et al. 2024).
+
+The above studies focus on the impact of the supply chain spillover effect on knowledge and technology diffusion and lack research on enterprise operation interactions in the supply chain. This study provides a new research perspective by exploring the vertical  transmission  of  the  process  by  which  robot  adoption affects supply chain resilience among supply chain enterprises.
+
+This work builds on Pettit et al.'s (2010) resilience framework by exploring supply chain resilience from a dynamic capabilities  perspective,  which  helps  to  understand  how  enterprises can withstand disruption and thrive and adapt to the changing environment, ensuring a balance between capability and vulnerability. While existing research has explored various dimensions  of  resilience,  few  studies  have  systematically  examined how the adoption of industrial robots influences firms' ability to  reconfigure  resources  and  maintain  operational  continuity under volatility. In particular, the role of robot adoption in enhancing firms' risk resilience under the moderating influence of corporate strategy remains insufficiently explored in empirical research.
+
+Moreover,  current  literature  offers  limited  insight  into  the network-  level  implications  of  robot  adoption.  Little  attention has  been  paid  to  how  technological  upgrades  in  focal  firms may generate  spillover  effects  that  influence  the  resilience  of upstream  and  downstream  partners  within  supply  chain  networks. This omission restricts our understanding of the broader organizational and interorganizational dynamics through which resilience is developed and diffused. To address these gaps, this study integrates firm-  level adoption behavior with supply chain network  data  and  introduces  a  novel  resilience  measurement approach rooted in dynamic capabilities theory. This enables a more granular and relational understanding of resilience development in technologically evolving supply chains.
+
+## 2.4   |   Research Hypotheses
+
+Building on Richey Jr. et al. (2023)'s exploration of the influence of  artificial  intelligence-particularly  industrial  robots-on supply chain management, this study extends the discussion by hypothesizing that robot adoption enhances supply chain resilience. On the basis of prior research, robot adoption enhances supply chain resilience through the following three main channels:  improving  resource  control  (Koch  and  Manuylov  2023), boosting  operational  efficiency  (Antonioli  et  al.  2024),  and fostering  collaborative  governance  (Matthews  et  al.  2025). First, the resource-  based view theory holds that industrial robots  are  valuable  resources  that  enable  enterprises  to  allocate human  and  material  resources  more  effectively  (Koch  and Manuylov 2023). The adoption of robots has strengthened the enterprise's control over resources, elevated its position in the supply chain, and improved its ability to manage supply crises (Maghazei et al. 2022), thereby enhancing the resilience of the supply chain. Additionally, competitive advantage theory holds that robot adoption can increase product differentiation in the supply chain, strengthening competitiveness and market share (Cilekoglu et al. 2024). Second, according to the resource-  based view, robots reduce labor demand, helping companies save operating costs and optimize expenses and thereby increasing operational efficiency (Feigenbaum and Gross 2024). Chen et al. (2023) reported that human resource redundancy negatively impacts supply chain resilience but that robot adoption mitigates this effect by optimizing human resources and improving long-  term operational confidence. Finally, according to the technological innovation concept of innovation diffusion theory, the adoption of new technologies (such as industrial robots) can improve the internal process (Benhabib et al. 2021). Robot adoption facilitates intelligent and automated manufacturing, improving communication efficiency and internal control processes (Nikolova et  al.  2024).  By  enhancing  connections  with  upstream  and downstream enterprises, robots improve control over the supply chain (Jia et al. 2024) and the level of adaptability to external environments (Acemoglu and Restrepo 2021). Robots also promote creativity, creating dynamic adaptability that strengthens supply chain resilience (Huang et al. 2024). Accordingly, we propose the following hypothesis:
+
+H1. Robot  adoption  enhances  the  supply  chain  resilience  of enterprises .
+
+The digital  transformation  strategy  has  driven  the  implementation  of  robot  adoption,  and  enterprises  are  using  industrial robots more quickly to enhance information technologies such as artificial  intelligence,  blockchain,  cloud  computing,  big data,  and  the  IoT  (Melzner  et  al.  2023;  Sternberg  et  al.  2023). According  to  the  resource-  based  view,  these  next-  generation digital  technologies  can  increase  supply  chain  resilience  by
+
+influencing supply chain management operations (Ciulli et al. 2020). Enterprise digital transformation can utilize digital technology to strengthen information sharing and action with upstream  suppliers  and  downstream  customers  and  redesign and plan supply chain structures and activities (Cao et al. 2022). Therefore, more promotion of digital transformation strategies by enterprises can promote the reconstruction of upstream and downstream partnerships in the supply chain through the adoption  of  industrial  robots,  improve  governance  structures,  and enhance supply chain resilience.
+
+H2a. Enterprise  digital  transformation  has  a  moderating  effect on the relationship between robot adoption and supply chain resilience .
+
+The adoption of industrial robots can effectively increase the resilience  of  firms  to  external  shocks  by  increasing  automation, reducing  human  intervention,  and  enhancing  responsiveness. However, relying on technological tools alone is not sufficient to achieve the desired resilience-  enhancing effects, and the firm's innovation strategy may play a key moderating role. Based on the theory of resource dependence, firms cannot fully control the key resources they need on their own and must reduce the uncertainty and dependence on the external environment through strategic behavior (Wang et al. 2025). As a mechanism for integrating internal resources, acquiring new external resources, and enhancing organizational adaptability, innovation strategy can facilitate the synergistic integration of industrial robots with existing business processes, human structures, and supply chain networks when they are introduced into a company, thus maximizing the resilience return on technology investment (Birkel and Müller 2025). The innovation strategy enables companies to be more forward-  looking and agile, to identify and respond to potential risks and obstacles in the adoption of industrial robots more effectively, and to enhance their path to value realization (Ahmadi et al. 2025). Further, from the perspective of dynamic capability  theory,  the  key  to  a  company's  ability  to  build  and maintain competitive advantage in a rapidly changing environment lies in its ability to sense, integrate, and reconfigure resources (Herburger et al. 2024). Innovation strategy reflects the ability of enterprises to perceive emerging technologies (e.g., industrial robots) and market changes and to promote the effective implementation  of  technology  and  organizational  adaptation through  resource  reorganization  and  capability  restructuring. In this process, enterprises are not only passively adopting technologies but also incorporating them into their innovation system, actively shaping their position and resilience in the supply chain. Therefore, corporate innovation strategy can strengthen the positive impact of industrial robot adoption on supply chain resilience. In summary, corporate innovation strategy, as an important mechanism for integrating resources and reshaping capabilities, may play a positive moderating role in the relationship between industrial robot adoption and corporate supply chain resilience. Based on this, the following hypotheses are proposed:
+
+H2b. The adoption of enterprise innovation strategies moderates  the  relationship  between  robot  adoption  and  supply  chain resilience .
+
+Since the supply chain network is a complete system, systems theory  suggests  that  resilience  at  the  supply  chain  network level  is  not  an  isolated  phenomenon.  There  is  a  diffusion  of interactions  that  influence  resilience  among  firms  (Alikhani et  al.  2023).  Network  theory  focuses  on  interactions  between firms and supports the idea that interfirm relationships between firms in a supply chain can provide a buffer against disruptions and improve the ability of firms to cope with disruptions (Ge and Bao 2024). The resilience of focal firms can buffer against disruptions  in  upstream  and  downstream  activities,  creating  a  feedback  loop  that  strengthens  the  entire  system  (Chen et al. 2025). Can corporate robot adoption affect the resilience performance of upstream and downstream partner firms? We therefore analyze the spillover effect of the relationship between robot  adoption  and  supply  chain  resilience  across  the  supply chain. We argue that the facilitating effect of robot adoption on supply chain resilience is reflected not only in the horizontal facilitation of organizational resilience by industrial robots within firms  but  also  in  the  vertical  enhancement  of  overall  supply chain resilience through the adoption of industrial robots in the supply chain.
+
+Enterprise  robot  adoption  can  form  knowledge  spillovers  to downstream  enterprises  in  the  supply  chain  by  providing  a richer  knowledge  base  and  innovative  skills,  generating  spillover  benefits  (Agrawal  et  al.  2020).  Moreover,  robot  adoption can also enter downstream enterprises in the form of intermediate goods by improving products and proposing new product designs, helping downstream enterprises obtain spillover benefits (Nichols et al. 2019). Downstream enterprises can save more costs for management and innovation. Compared with demand spillover effects, Bianchi and Giorcelli (2022) argued that supply spillover effects are more easily absorbed and trigger longterm effects. Buyers can obtain spillover effects from suppliers, which in turn affect the cost-  effectiveness and responsiveness of  the  supply  chain  (Dixit  and  Stiglitz  1977).  The  upstream robot adoption in the supply chain transmits this spillover effect to downstream customers through products (Baldwin and Lopez-  Gonzalez  2015).  Focal  firms'  industrial  robot  adoption can better help downstream customers adapt to supply chain environments and improve supply chain performance, which leads to the following hypothesis:
+
+H3a. Industrial robot adoption by focal firms can enhance the supply chain resilience of downstream partners .
+
+The demand-  driven characteristics of the supply chain in the era  of  digital  intelligence  are  increasingly  prominent  (Brau et al. 2023), thus enabling downstream enterprise robot adoption  to  provide  stable  and  reliable  customer  sources  for  upstream enterprises through supply chain correlation, forming a backward spillover effect, optimizing the matching between supply  and  demand  (Costello  2020),  and  thereby  enhancing supply chain resilience. Chu et al. (2019) reported that when customers'  new  technology  adoption  is  more  in-  depth,  the backward  spillover  effect  of  the  supply  chain  is  more  significant,  suppliers  and  customers  are  closer  in  the  field  of technology, and the proximity of upstream and downstream enterprises  has  a  greater  effect  on  upstream  enterprises. Therefore, the robot adoption of downstream enterprises can provide  more  development  advantages  for  upstream  enterprises. By leveraging this development advantage, the supply chain can adjust resource allocation and improve production
+
+efficiency.  Compared  with  other  effects,  the  adoption  of  industrial robots is more conducive to reducing inventory fluctuations  in  the  supply  chain,  reducing  supply  and  demand deviations, and providing a stable supply chain environment (Maghazei et al. 2022). This demand-  driven feature can help upstream suppliers better plan production, reduce inventory fluctuations, and improve production efficiency (Sundaresan et al. 2023). Upstream suppliers can better optimize resource allocation,  improve  innovation  capabilities,  and  achieve  diversified and personalized development (Palepu 2023). Focal firms can provide a better development environment for upstream  suppliers  by  improving  the  demand-  driven  supply environment through robot  adoption.  Thus,  we  propose  the following:
+
+H3b. Industrial robot adoption by focal firms can enhance the supply chain resilience of upstream partners .
+
+Figure  1  depicts  the  impact  path  of  robot  adoption  on  supply chain resilience and the research hypotheses.
+
+## 3   |   Methodology
+
+To  investigate  how  industrial  robots  affect  supply  chain  resilience,  this  study  creates  an  economic  regression  model.  A combination  of  traditional  econometric  benchmark  regression  models  and  the  Johnson-Neyman  approach  (Johnson and Neyman 1936) is used to analyze the impact of industrial robot adoption on supply chain resilience, as well as the associated moderating effects. Specifically, we apply the following equation:
+
+where i and t denote the firm and time, respectively. Controls is the control variable. Time ∕ Industry FE indicates  that  our  model considers both time and industry fixed effects. The error term is defined as /u1D700 i , t .
+
+## 3.1   |   Dependent Variable
+
+The dependent variable is supply chain resilience ( SCR ).  Pettit et  al.  (2010)  proposed  a  resilience  assessment  framework  and developed  it  as  a  measurable  method  for  evaluating  the  balance between two factors in enterprise supply chain resilience assessment.
+
+On  the  basis of the conceptual  framework  of  capabilityvulnerability  balance  for  supply  chain  resilience  proposed  by Pettit  et  al.  (2010),  we  extract  the  capability  and  vulnerability factors from the framework and organize them into a Chinese vocabulary  of  enterprise  supply  capability  and  vulnerability keywords. The generated Chinese word library is then manually filtered and annotated to obtain a new word library with complete semantics and in accordance with Chinese word formation rules. Finally, the new word library is submitted to relevant experts for secondary filtering to obtain a Chinese lexicon of supply chain capability and vulnerability keywords.
+
+<!-- formula-not-decoded -->
+
+To  measure  the  balance  between  capability  and  vulnerability factors, Cao et al. (2009) distinguished the relationship between two variables as binary balance and binary combination. Binary balance is defined operationally through differencing, but the form  of  differencing  is  a  mechanical  measure  of  equilibrium that  cannot  verify  the  equilibrium  relationship  between  two variables that are independent or interact with other variables. Mathias et al. (2018) proposed the concept of organic balance by emphasizing the balance relationship of binary variables under
+
+## MODERATINGEFFECT
+
+FIGURE 1 |    Hypothesized research model.
+
+<!-- image -->
+
+H3b
+
+balance matching. The balance of two variables is established on the basis of their orthogonal combination. This study utilizes the binary organic balance measurement method proposed by Mathias  et  al.  (2018)  to  assess  the  balance  between  an  enterprise's supply capacity and its vulnerability. The formula is as follows:
+
+<!-- formula-not-decoded -->
+
+where SCR represents  the  balance  between  the  supply  capacity and vulnerability of the enterprise, that is, the resilience of the enterprise's supply chain, and where x and y represent the scores of the capability factor and vulnerability factor, respectively. Both x and y were obtained from text analysis, expressed in terms of keyword frequencies.
+
+## 3.2   |   Independent Variable
+
+Robot is a proxy variable for robot adoption, represented by the natural logarithm of robot penetration, which is the main independent variable of this paper. Acemoglu and Restrepo (2020) constructed a measure of robot penetration at the regional level in the United States on the basis of a general equilibrium model, which is measured as follows:
+
+<!-- formula-not-decoded -->
+
+where RobotP jt represents  robot  penetration  in  industry j at time t , RobotStock jt represents robot stock in industry j at time t ,  and Labor jt = 2010 represents  employment figures for industry j in  2010  (base  year).  The  reason  for  choosing  2010  employment data in this article is as follows. First, when constructing the robot penetration variable, Acemoglu and Restrepo (2020) chose to use 1990 United States employment data by industry because the United States gradually began to apply industrial robots in the early 1990s. China's use of robots began to grow rapidly  in  2010,  and  the  application  level  of  robots  in  2010 was comparable to that in the United States in 1990. Second, 2010 was earlier than the sample study period in this study, which can to some extent avoid the endogeneity problem of the model.
+
+Although  stock  data  on  robots  by  nation  and  industry  are available in the International Federation of Robotics (IFR) database, the proportionate contribution of robot adoption at the firm level  cannot  be  adequately  represented  by  the  absolute stock information at the industry level. According to Caselli et  al.  (2025),  this  study  uses  the  basic  idea  of  Bartik  instrumental  variables  to  analyze  the  effects  of  robot  penetration from the industry level to the firm level (Bartik 1991), computed as follows:
+
+<!-- formula-not-decoded -->
+
+This indicator measures the level of robot penetration for firm i in industry j at time t . Manulab jt = 2010 is the median number of employees in all companies in industry j in 2010 (base year). The ratio of firm i ' s employee share in industry j ' s production sector in 2010 (base year) to the median share of all companies in industry j ' s production  sector  in  2010  (base  year)  is  represented as Labor ijt = 2010 Manulab jt = 2010 .  The independent variable Robot in Equation (1) is expressed using the natural logarithm of the firm's robot penetration, i.e., Robot = log ( RobotFP ) .
+
+## 3.3   |   Moderating and Control Variables
+
+Mi , t , k represents the k th moderating variable for firm i in year t . k takes  the  value  of { 0, 1 } ,  with Mk = 0 and Mk = 1 representing innovation ( Ino ) and digital transformation ( DT ) ,  respectively. Ino indicates  that  the  degree  of  implementation  of  an  enterprise's innovation strategy is the size of the enterprise's R&amp;D activities, expressed in the number of patents. The number of patents  of  enterprises  represents  innovation  investment  and intellectual  property  accumulation  in  the  technology  field of  enterprises  and  is  an  objective  way  to  quantify  the  R&amp;D activities  of  enterprises.  The  greater  the  number  of  patents, the  more  inclined  the  enterprise  is  to  the  innovation  strategy (Acemoglu and Restrepo 2020). DT represents the digital transformation  proxy  variable,  which  uses  text  analysis  to determine the  frequency  of  keywords  related  to  digitization (Bodrožić and Adler 2022; Nambisan et al. 2019). Enterprises with  higher  keyword  frequencies  are  more  inclined  toward digital  transformation  strategies  than  are  those  with  lower keyword frequencies. If /u1D6FC 3 is significant, the moderating effect of this variable is significant.
+
+In the benchmark regression, our main focus is on the coefficient /u1D6FC 1 in Equation (1), which shows how robot adoption affects supply chain resilience. A group of control factors known as Controls are thought to be crucial for a firm's SCR . The natural logarithm of the total number of employees plus one is employed to calculate Size . A firm's Age is its age. The selection of Size and Age mainly refers to Jiang et al. (2025) to reflect the basic characteristics of the firm. Femano and Breitbach (2025) suggest that firms' financial performance and operating conditions also affect supply chain resilience. We therefore introduce income growth rate and debt level as control variables. The operational income growth rate is denoted by Growth . Debt can be calculated by dividing the entire debt of the enterprise by its total assets. Since Xu et al. (2024) chose shareholding characteristics as a control variable for supply chain resilience research based on the perspective that board characteristics can  affect  intra-  firm  decision-  making  and  strategic  choices. Board  characteristics,  including  the  number  of  board  members ( BM ), board salary ( BS ), and female director ratio ( FDR ), are also considered in this paper.
+
+## 3.4   |   Data Sources
+
+A  2022  report  from  the  IFR  revealed  that  China  now  leads the world with over 1.5 million industrial robots in use, maintaining its position as the world's largest market for industrial robots since 2013. So, it is more representative to study the development status of robot adoption and enterprise supply chain resilience in China. This study uses Chinese listed companies that were active between 2013 and 2022, with data mostly from
+
+three sources. The selection of manufacturing enterprises is based on the national standard GB/T 4754-2017 Classification of  National  Economic  Industries.  The  IFR  2023  Industrial Robotics  Report  contains  robot  inventory  and  installation statistics  broken  down  by  industry,  nation,  and  time.  These data  are  relevant  to  industrial  robots.  The  study  constructs the  core  explanatory  variable,  Chinese  firms'  robot  penetration, according to Equation (3), to measure the extent of robot adoption by Chinese listed firms. The data for listed firms are drawn  mainly  from  the  China  Stock  Market  &amp;  Accounting Research Database (CSMAR), which contains relevant indicators of operational efficiency, the gearing ratio, firm type, firm size, the revenue growth rate, firm year, the number of enterprise patents, and other relevant data. Cumulative data on patents granted to listed firms is disclosed in the CSMAR, which contains both invention and utility model patents, and we use this  data  to  construct  an  indicator  of  firms'  innovation  strategies.  In  addition,  industry-  level  employment  data were obtained from the China National Bureau of Statistics (https://  data.  stats.  gov.  cn/  ). The study manually matches and then forms a set of firm-  industry-  year statistics.
+
+We  standardized  China's  two-  digit  industry  classification codes to the 2011 standard using the files of the International Standard  Industrial  Classification  of  All  Economic  Activity Revision 4 and GB/T 4754-2011 due to disparities in industry  classifications  within  the  data  of  robot  utilization  in  the IFR and the information of listed firms. Afterward, we compare them with the IFR industry robot stock information. We obtain  balanced  panel  data  totaling  2900  samples  from  290 Chinese  listed  companies.  Table  1  presents  the  descriptive statistics.
+
+The  supply  chain  capacity  indicator  ( x ),  vulnerability  indicator ( y ) and digital transformation ( DT ) are expressed as the frequency  of  keywords  in  the  enterprise's  annual  financial report  (AFR)  obtained  through  the  Wingo  database  (www. wingo  data.  com)  using  the  Chinese  lexicon  of  the  above keywords.
+
+TABLE 1 |    Descriptive statistics.
+
+|                      | Variable   |   Obs. |   Mean |   Std. dev. | Min    |    Max | Source   |
+|----------------------|------------|--------|--------|-------------|--------|--------|----------|
+| Dependent variable   | SCR        |   2900 |   0.62 |        0.14 | 0.01   |   0.95 | AFR      |
+| Independent variable | Robot      |   2900 |   0.95 |        1.75 | - 3.75 |   4.12 | IFR      |
+| Control variables    | Size       |   2900 |   3.59 |        0.71 | 0.30   |   5.65 | CSMAR    |
+|                      | Age        |   2900 |  18.61 |        5.34 | 3      |  38    | CSMAR    |
+|                      | Growth     |   2900 |   0.19 |        1.36 | - 0.96 |  45.82 | CSMAR    |
+|                      | Debt       |   2900 |   0.55 |        0.61 | 0.02   |  29.7  | CSMAR    |
+|                      | BM         |   2900 |   9.46 |        2.12 | 5      |  21    | CSMAR    |
+|                      | BS         |   2900 |   6.13 |        1.04 | 0      |   7.76 | CSMAR    |
+|                      | FDR        |   2900 |   0.29 |        0.19 | 0      |   1    | CSMAR    |
+| Moderating variables | Ino        |   2900 |  15.79 |       30.63 | 0      | 336    | CSMAR    |
+|                      | DT         |   2900 |   0.8  |        1.17 | 0      |   4.94 | AFR      |
+
+## 4   |   Results
+
+## 4.1   |   Robot Adoption and Supply Chain Resilience
+
+The correlation test results are shown in Table 2. The analysis provides  preliminary  evidence  in  favor  of  our  theory,  demonstrating a significant positive association between robot adoption  and  supply  chain  resilience.  Additionally,  the  variance inflation factor (VIF) score of the multicollinearity test is 1.01, which is below the 10-  point cutoff. This finding suggests that the model does not contain any significant multicollinearity.
+
+We then perform a within-  group autocorrelation test. It is hypothesized  that  there  is  no  first-  order  autocorrelation  within the group. According to the Wooldridge test for panel data autocorrelation, P &gt; F = 0.000 . Therefore, there is no within-  group autocorrelation  in  these  panel  data.  Thereafter,  we  perform  a baseline regression.
+
+We use regression that considers both time and industry fixed effects to examine how robot adoption affects an enterprise's supply  chain  resilience.  Table  3  shows  the  benchmark  regression  results.  Column  (1)  shows  the  results  of  univariate regression, which evaluates the impact of robot adoption on supply chain resilience. Column (2) considers a one-  year lag based  on  univariate  regression,  which  better  illustrates  this impact. The control variable described in Section 3 is added to  column (3). Column (4) shows the results of using robust standard error regression to address the potential heteroscedasticity issue.
+
+The regression coefficients of the predicted level of robot adoption  on  supply  chain  resilience  are  0.042,  0.053,  0.046,  and 0.046,  respectively.  All  these  values  are  significant  at  the  1% level. Overall, the estimation results indicate that the adoption of robots by enterprises promotes their supply chain resilience. The hypothesis in Section 2 that robot adoption can enhance the supply chain resilience of enterprises is verified. Our research findings support previous studies that have emphasized the role
+
+TABLE 2 |    Correlation test.
+
+| DT     |       |          |          |          |            |          |          |          |            |            | 1.000      |
+|--------|-------|----------|----------|----------|------------|----------|----------|----------|------------|------------|------------|
+| Ino    |       |          |          |          |            |          |          |          |            | 1.000      | 0.148***   |
+| FDR    |       |          |          |          |            |          |          |          | 1.000      | - 0.073*** | 0.107***   |
+| BS     |       |          |          |          |            |          |          | 1.000    | 0.088***   | - 0.027    | 0.100***   |
+| BM     |       |          |          |          |            |          | 1.000    | 0.154*** | - 0.156*** | - 0.063*** | 0.056***   |
+| Debt   |       |          |          |          |            | 1.000    | 0.070*** | 0.033*   | - 0.002    | - 0.022    | 0.010      |
+| Growth |       |          |          |          | 1.000      | - 0.000  | - 0.009  | 0.008    | 0.010      | - 0.030    | - 0.015    |
+| Age    |       |          |          | 1.000    | 0.022      | 0.040**  | 0.077*** | 0.105*** | 0.207***   | - 0.095*** | 0.176***   |
+| Size   |       |          | 1.000    | - 0.002  | - 0.021    | 0.069*** | 0.159*** | 0.013    | - 0.151*** | 0.101***   | 0.126***   |
+| Robot  |       | 1.000    | 0.061*** | 0.014    | - 0.052*** | - 0.006  | 0.066*** | - 0.029  | - 0.099*** | 0.316***   | - 0.058*** |
+| SCR    | 1.000 | 0.171*** | 0.337*** | 0.298*** | 0.020      | 0.102*** | 0.317*** | 0.162*** | 0.100***   | - 0.014    | 0.433***   |
+|        | SCR   | Robot    | Size     | Age      | Growth     | Debt     | BM       | BS       | FDR        | Ino        | DT         |
+
+Note: ***, **, and * indicate significance at the 1%, 5%, and 10% levels, respectively.
+
+of intelligent technologies, such as robotics, in promoting supply chain development.
+
+In columns (1) and (2), the results of adding lag are still robust,  but  the  influence  of  other  factors  cannot  be  ruled  out. Therefore, for calculation convenience, its lag is temporarily ignored in this study. According to the analysis of the control variables in columns (3) and (4), robot adoption is indeed the most important factor affecting an enterprise's supply chain resilience. In addition, board members have a significant effect on an enterprise's performance in terms of supply chain resilience.
+
+To  ensure  the  reliability  of  this  study,  we  conduct  robustness tests via the generalized method of moments (GMM) approach and replacement variables, addressing the problem of endogeneity, the results of which are presented in the Appendix S1.
+
+## 4.2   |   Mechanism Test
+
+Building  on  the  benchmark  regression  results  that  confirm the positive impact of industrial robot adoption on firms' supply chain resilience, the subsequent analysis turns to examine the conditions under which this effect may vary. Specifically, we  explore  whether  and  how  firm-  level  strategic  orientations-namely, innovation strategy and digital transformation strategy-moderate the relationship between industrial robot adoption and supply chain resilience. These strategies represent critical organizational capabilities that can either amplify or constrain the resilience-  enhancing effects of technological adoption. By introducing these moderating variables, we aim to uncover the contingent nature of the robot-resilience nexus and provide a more nuanced understanding of how internal strategic  choices  shape  the  benefits  derived  from  industrial automation.
+
+The regression results of the model in Equation (1) are shown in  Table 4 for the two moderating variables. Columns (1) and (2) present the Johnson-Neyman regression results when innovation is used as the moderating mechanism, considering both time  and  industry  fixed  effects  and  robust  standard  errors  to eliminate potential heteroskedasticity. Column (2) builds on column (1) by adding the control variables mentioned in Section 3. Conversely, columns (3) and (4) present the results of JohnsonNeyman regressions with digital transformation as the moderating  mechanism. The results show that both innovation and digital transformation significantly and positively enhance the effectiveness of robot adoption.
+
+As  shown  in  Table  4, DT is  significantly  positive  at  the  1% level,  indicating  that  digital  transformation  plays  a  positive moderating role in enhancing the resilience of enterprise supply chains through robot adoption. Digital transformation can stimulate the transformation of industrial robot adoption toward supply  chain  resilience. Ino is  significantly  positive  at the 5% level, and the innovation strategy positively moderates the relationship between robot adoption and supply chain resilience. Enterprises can enhance the role of robot adoption in improving  supply  chain  resilience  by  implementing  innovative strategies.
+
+TABLE 3 |    Baseline results.
+
+| Dependent variable: SCR   | Dependent variable: SCR   | Dependent variable: SCR   | Dependent variable: SCR   | Dependent variable: SCR   |
+|---------------------------|---------------------------|---------------------------|---------------------------|---------------------------|
+|                           | (1)                       | (2)                       | (3)                       | (4)                       |
+| Robot                     | 0.042***                  |                           | 0.046***                  | 0.046***                  |
+|                           | (3.087)                   |                           | (3.287)                   | (3.490)                   |
+| L.Robot                   |                           | 0.053***                  |                           |                           |
+|                           |                           | (2.999)                   |                           |                           |
+| Size                      |                           |                           | 5.034                     | 5.034                     |
+|                           |                           |                           | (0.288)                   | (0.290)                   |
+| Age                       |                           |                           | 3.767                     | 3.767                     |
+|                           |                           |                           | (1.333)                   | (1.429)                   |
+| Growth                    |                           |                           | - 3.353                   | - 3.353                   |
+|                           |                           |                           | ( - 0.396)                | ( - 0.796)                |
+| Debt                      |                           |                           | - 20.686                  | - 20.686***               |
+|                           |                           |                           | ( - 1.085)                | ( - 3.382)                |
+| BM                        |                           |                           | - 12.648**                | - 12.648**                |
+|                           |                           |                           | ( - 2.071)                | ( - 2.085)                |
+| BS                        |                           |                           | - 0.416                   | - 0.416                   |
+|                           |                           |                           | ( - 0.037)                | ( - 0.039)                |
+| FDR                       |                           |                           | 79.095                    | 79.095                    |
+|                           |                           |                           | (1.201)                   | (1.211)                   |
+| Constant                  | 418.373**                 | 496.167**                 | 437.208***                | 437.208***                |
+|                           | (4.064)                   | (4.569)                   | (3.007)                   | (3.371)                   |
+| Time FE                   | Yes                       | Yes                       | Yes                       | Yes                       |
+| Industry FE               | Yes                       | Yes                       | Yes                       | Yes                       |
+| N                         | 2900                      | 2610                      | 2900                      | 2900                      |
+| R -Squared                | 0.408                     | 0.376                     | 0.409                     | 0.409                     |
+
+Note: ***, **, and * indicate significance at the 1%, 5%, and 10% levels, respectively.
+
+This  study  presents  the  Johnson-Neyman  plot  for  testing  the moderating effect of innovation, as shown in Figure 2. The length of the bold horizontal line indicates the range of values for robot adoption, that is, [ -3.75, 4.12]. When the robot adoption values are outside the range [2.11, 4.12], the simple slope is p &lt;  0.05, and the moderating  effect  of  innovation  is  not  significant.  When  enterprise robot adoption reaches a certain level, it is difficult for robot adoption to enhance supply chain resilience by stimulating innovation among enterprises. In the figure, in the area where the two vertical  dashed  lines  overlap  with  the  shaded  area,  namely,  the pink shaded area, the confidence interval for the simple slope is 0. Outside this region, the simple slope is clearly nonzero. In the blue area, innovation plays a significant moderating role in the impact of robot adoption on supply chain resilience.
+
+Moreover, this study presents the Johnson-Neyman plot for testing the moderating effect of digital transformation, as shown in Figure 3. When the robot adoption values are outside the range of [ -5.36, 44.02], the simple slope is p &lt;  0.05, and the moderating  effect  of  digital  transformation  is  not  significant.  The  figure shows that in the pink shaded area to the left of the vertical dashed line,  the  confidence  interval  for  the  simple  slope  is  0. Outside this region, the simple slope is clearly nonzero. In the blue area, digital transformation plays a significant moderating role in the impact of robot adoption on supply chain resilience. The length of the bold horizontal line represents the range of values for robot adoption, that is, [ -3.75, 4.12].
+
+## 4.3   |   Heterogeneity Analysis
+
+We divide the sample into two subsamples on the basis of ownership  and  technological  level  to  provide  some  evidence  from  a heterogeneity perspective. We study whether different enterprises with  different  ownership  structures  and  industry  technological developments perform differently in terms of the impact of robot
+
+|             | Dependent variable: SCR   | Dependent variable: SCR   | Dependent variable: SCR   | Dependent variable: SCR   |
+|-------------|---------------------------|---------------------------|---------------------------|---------------------------|
+|             | Innovation                | Innovation                | Digital transformation    | Digital transformation    |
+|             | (1)                       | (2)                       | (3)                       | (4)                       |
+| Robot       | 0.056**                   | 0.056**                   | 0.037***                  | 0.038***                  |
+|             | (2.232)                   | (2.212)                   | (2.625)                   | (2.640)                   |
+| Ino         | - 53.186                  | - 50.018                  |                           |                           |
+|             | ( - 1.488)                | ( - 1.389)                |                           |                           |
+| DT          |                           |                           | 1.094**                   | 1.217**                   |
+|             |                           |                           | (2.327)                   | (2.559)                   |
+| Robot*Ino   | 125.262**                 | 117.759**                 |                           |                           |
+|             | (2.297)                   | (2.143)                   |                           |                           |
+| Robot*DT    |                           |                           | 50.299***                 | 48.426***                 |
+|             |                           |                           | (3.938)                   | (3.754)                   |
+| Size        |                           | - 33.716                  |                           | - 13.806                  |
+|             |                           | ( - 1.097)                |                           | ( - 0.741)                |
+| Age         |                           | - 0.131                   |                           | 4.142                     |
+|             |                           | ( - 0.026)                |                           | (1.501)                   |
+| Growth      |                           | 16.613                    |                           | - 4.027                   |
+|             |                           | (0.253)                   |                           | ( - 0.885)                |
+| Debt        |                           | 154.339                   |                           | - 20.124***               |
+|             |                           | (1.324)                   |                           | ( - 3.451)                |
+| BM          |                           | - 17.119                  |                           | - 14.902**                |
+|             |                           | ( - 1.571)                |                           | ( - 2.437)                |
+| BS          |                           | 0.692                     |                           | - 6.253                   |
+|             |                           | (0.047)                   |                           | ( - 0.587)                |
+| FDR         |                           | - 51.476                  |                           | 69.699                    |
+|             |                           | ( - 0.474)                |                           | (1.030)                   |
+| Constant    | - 460.379                 | - 212.838                 | 74.520                    | 216.021                   |
+|             | ( - 1.561)                | ( - 0.566)                | (0.634)                   | (1.369)                   |
+| Time FE     | Yes                       | Yes                       | Yes                       | Yes                       |
+| Industry FE | Yes                       | Yes                       | Yes                       | Yes                       |
+| N           | 2900                      | 2900                      | 2900                      | 2900                      |
+| R -Squared  | 0.317                     | 0.315                     | 0.420                     | 0.421                     |
+
+Note: ***, **, and * indicate significance at the 1%, 5%, and 10% levels, respectively.
+
+adoption on supply chain resilience. Choosing enterprise ownership and technological level as classification criteria can provide a deeper understanding of how different enterprises use robots to improve supply chain resilience. These two standards are directly related to operational flexibility, resource control, and innovation capability, which are key factors in achieving supply chain resilience (Cohen et al. 2022). These differences help reveal the heterogeneity of how different types of enterprises adopt industrial robots to increase supply chain resilience.
+
+## 4.3.1 | Heterogeneity Analysis: State-  Owned Enterprises (SOEs) and Non-  SOEs
+
+If  the  government  is  the  ultimate  controller  of  the  enterprise, then we refer to the enterprise as an SOE; if not, then we refer to it as a non-  SOE. SOEs can rely on government backstops and financial support to obtain more stable and abundant resources, making SOEs more effective at  developing  and  implementing large-  scale projects than non-  SOEs are. Moreover, SOEs, as the
+
+<!-- image -->
+
+Robot
+
+FIGURE 2 |    Johnson-Neyman diagram of the moderating effect of innovation.
+
+<!-- image -->
+
+Robot
+
+FIGURE 3 |    Johnson-Neyman diagram of the moderating effect of digital transformation.
+
+main  bearers  and  leaders  of  strategically  important  national industries, can lead the development direction of the entire industry. There is often an advantage to having a more complete supply chain.
+
+According  to  the  resource-  based  view,  the  resources  available to an enterprise determine its ability to adopt and utilize technology.  SOEs  typically  receive  significant  government support,  subsidies,  and  stable  financing,  which  may  provide them with the financial resources and political support needed to invest in and adopt expensive technologies such as industrial robots. On the other hand, non-  SOEs may rely more on private capital and need to demonstrate the rationality of their investments with clear investment return rates, increasing  their  cost  sensitivity.  Institutional  theory  suggests  that SOEs are often subject  to  political  and  regulatory  pressures that affect their strategic decision-  making. For example, SOEs may adopt robots not only to improve their operational efficiency but also to meet government requirements, industrial policies, or national development goals. In contrast, non-  SOEs may place more emphasis on improving their competitive advantage, profitability, and agility, with a focus on technologydriven innovation. Stakeholder theory suggests that the governance structures  of  SOEs  and  non-  SOEs  are  often  different, with SOEs facing more bureaucratic control and public accountability, whereas non-  SOEs typically have greater flexibility  in  their  decision-  making  processes,  which  may  affect their adoption patterns of industrial robots.
+
+The data for SOEs and non-  SOEs come from the China Stock Market &amp; Accounting Research (CSMAR)  database. The CSMAR database includes a variable indicating the nature of corporate  ownership,  which  directly  distinguishes  between SOEs and non-  SOEs. The classification of ownership type is determined based on the identity of the ultimate controlling shareholder. Enterprises whose shares are held by state-  owned legal entities  are  categorized  as  SOEs,  while  others  are  non-  SOEs. Table 5 shows the estimated results of the different impacts of robot adoption on SOEs and non-  SOEs. The positive impact of robot adoption on the supply chain resilience of SOEs is significant and clearly positive. The impact on non-  SOEs is not significant; thus, further research is needed to determine whether robot adoption has an impact on non-  SOE supply chain resilience.  The  research  results  indicate  that  robot  adoption  has  a more significant effect on improving supply chain resilience in SOEs than in non-  SOEs.
+
+Compared with non-  SOEs, SOEs are more likely to further develop their supply chain resilience after accepting robot adoption because of their advantages in self-  generated supply chain development.  The  basic  conditions  for  non-  SOEs  to  develop their supply chains are relatively limited, and the adoption of robots may not necessarily successfully promote their supply chain development. Therefore, it is necessary to accelerate the improvement  in  institutional  rules  for  cooperation  between SOEs and non-  SOEs, continue to carry out coordinated development and deepen cooperation between SOEs and non-  SOEs, guide  SOEs  in  building  a  collaborative  and  win-win  supply chain ecology, and promote improvements in non-  SOE supply chain resilience.
+
+## 4.3.2 | Heterogeneity Analysis: High-  Tech and Low-  Tech Industries
+
+The technological sophistication of an enterprise's operation affects its ability to use advanced industrial robots to increase the resilience of the supply chain.
+
+|             | Dependent variable: SCR   | Dependent variable: SCR   |            |            |             | Dependent variable:            | Dependent variable:            | Dependent variable:           | Dependent variable:           |
+|-------------|---------------------------|---------------------------|------------|------------|-------------|--------------------------------|--------------------------------|-------------------------------|-------------------------------|
+|             | SOEs                      | SOEs                      | Non-SOEs   | Non-SOEs   |             | Firms in high- tech industries | Firms in high- tech industries | Firms in low- tech industries | Firms in low- tech industries |
+|             | (1)                       | (2)                       | (3)        | (4)        |             | (1)                            | (2)                            | (3)                           | (4)                           |
+| Robot       | 0.003**                   | 0.007***                  | - 0.002    | - 0.003    | Robot       | 0.003***                       | 0.007***                       | 0.000*                        | 0.002                         |
+|             | (2.179)                   | (3.473)                   | ( - 0.763) | ( - 0.849) |             | (2.880)                        | (2.741)                        | (1.869)                       | (1.638)                       |
+| Size        |                           | - 0.003                   |            | - 0.009    | Size        |                                | 0.005                          |                               | - 0.006                       |
+|             |                           | ( - 0.715)                |            | ( - 1.290) |             |                                | (1.049)                        |                               | ( - 1.187)                    |
+| Age         |                           | 0.000                     |            | 0.003***   | Age         |                                | - 0.001                        |                               | 0.002***                      |
+|             |                           | (0.265)                   |            | (3.040)    |             |                                | ( - 1.286)                     |                               | (3.220)                       |
+| Growth      |                           | - 0.009                   |            | 0.000      | Growth      |                                | 0.001                          |                               | - 0.001                       |
+|             |                           | ( - 1.264)                |            | (0.196)    |             |                                | (0.948)                        |                               | ( - 0.360)                    |
+| Debt        |                           | - 0.044***                |            | - 0.001    | Debt        |                                | - 0.029                        |                               | - 0.003***                    |
+|             |                           | ( - 2.835)                |            | ( - 0.664) |             |                                | ( - 1.480)                     |                               | ( - 3.599)                    |
+| BM          |                           | - 0.002*                  |            | 0.001      | BM          |                                | - 0.003*                       |                               | - 0.001                       |
+|             |                           | ( - 1.927)                |            | (0.527)    |             |                                | ( - 1.905)                     |                               | ( - 0.507)                    |
+| BS          |                           | 0.001                     |            | 0.006      | BS          |                                | - 0.004**                      |                               | 0.005**                       |
+|             |                           | (0.413)                   |            | (0.989)    |             |                                | ( - 2.025)                     |                               | (2.180)                       |
+| FDR         |                           | 0.035**                   |            | - 0.030    | FDR         |                                | 0.055***                       |                               | - 0.043**                     |
+|             |                           | (2.494)                   |            | ( - 1.354) |             |                                | (3.610)                        |                               | ( - 2.428)                    |
+| Constant    | 0.529***                  | 0.575***                  | 0.405***   | 0.357***   | Constant    | 0.414***                       | 0.452***                       | 0.432***                      | 0.423***                      |
+|             | (39.168)                  | (20.354)                  | (17.241)   | (7.404)    |             | (28.770)                       | (15.944)                       | (21.534)                      | (12.631)                      |
+| Time FE     | Yes                       | Yes                       | Yes        | Yes        | Time FE     | Yes                            | Yes                            | Yes                           | Yes                           |
+| Industry FE | Yes                       | Yes                       | Yes        | Yes        | Industry FE | Yes                            | Yes                            | Yes                           | Yes                           |
+| N           | 1980                      | 1980                      | 920        | 920        | N           | 1320                           | 1320                           | 1580                          | 1580                          |
+| R -Squares  | 0.388                     | 0.394                     | 0.373      | 0.376      | R -Squared  | 0.336                          | 0.346                          | 0.365                         | 0.370                         |
+
+Note: ***, **, and * indicate significance at the 1%, 5%, and 10% levels, respectively.
+
+We  classified  the  sample  of  listed  manufacturing  enterprises according to the Classification Catalog of High-  Tech Industry Statistics  revised  by  the  National  Bureau  of  Statistics  in  2017. According to the Classification of High-  Tech Industries (Manufacturing) (2017), high-  tech industries can be classified into  six  categories:  pharmaceutical  manufacturing,  aviation, spacecraft and equipment manufacturing, electronic and communication  equipment  manufacturing,  computer  and  office equipment manufacturing, medical equipment and instrument manufacturing, and information chemical manufacturing. The remaining enterprises are low-  tech enterprises.
+
+We propose  that  whether  a  firm  is  a  high-  tech  firm,  i.e.,  the technological sophistication of a firm, affects its ability to use advanced industrial robots to increase supply chain resilience. According to  the  technology  acceptance  model,  the  degree  of difficulty  for  enterprises  in  accepting  new  technologies  and
+
+Note: ***, **, and * indicate significance at the 1%, 5%, and 10% levels, respectively.
+
+integrating them into operations is affected by their perceptions of  usefulness  and  ease  of  use.  High-  tech  enterprises  usually prefer to adopt advanced robots because they already have the technical skills, infrastructure, and innovation culture required to  absorb  and  optimize  new  technologies.  In  contrast,  lowtech enterprises may need more time and investment to train employees,  modify  existing  infrastructure,  and  integrate  new technologies into their operations. By classifying enterprises according to their technological level, this study can analyze how innovation  capability,  adoption  speed,  and  robot  integration affect the ability of enterprises to improve the resilience of the supply chain. Table 6 shows the results of industrial technology heterogeneity.
+
+Table  6  shows  that,  as  shown  in  the  first  two  columns,  the predictive  coefficient  of  robot  adoption  promoting  supply chain resilience in high-  tech industries is quite positive and
+
+significant at the 1% level. However, the correlation between the  robot  coefficient  and  low-  tech  enterprises  is  relatively small.  Overall,  the  research  findings  suggest  that  high-  tech industries are more sensitive to the effects of robot adoption on  supply  chain  resilience,  with  increased  robot  adoption being more likely to enhance resilience in high-  tech industries than in low-  tech industries.
+
+## 5   |   Spillover Effects in the Supply Chain
+
+This study refers to the upstream and downstream enterprise matching methods of Isaksson et al. (2016) to study the vertical transmission mechanism of enterprise robot adoption in the supply chain and constructs a dataset of robot adoption enterprises  and  upstream  and  downstream  interactive  enterprises annually. With the help of this dataset, this work uses fixed effects regression to study the spillover effects of enterprise robot adoption in the supply chain.
+
+This study uses active Chinese listed manufacturing companies from 2013 to 2022 as the sample and obtains basic information on  the  top  five  customers  and  suppliers  of  listed  companies from the CSMAR database. Owing to the possibility of multiple customers (C1, C2, and C3) or suppliers (S1, S2, and S3) in the observation object (A), this work constructs multiple samples, including A-  C1-  2022, A-  C2-  2022, A-  C3-  2022, A-  S1-  2022, A-  S22022, and A-  S3-  2022.  After  excluding  samples  from  nonlisted companies, financial industries, and special treatment (ST) and ST* companies and removing samples with missing variables, a  total  of  1705  observations  from  upstream  listed  companies and 2493 observations from downstream listed companies are obtained.
+
+When conducting benchmark regression research, referring to the regression methods of Isaksson et al. (2016), when studying the positive spillover effects of the supply chain, the dependent variable is the supply chain resilience of downstream customer enterprises, and the independent variable is the robot adoption proxy  variable  of  the  observed  enterprise.  The  relevant  data from downstream customer enterprises are selected as control variables. The backward spillover effect is similar and replaces only the relevant variables with data from upstream enterprises. Moreover, this  regression  considers  time  and  individual  fixed effects and incorporates robust standard errors to eliminate potential heteroscedasticity.
+
+The regression results of the effects of the adoption of upstream enterprise robots on downstream customer enterprise supply chains are shown in Table 7. Column (2) adds control variables on the basis of the regression in column (1). Enterprise robot adoption  has  significantly  improved  the  supply  chain  resilience of customer enterprises. Therefore, in the development of supply chain resilience, external spillover effects should be considered, and policy formulation should focus on the entire supply  chain  process.  With  respect  to  the  topic  of  vertically promoting the development of supply chain resilience through robot adoption, it is necessary to fully recognize the interrelated effects across enterprises. The development of industrial
+
+TABLE  7 |    Positive  spillover  effects  of  upstream  enterprise  robot adoption.
+
+|             | Dependent variable: C.SCR   | Dependent variable: C.SCR   |
+|-------------|-----------------------------|-----------------------------|
+|             | (1)                         | (2)                         |
+| Robot       | 0.296***                    | 0.259**                     |
+|             | (3.085)                     | (2.499)                     |
+| C.Size      |                             | 0.016                       |
+|             |                             | (0.088)                     |
+| C.Age       |                             | - 0.000                     |
+|             |                             | ( - 0.343)                  |
+| C.Growth    |                             | - 0.015                     |
+|             |                             | ( - 0.301)                  |
+| C.Debt      |                             | 0.014                       |
+|             |                             | (0.092)                     |
+| C.BM        |                             | 0.011                       |
+|             |                             | (0.925)                     |
+| C.BS        |                             | 0.017**                     |
+|             |                             | (2.782)                     |
+| C.FDR       |                             | 0.075                       |
+|             |                             | (0.352)                     |
+| Constant    | - 0.189                     | - 0.352                     |
+|             | ( - 0.741)                  | ( - 0.438)                  |
+| Time FE     | Yes                         | Yes                         |
+| Industry FE | Yes                         | Yes                         |
+| N           | 2493                        | 2493                        |
+| R -Squares  | 0.949                       | 0.969                       |
+
+Note: This table shows the impact of upstream enterprise robot adoption on downstream enterprise supply chain resilience. The independent variable C . SCR represents the supply chain resilience of downstream enterprises, whereas the dependent variable Robot is a proxy variable for the adoption of robots in upstream enterprises. C . Size , C . Age , C . Growth , C . Debt , C . BM , C . BS , and C . FDR represent the size, year, revenue growth rate, debt ratio, number of board members, board compensation, and proportion of female directors of downstream customer enterprises, respectively. ***, **, and * indicate significance at the 1%, 5%, and 10% levels, respectively.
+
+robots and supply chain resilience should not only focus on an individual enterprise's own situation but also help other enterprises in the supply chain promote overall development.
+
+As shown in Table 8, the adoption of robots by enterprises has a significant backward spillover effect, which promotes the supply  chain  resilience  of  upstream  enterprises  and  is  significant at the 1% level. The development of enterprises is influenced by customer enterprises, and the characteristics of supply chain demand orientation are obvious. Therefore, policymaking should fully leverage the leading role of downstream enterprises, incentivize them to take the lead in development, and drive overall supply chain resilience.
+
+TABLE  8 |    Backward  spillover  effect  of  downstream  enterprise robot adoption.
+
+|             | Dependent variable: S.SCR   | Dependent variable: S.SCR   |
+|-------------|-----------------------------|-----------------------------|
+|             | (1)                         | (2)                         |
+| Robot       | 0.124***                    | 0.173***                    |
+|             | (3.519)                     | (3.626)                     |
+| S.Size      |                             | 0.137                       |
+|             |                             | (0.967)                     |
+| S.Age       |                             | 0.000                       |
+|             |                             | (0.058)                     |
+| S.Growth    |                             | - 0.059                     |
+|             |                             | ( - 0.682)                  |
+| S.Debt      |                             | 0.057                       |
+|             |                             | (0.253)                     |
+| S.BM        |                             | 0.016                       |
+|             |                             | (1.659)                     |
+| S.BS        |                             | 0.006                       |
+|             |                             | (0.536)                     |
+| S.FDR       |                             | - 0.027                     |
+|             |                             | ( - 0.165)                  |
+| Constant    | 0.256**                     | - 0.753                     |
+|             | (2.493)                     | ( - 1.059)                  |
+| Time FE     | Yes                         | Yes                         |
+| Industry FE | Yes                         | Yes                         |
+| N           | 1705                        | 1705                        |
+| R -Squared  | 0.872                       | 0.869                       |
+
+Note: This table shows the impact of downstream enterprise robot adoption on upstream enterprise supply chain resilience. The independent variable S . SCR represents the supply chain resilience of upstream enterprises, whereas the dependent variable Robot is a proxy variable for downstream enterprise robot adoption. S . Size , S . Age , S . Growth , S . Debt , S . BM , S . BS , and S . FDR represent the size, year, revenue growth rate, debt ratio, number of board members, board compensation, and proportion of female directors of upstream supplier enterprises, respectively. ***, **, and * indicate significance at the 1%, 5%, and 10% levels, respectively.
+
+## 6   |   Conclusions
+
+This study utilizes panel data from listed manufacturing companies in mainland China to investigate the link between robot adoption  and  supply  chain  resilience  over  a  10-  year  period (2013-2022). There is evidence suggesting that robot adoption can improve supply chain resilience. In addition, the implementation of enterprise innovation strategies and digital transformation  can  positively  regulate  this  beneficial  impact,  and  supply chain diffusion effects can spread this impact to upstream and downstream enterprises. In addition, our research reveals heterogeneity in corporate performance, with SOEs and high-  tech industries experiencing significant positive impacts from robot adoption. This research can serve as a theoretical foundation for promoting the adoption of enterprise robots and strengthening supply chain resilience.
+
+Our study contributes to the existing knowledge in various aspects. We contend that robot adoption can significantly enhance supply chain resilience. Our research findings contribute to the existing knowledge by illuminating the impact of robot adoption on supply chain resilience.
+
+First,  we  investigate  the  adjustment  mechanism  influencing the impact of robot adoption on supply chain resilience. Innovation and digital transformation are important moderating mechanisms for regulating the resilience development of robot-  driven supply chains. Our research suggests that digital transformation and innovation can help expand the benefits of robot adoption.
+
+Second,  heterogeneity  analysis  is  conducted  on  the  sample  of listed companies from the perspectives of ownership type and technological level. According to observations, robot adoption has a more significant effect on the supply chain resilience of high-  tech industries and SOEs than on that of low-  tech industries  and  non-  SOEs.  SOEs  are  more  likely  to  further  develop their supply chain resilience after robot adoption because of their advantages in terms of self-  generated supply chain development. The basic conditions under which non-  SOEs develop their supply chains are relatively limited, and the adoption of robots may not necessarily successfully promote their supply chain development. In enterprises in high-  tech industries, robot adoption greatly affects their productivity, leading to greater participation in the supply chain. Enterprises are more adaptable to the supply chain environment and have more say in the supply chain, further promoting stronger resilience performance in the supply chain.
+
+Third,  this  study  confirms  that  the  positive  impact  of  robot adoption  on  supply  chain  resilience  extends  across  the  entire supply chain. On the one hand, enterprise robot adoption can provide  a  stable  supply  for  downstream  customer  enterprises. Robot adoption can generate technology and knowledge spillovers to downstream customer enterprises through the supply chain  network,  thereby  enhancing  their  supply  chain  performance. On the other hand, increasing enterprise robot adoption can also promote the supply chain resilience of upstream suppliers. Through robot adoption, downstream enterprises can provide more accurate demand information to upstream suppliers, and the supply chain can achieve diversified and personalized development, which is conducive to highlighting the advantages of the supply chain itself.
+
+## 6.1   |   Theoretical Contributions
+
+This  study  contributes  to  research  on  the  impact  of  supply chain  resilience  in  the  context  of  robot  adoption  from  an enterprise-  level  perspective.  Research  on  supply  chain  resilience reveals clear limitations when viewed from this microlevel perspective. Given the widespread popularity of robot adoption  in  the  Chinese  industrial  market,  whether  robot adoption can become a driving force for improving enterprise performance  has  become  an  important  topic  of  discussion
+
+in  the  academic  community.  How  does  robot  adoption  affect  an  enterprise's  supply  chain  resilience  in  this  scenario? Therefore, this study takes the perspective of enterprises and uses empirical data from domestic listed manufacturing companies from 2013 to 2022 as a sample to discuss whether robot adoption can enhance supply chain resilience, thus enriching the existing research.
+
+Second, this work analyzes the spillover effects of robot adoption and their impact on overall supply chain resilience growth from the perspective of the relationship between upstream and downstream enterprises in the supply chain. As the essence of the supply chain is the relationship between upstream and downstream enterprises, the study of supply chain resilience must consider the spillover effects of enterprise behavior on the external supply chain. This study further considers the spillover effects of enterprise robot adoption on upstream and downstream enterprises from the perspective of vertical correlation in supply chain enterprises. The spillover effects in two directions, including the positive  spillover  effect  of  upstream  enterprise  robot  adoption promoting  downstream  enterprise  development  and  enhancing  supply  chain  resilience  and  the  backward  spillover  effect of downstream enterprise robot adoption driving supply chain development, are analyzed separately. This approach provides a new theoretical basis for understanding the spillover effects of enterprise robot adoption and the growth mechanism of supply chain  resilience,  thereby  identifying  directions  for  promoting policy optimization and guiding enterprises.
+
+Finally, this study contributes to research on the mechanism of enhancing supply chain resilience from a governance perspective; supply chain resilience research has focused mainly on the effects  of  macro  policies  on  supply  chain  network  resilience, clarifying the macro growth path of supply chain network resilience (Grossman et al. 2024; Zhao et al. 2019). Some studies explore how new technologies empower supply chain improvement, with a greater emphasis on agile manufacturing, facilitating multiparty participation, and collaborative development (Blaettchen et al. 2025; Hastig and Sodhi 2020; Lee et al. 2020). This  study  verified  the  moderating  effects  of  enterprise  innovation strategy and digital transformation and investigated the spillover  effects  in  the  supply  chain.  From  a  governance  perspective, a regulatory path has been developed from the inside out,  enriching  research  on  enhancing  supply  chain  resilience mechanisms.
+
+## 6.2   |   Managerial Implications
+
+From a management perspective, the resilience and dynamic development of the supply chain largely depend on whether it can adapt to the development of technology applications represented by robot adoption. Our research elucidates organizational learning  and  interaction  at  the  enterprise  level.  When  enterprise managers consider the adoption of robots from the perspective of  supply  chain  development,  that  is,  whether  robot  adoption conforms to the development path of the supply chain, we reveal several easily overlooked issues.
+
+First,  our  empirical  results  indicate  that  robot  adoption  always  promotes  improvements  in  supply  chain  resilience.  Our research strongly encourages robot adoption, and if the target of  robot  adoption is SOEs and high-  tech companies, then this driving effect will be even more evident, which will help better develop supply chain resilience.
+
+Second, companies should adaptively adopt robots on the basis of their own development status. The policy for managing the use of robots should be consistent with the current labor density, development, and demand level on the basis of the specific effectiveness indicators of the enterprise.
+
+In  addition,  there  are  bidirectional  spillover  effects  in  robot adoption  in  the  supply  chain.  While  leveraging  downstream enterprise demand to drive development, policymaking should also focus on the entire supply chain process and expand policy incentives for robot adoption and digital development in enterprises. The development of enterprises should pay more attention to their relationships with other supply chain enterprises. The development of industrial robots and supply chain resilience should not only focus on their own situation but also develop together with other enterprises in the supply chain. On this basis, we  make  the  following  recommendations:  accelerate  the  improvement in institutional rules for cooperation among SOEs, non-  SOEs, and other types of enterprises; continue to carry out coordinated  development;  deepen  cooperation  between  SOEs and non-  SOEs; guide SOEs in building a collaborative and winwin supply chain ecology; and promote improvements in nonSOE supply chain resilience.
+
+## 6.3   |   Policy Implications
+
+When macroeconomic policies are formulated, it is necessary to  consider  the  internal  dynamics  of  microeconomic  entities to ensure that policies respond to market competition and are accompanied by measures to address unforeseeable situations. To recognize the differences between industries and individual entities, policymakers should adjust their approaches to promote the  development  of  supply  chain  resilience.  Innovators,  especially  those  with  limited  capabilities,  benefit  from  structured support such as external R&amp;D contracts to bridge the gap with leading innovators.
+
+The  heterogeneity  of  enterprises  can  affect  the  implementation and effectiveness of policies; thus, a meticulous approach is needed to consider the specific situation of the industry and the  characteristics  of  individual  enterprises,  such  as  competitiveness,  nature,  and  profitability.  Focusing  on  disadvantaged enterprises can ensure comprehensive and fair policy benefits.
+
+Policies must balance the complexity of the supply chain environment with the coevolution of technology, which requires ensuring  a  stable  technological  foundation  and  reasonable robot adoption to promote the development of diversified enterprise capabilities. Strategic transformation should be consistent  with  the  reality  and  opportunities  of  the  enterprise, especially in terms of innovation and digital transformation. Given the rapid pace of technological progress, there is an urgent need to develop policies that actively involve businesses in  technology  adoption.  These  policies  should  promote  the transformation  of  technological  capabilities  into  dynamic
+
+capabilities through innovation and facilitate the development of supply chain resilience.
+
+Our research provides valuable insights for policymakers and business leaders, encouraging innovation and digital transformation for supply chain development. The development of taskoriented and open science policies to utilize new technologies is crucial for the economic restructuring of modern society.
+
+## 6.4   |   Limitations and Future Research
+
+This  study  investigates  the  impact  and  mechanisms  of  enterprise robot adoption on supply chain resilience, offering a novel perspective on the drivers of resilience and contributing to the theoretical development of this field. It also provides practical insights  for  policymakers  and  business  leaders.  Nonetheless, several  limitations  should  be  acknowledged  to  guide  future research.
+
+First, the analysis focuses on domestically listed manufacturing firms, which, despite covering a range of regions and sectors, may not fully capture the diversity of supply chain structures, strategies,  and  resilience  mechanisms  present  in  global  contexts. Expanding future research to include international firms operating  under  varied  institutional,  cultural,  and  industrial conditions  would  enhance  the  generalizability  of  the  findings and offer insights into cross-  border resilience patterns. Second, by treating manufacturing firms as a single category, the study may overlook important industry-  specific dynamics. Since supply  chain  configurations,  technology  adoption  practices,  and resilience responses can differ markedly across industries, future studies should consider disaggregated, sector-  level analyses to uncover more targeted and nuanced mechanisms, enabling more precise strategic and policy implications.
+
+## Acknowledgments
+
+This work was supported by the National Natural Science Foundation of China (Nos. 72171122, 71934001 and 72171124).
+
+## Conflicts of Interest
+
+The authors declare no conflicts of interest.
+
+## References
+
+Acemoglu, D., and P. Restrepo. 2020. 'Robots and Jobs: Evidence From US Labor Markets.' Journal of Political Economy 128, no. 6: 2188-2244. https://  doi.  org/  10.  1086/  705716.
+
+Acemoglu, D., and P. Restrepo. 2021. 'Demographics and Automation.' Review of Economic Studies 89, no. 1: 1-44. https://  doi.  org/  10.  1093/  restud/  rdab031.
+
+Agrawal, A., U. Mukherjee, and S. Muthulingam.  2020. 'Does Organizational Forgetting Affect Quality Knowledge Gained Through Spillover?-Evidence From the Automotive Industry.' Production and Operations  Management 29,  no.  4:  907-934.  https://  doi.  org/  10.  1111/ poms.  13137  .
+
+Ahmadi,  T.,  A.  F.  Hesaraki,  and  J.  P.  M.  Morsch.  2025.  'Exploring IT-  Driven  Supply  Chain  Capabilities  and  Resilience:  The  Roles  of Supply  Chain  Risk  Management  and  Complexity.' Supply  Chain
+
+Management-  An International Journal 30, no. 1: 50-66. https://  doi.  org/ 10.  1108/  scm-  11-  2023-  0561.
+
+Alikhani, R., A. Ranjbar, A. Jamali, S. A. Torabi, and C. W. Zobel. 2023. 'Towards  Increasing  Synergistic  Effects  of  Resilience  Strategies  in Supply Chain Network Design.' Omega 116: 102819. https://  doi.  org/  10. 1016/j.  omega.  2022.  102819.
+
+Antonioli, D., A. Marzucchi, F. Rentocchini, and S. Vannuccini. 2024. 'Robot Adoption and Product Innovation.' Research Policy 53,  no.  6: 105002. https://  doi.  org/  10.  1016/j.  respol.  2024.  105002.
+
+Armstrong, B., and J. Shah. 2023. 'A Smarter Strategy for Using Robots Automation Should Focus More on Flexibilliv Than on Productivity.' Harvard Business Review 101, no. 3-4: 35-42.
+
+Baldwin,  R.,  and  J.  Lopez-  Gonzalez.  2015.  'Supply-  Chain  Trade:  A Portrait  of  Global  Patterns  and  Several  Testable  Hypotheses.' World Economy 38, no. 11: 1682-1721. https://  doi.  org/  10.  1111/  twec.  12189  .
+
+Bartik,  T.  J.  1991. Who  Benefits  From  State  and  Local  Economic Development Policies? W.E. Upjohn Institute. http://  www.  jstor.  org/  stable/  j.  ctvh4  zh1q.
+
+Benhabib,  J.,  J.  Perla,  and  C.  Tonetti.  2021.  'Reconciling  Models  of Diffusion  and  Innovation:  A  Theory  of  the  Productivity  Distribution and Technology Frontier.' Econometrica 89,  no. 5: 2261-2301. https:// doi.  org/  10.  3982/  ECTA1  5020.
+
+Bianchi,  N.,  and  M.  Giorcelli.  2022.  'The  Dynamics  and  Spillovers of  Management  Interventions:  Evidence  From  the  Training  Within Industry Program.' Journal of Political Economy 130, no. 6: 1630-1675. https://  doi.  org/  10.  1086/  719277.
+
+Birkel, H., and J. M. Müller. 2025. 'Resilient by Nature or Technology? How  Industry  4.0  Enhances  Supply  Chain  Resilience  Until  2035.' Supply  Chain  Management:  An  International  Journal 30:  304-322. https://  doi.  org/  10.  1108/  SCM-  07-  2023-  0340.
+
+Blaettchen, P., A. P. Calmon, and G. Hall. 2025. 'Traceability Technology Adoption in Supply Chain Networks.' Management Science 71,  no.  1: 83-102. https://  doi.  org/  10.  1287/  mnsc.  2022.  01759  .
+
+Bodrožić, Z.,  and  S.  Adler.  2022.  'Alternative  Futures  for  the  Digital Transformation: A Macro-  Level Schumpeterian Perspective.' Organization  Science 33,  no.  1:  105-125.  https://  doi.  org/  10.  1287/  orsc. 2021.  1558.
+
+Brau,  R.,  J.  Aloysius,  and  E.  Siemsen.  2023.  'Demand  Planning  for the  Digital  Supply  Chain:  How  to  Integrate  Human  Judgment  and Predictive  Analytics.' Journal  of  Operations  Management 69,  no.  6: 965-982. https://  doi.  org/  10.  1002/  joom.  1257.
+
+Cao, Q., E. Gedajlovic, and H. Zhang. 2009. 'Unpacking Organizational Ambidexterity:  Dimensions,  Contingencies,  and  Synergistic  Effects.' Organization  Science 20,  no.  4:  781-796.  https://  doi.  org/  10.  1287/  orsc. 1090.  0426.
+
+Cao,  Q.,  X.  Geng,  and  J.  Zhang.  2022.  'Impact  of  Channel  Structure on a Manufacturer's Bundling Decision With an Application to Digital Goods.' Production and Operations Management 31, no. 4: 1679-1697. https://  doi.  org/  10.  1111/  poms.  13638  .
+
+Caselli,  M.,  A.  Fracasso,  S.  Scicchitano,  S.  Traverso,  and  E.  Tundis. 2025. 'What Workers and Robots Do: An Activity-  Based Analysis of the Impact of Robotization on Changes in Local Employment.' Research Policy 54, no. 1: 105135. https://  doi.  org/  10.  1016/j.  respol.  2024.  105135.
+
+Chen,  L.,  T.  Li,  F.  Jia,  and  T.  Schoenherr.  2023.  'The  Impact  of Governmental  COVID-  19  Measures  on  Manufacturers'  Stock  Market Valuations: The Role of Labor Intensity and Operational Slack.' Journal of Operations Management 69, no. 3: 404-425. https://  doi.  org/  10.  1002/ joom.  1207.
+
+Chen,  Y.,  B.  Li,  and  B.  Huo.  2025.  'Building  Operational  Resilience Through Digitalization: The Roles of Supply Chain Network Position.' Technological Forecasting and Social Change 211:  123918.  https://  doi. org/  10.  1016/j.  techf  ore.  2024.  123918.
+
+Chu, Y., X. Tian, and W. Wang. 2019. 'Corporate Innovation Along the Supply Chain.' Management Science 65, no. 6: 2445-2466. https://  doi. org/  10.  1287/  mnsc.  2017.  2924.
+
+Cilekoglu, A. A., R. Moreno, and R. Ramos. 2024. 'The Impact of Robot Adoption on Global Sourcing.' Research Policy 53, no. 3: 104953. https:// doi.  org/  10.  1016/j.  respol.  2024.  104953.
+
+Ciulli, F., A. Kolk, and S. Boe-  Lillegraven. 2020. 'Circularity Brokers: Digital  Platform  Organizations  and  Waste  Recovery  in  Food  Supply Chains.' Journal of Business Ethics 167, no. 2: 299-331. https://  doi.  org/ 10.  1007/  s1055  1-  019-  04160  -  5.
+
+Cohen,  M.,  S.  Cui,  S.  Doetsch,  et  al.  2022.  'Bespoke  Supply-  Chain Resilience: The Gap Between Theory and Practice.' Journal of Operations Management 68, no. 5: 515-531. https://  doi.  org/  10.  1002/  joom.  1184.
+
+Costello, A. M. 2020. 'Credit Market Disruptions and Liquidity Spillover Effects in the Supply Chain.' Journal of Political Economy 128, no. 9: 3434-3468. https://  doi.  org/  10.  1086/  708736.
+
+De Vito, A., M. Jacob, D. Schindler, and G. Xu. 2025. 'How Do Corporate Tax Hikes Affect Investment Allocation Within Multinationals?' Review of Finance 29, no. 2: 531-565. https://  doi.  org/  10.  1093/  rof/  rfaf006.
+
+Dixit,  A.,  and  J.  E.  Stiglitz.  1977.  'Monopolistic  Competition  and Optimum Product Diversity.' American Economic Review 67: 297-308.
+
+Dixon, J., B. Hong, and L. Wu. 2021. 'The Robot Revolution: Managerial and Employment Consequences for Firms.' Management Science 67, no. 9: 5586-5605. https://  doi.  org/  10.  1287/  mnsc.  2020.  3812.
+
+Feigenbaum,  J.,  and  D.  P.  Gross.  2024.  'Answering  the  Call  of Automation: How the Labor Market Adjusted to Mechanizing Telephone Operation.' Quarterly Journal of Economics 139, no. 3: 18791939. https://  doi.  org/  10.  1093/  qje/  qjae005.
+
+Femano,  A.  L.,  and  T.  Breitbach.  2025.  'Measuring  Supply  Chain Resilience for Informed Resilience Strategy Investment.' Transportation Journal 64, no. 1: e12037. https://  doi.  org/  10.  1002/  tjo3.  12037  .
+
+Ge,  R.,  and  H.  Bao.  2024.  'Digital  Transformation  and  Resilience  of Supply  Chain  in  Manufacture  Listed  Firms:  A  Backward  Spillover Effects  in  the  Vertical  Supply  Chain  Relationship.' Finance Research Letters 65: 105516. https://  doi.  org/  10.  1016/j.  frl.  2024.  105516.
+
+Geng, Y., X. Xiang, G. Zhang, and X. Li. 2024. 'Digital Transformation Along the Supply Chain: Spillover Effects From Vertical Partnerships.' Journal of Business Research 183: 114842. https://  doi.  org/  10.  1016/j.  jbusr es.  2024.  114842.
+
+George, J., D. Whitten, R. Metters, and J. Abbey. 2022. 'Emancipatory Technology  and  Developing-  World  Supply  Chains:  A  Case  Study  of African Women Gemstone Miners.' Journal of Operations Management 68, no. 6-7: 619-648. https://  doi.  org/  10.  1002/  joom.  1217.
+
+Grossman, G. M., E. Helpman, and A. Sabal. 2024. 'Optimal Resilience in  Multitier  Supply  Chains.' Quarterly  Journal  of  Economics 139: qjae024. https://  doi.  org/  10.  1093/  qje/  qjae024.
+
+Grover, A. K., and M. H. Ashraf. 2024. 'Leveraging Autonomous Mobile Robots for Industry 4.0 Warehouses: A Multiple Case Study Analysis.' International  Journal  of  Logistics  Management 35,  no.  4:  1168-1199. https://  doi.  org/  10.  1108/  IJLM-  09-  2022-  0362.
+
+Guedhami, O., A. Knill, W. L. Megginson, and L. W. Senbet. 2022. 'The Dark Side of Globalization: Evidence From the Impact of COVID-  19 on Multinational Companies.' Journal of International Business Studies 53, no. 8: 1603-1640. https://  doi.  org/  10.  1057/  s4126  7-  022-  00540  -  8.
+
+Hastig,  G.  M.,  and  M.  S.  Sodhi.  2020.  'Blockchain  for  Supply  Chain Traceability:  Business  Requirements  and  Critical  Success  Factors.' Production and Operations Management 29, no. 4: 935-954. https://  doi. org/  10.  1111/  poms.  13147  .
+
+Herburger, M., A. Wieland, and C. Hochstrasser. 2024. 'Building Supply Chain Resilience to Cyber Risks: A Dynamic Capabilities Perspective.'
+
+Supply Chain Management: An International Journal 29, no. 7: 28-50. https://  doi.  org/  10.  1108/  SCM-  01-  2023-  0016.
+
+Huang,  L.  L.,  R.  P.  Chen,  and  K.  W.  Chan.  2024.  'Pairing  Up  With Anthropomorphized Artificial Agents: Leveraging Employee Creativity in Service Encounters.' Journal of the Academy of Marketing Science 52, no. 4: 955-975. https://  doi.  org/  10.  1007/  s1174  7-  024-  01017  -  w.
+
+Huang,  Q.,  and  R.  Kim.  2019.  'Capital  Structure  Decisions  Along the  Supply  Chain:  Evidence  From  Import  Competition.' Journal  of International  Business  Studies 50,  no.  6:  873-894.  https://  doi.  org/  10. 1057/  s4126  7-  019-  00225  -  9.
+
+Isaksson,  O.  H.  D.,  M.  Simeth,  and  R.  W.  Seifert.  2016.  'Knowledge Spillovers in the Supply Chain: Evidence From the High Tech Sectors.' Research Policy 45, no. 3: 699-706. https://  doi.  org/  10.  1016/j.  respol.  2015. 12.  007.
+
+Jia,  F.,  Y.  Xu,  L.  Chen,  and  K.  Fernandes.  2024.  'Does  Supply  Chain Concentration Improve Sustainability Performance: The Role of Operational Slack and Information Transparency.' International Journal of Operations &amp; Production Management 44, no. 10: 1831-1862. https://  doi.  org/  10.  1108/  IJOPM  -  12-  2022-  0807.
+
+Jiang,  W.,  T.  Feng,  and  C.  Y.  Wong.  2025.  'How  Big  Data  Analytics Capabilities  Drive  Supply  Chain  Resilience:  The  Mediating  Roles of  Supply  Chain  Visibility  and  Flexibility.' International  Journal  of Physical  Distribution  and  Logistics  Management 55:  505-539.  https:// doi.  org/  10.  1108/  IJPDL  M-  07-  2024-  0252.
+
+Johnson,  P.  O.,  and  J.  Neyman.  1936.  'Tests  of  Certain  Linear Hypotheses  and  Their  Application  to  Some  Educational  Problems.' Statistical Research Memoirs 1: 57-93.
+
+Koch, M., and I. Manuylov. 2023. 'Measuring the Technological Bias of Robot Adoption and Its Implications for the Aggregate Labor Share.' Research Policy 52, no. 9: 104848. https://  doi.  org/  10.  1016/j.  respol.  2023. 104848.
+
+Koreis,  J.,  D.  Loske,  and  M.  Klumpp.  2025.  'Together,  We  Travel: Empirical Insights on Human-  Robot Collaborative Order Picking for Retail Warehousing.' International Journal of Logistics Management 36, no. 1: 1-20. https://  doi.  org/  10.  1108/  IJLM-  03-  2023-  0127.
+
+Kude, T., J. Foerderer, S. Mithas, and A. Heinzl. 2023. 'How Deadline Orientation and Architectural Modularity Influence Software Quality and Job Satisfaction.' Journal of Operations Management 69, no. 6: 941964. https://  doi.  org/  10.  1002/  joom.  1230.
+
+Kumar, R. R., and A. Raj. 2025. 'Big Data Adoption and Performance: Mediating  Mechanisms  of  Innovation,  Supply  Chain  Integration  and Resilience.' Supply  Chain  Management: An International  Journal 30, no. 1: 67-85. https://  doi.  org/  10.  1108/  SCM-  03-  2024-  0186.
+
+Lee, J., V. Krishnan,  and  H.  Shin.  2020. 'Business  Models  for Technology-  Intensive Supply Chains.' Management Science 66,  no.  5: 2120-2139. https://  doi.  org/  10.  1287/  mnsc.  2019.  3306.
+
+Liu, H., S. Wei, W. Ke, K. K. Wei, and Z. Hua. 2016. 'The Configuration Between  Supply  Chain  Integration  and  Information  Technology Competency:  A  Resource  Orchestration  Perspective.' Journal  of Operations  Management 44: 13-29. https://  doi.  org/  10.  1016/j.  jom. 2016.  03.  009.
+
+Maghazei,  O.,  M.  A.  Lewis,  and  T.  H.  Netland.  2022.  'Emerging Technologies and the Use Case: A Multi-  Year Study of Drone Adoption.' Journal of Operations Management 68, no. 6-7: 560-591. https://  doi.  org/ 10.  1002/  joom.  1196.
+
+Mao, Q., and C. Guo. 2025. 'Industrial Robots, Supply Chain Spillover Effect  and  Firm  Employment:  Evidence  From  China.' Journal  of Economic  Behavior  &amp;  Organization 229:  106858.  https://  doi.  org/  10. 1016/j.  jebo.  2024.  106858.
+
+Mateska, I., S. M. Wagner, and L. Stienen. 2024. 'Media Reporting of Environmental  Supply  Chain  Sustainability  Risks:  Contextual  and
+
+Moderating Factors.' Journal of Business Ethics 199: 285-308. https:// doi.  org/  10.  1007/  s1055  1-  024-  05759  -  z.
+
+Mathias, B. D., A. F. Mckenny, and T. R. Crook. 2018. 'Managing the Tensions  Between  Exploration  and  Exploitation:  The  Role  of  Time.' Strategic Entrepreneurship Journal 12, no. 3: 316-334.
+
+Matthews, M. J., R. K. Su, L. Yonish, S. McClean, J. Koopman, and K. C. Yam. 2025. 'A Review of Artificial Intelligence, Algorithms, and Robots Through the Lens of Stakeholder Theory.' Journal of Management 51: 2627-2676. https://  doi.  org/  10.  1177/  01492  06324  1311855.
+
+Melzner, J., A. Bonezzi, and T. Meyvis. 2023. 'Information Disclosure in the Era of Voice Technology.' Journal of Marketing 87, no. 4: 491-509. https://  doi.  org/  10.  1177/  00222  42922  1138286.
+
+Müller,  J.,  K.  Hoberg,  and  J.  C.  Fransoo.  2023.  'Realizing  Supply Chain  Agility  Under  Time  Pressure:  Ad  Hoc  Supply  Chains  During the COVID-  19 Pandemic.' Journal of Operations Management 69, no. 3: 426-449. https://  doi.  org/  10.  1002/  joom.  1210.
+
+Nambisan,  S., M.  Wright, and  M.  Feldman.  2019.  'The  Digital Transformation of Innovation and Entrepreneurship: Progress, Challenges and Key Themes.' Research Policy 48, no. 8: 103773. https:// doi.  org/  10.  1016/j.  respol.  2019.  03.  018.
+
+Negri,  P.  2025.  'Innovators  and  Transformers:  Enhancing  Supply Chain Sustainability: A Methodology Combining Dynamic Simulation and Case Studies.' International  Journal  of  Physical  Distribution  and Logistics Management 55: 409-425. https://  doi.  org/  10.  1108/  IJPDL M-  01-  2024-  0003.
+
+Nichols,  B.  S.,  H.  Stolze,  and  J.  F.  Kirchoff.  2019.  'Spillover  Effects  of Supply Chain News on Consumers' Perceptions of Product Quality: An Examination  Within  the  Triple  Bottom  Line.' Journal  of  Operations Management 65, no. 6: 536-559. https://  doi.  org/  10.  1002/  joom.  1033.
+
+Nikolova, M., F. Cnossen, and B. Nikolaev. 2024. 'Robots, Meaning, and Self-  Determination.' Research Policy 53, no. 5: 104987. https://  doi.  org/ 10.  1016/j.  respol.  2024.  104987.
+
+Nwafor,  O.,  X.  Ma,  N.  A.  Johnson,  R.  Singh,  and  R.  Aron.  2023. 'Differential Impacts of Technology-  Network Structures on Cost Efficiency: Knowledge Spillovers in Healthcare.' Journal of Management Information Systems 40,  no.  3:  840-882.  https://  doi.  org/  10.  1080/  07421 222.  2023.  2229126.
+
+Palepu,  K.  2023.  'How  Should  we  Diversify  Our  Supply  Chain?' Harvard Business Review 101, no. 11-12: 148-152.
+
+Pettit, T. J., K. L. Croxton, and J. Fiksel. 2013. 'Ensuring Supply Chain Resilience:  Development  and  Implementation  of  an  Assessment  Tool.' Journal of Business Logistics 34, no. 1: 46-76. https://  doi.  org/  10.  1111/  jbl. 12009  .
+
+Pettit,  T.  J.,  K.  L.  Croxton,  and  J.  Fiksel.  2019.  'The  Evolution  of Resilience in Supply Chain Management: A Retrospective on Ensuring Supply Chain Resilience.' Journal of Business Logistics 40, no. 1: 56-65. https://  doi.  org/  10.  1111/  jbl.  12202  .
+
+Pettit, T. J., J. Fiksel, and K. L. Croxton. 2010. 'Ensuring Supply Chain Resilience:  Development  of  a  Conceptual  Framework.' Journal  of Business  Logistics 31,  no.  1:  1-21.  https://  doi.  org/  10.  1002/j.  2158-  1592. 2010.  tb001  25.  x.
+
+Qi,  Y.,  X.  Wang,  M.  Zhang,  and  Q.  Wang.  2023.  'Developing  Supply Chain Resilience  Through  Integration:  An  Empirical  Study  on  an  eCommerce  Platform.' Journal  of  Operations  Management 69,  no.  3: 477-496. https://  doi.  org/  10.  1002/  joom.  1226.
+
+Rainer,  R.  K.,  Jr.,  R.  G.  Richey  Jr.,  and  S.  Chowdhury.  2025.  'How Robotics Is Shaping Digital Logistics and Supply Chain Management: An Ongoing Call for Research.' Journal of Business Logistics 46, no. 1: e70005. https://  doi.  org/  10.  1111/  jbl.  70005  .
+
+Richey, R. G., Jr., S. Chowdhury, B. Davis-  Sramek, M. Giannakis, and Y. K. Dwivedi. 2023. 'Artificial Intelligence in Logistics and Supply
+
+Chain Management: A Primer and Roadmap for Research.' Journal of  Business  Logistics 44,  no.  4:  532-549.  https://  doi.  org/  10.  1111/  jbl. 12364  .
+
+Sodhi, M. S., and C. S. Tang. 2021. 'Extending AAA Capabilities to Meet PPP Goals in Supply Chains.' Production and Operations Management 30, no. 3: 625-632. https://  doi.  org/  10.  1111/  poms.  13304  .
+
+Srinivasan,  R.,  and  M.  Swink.  2018.  'An  Investigation  of  Visibility and  Flexibility  as  Complements  to  Supply  Chain  Analytics:  An Organizational Information Processing Theory Perspective.' Production and Operations Management 27, no. 10: 1849-1867. https:// doi.  org/  10.  1111/  poms.  12746  .
+
+Sternberg,  H.,  M.  Mathauer,  and  E.  Hofmann.  2023.  'Technology Management in Multi-  Tier Chains: A Case Study of Agency in Logistics Service Outsourcing.' Journal of Operations Management 69, no. 4: 536557. https://  doi.  org/  10.  1002/  joom.  1219.
+
+Sundaresan,  S.,  A.  Boysen,  and  A.  Nerkar.  2023.  'Adopting  Dr. Robot:  Responses  to  Competitor  Adoption  of  Innovation.' Strategic Management  Journal 44,  no.  9:  2283-2310.  https://  doi.  org/  10.  1002/ smj.  3496.
+
+Teece, D. J., G. Pisano, and A. Shuen. 1997. 'Dynamic Capabilities and Strategic Management.' Strategic Management Journal 18, no. 7: 509533. https://  doi.  org/  10.  1002/  (SICI)  1097-  0266(199708)  18:  7&lt;  509::  AIDSMJ88  2&gt;  3.0.  CO;  2-  Z.
+
+Todo, Y.,  P.  Matous,  and  H.  Inoue.  2016.  'The  Strength  of  Long  Ties and the Weakness of Strong Ties: Knowledge Diffusion Through Supply Chain Networks.' Research Policy 45, no. 9: 1890-1906. https://  doi.  org/ 10.  1016/j.  respol.  2016.  06.  008.
+
+Tóth, Z., R. Caruana, T. Gruber, and C. Loebbecke. 2022. 'The Dawn of the AI Robots: Towards a New Framework of AI Robot Accountability.' Journal of Business Ethics 178, no. 4: 895-916. https://  doi.  org/  10.  1007/ s1055  1-  022-  05050  -  z.
+
+Wang,  K.,  B.  Huo,  M.  Tian,  and  A.  C.  L.  Yeung.  2025.  'Revisiting the  Interplay  of  Trust  and  Contracts:  The  Roles  of  Technological Turbulence and Dependence Disadvantage.' Journal of Purchasing and Supply Management 31, no. 1: 100895. https://  doi.  org/  10.  1016/j.  pursup. 2024.  100895.
+
+Wang, L., J. L. Jin, and K. Z. Zhou. 2023. 'Technological Capability Strength/Asymmetry  and  Supply  Chain  Process  Innovation:  The Contingent Roles of Institutional Environments.' Research Policy 52, no. 4: 104724. https://  doi.  org/  10.  1016/j.  respol.  2023.  104724.
+
+Wei,  S.,  J.  Yin,  and  W.  Chen.  2022.  'How  Big  Data  Analytics  Use Improves Supply Chain Performance: Considering the Role of Supply Chain  and  Information  System  Strategies.' International  Journal  of Logistics  Management 33, no. 2: 620-643.  https://  doi.  org/  10.  1108/ IJLM-  06-  2020-  0255.
+
+Wieland, A., and C. F. Durach. 2021. 'Two Perspectives on Supply Chain Resilience.' Journal of Business Logistics 42, no. 3: 315-322. https://  doi. org/  10.  1111/  jbl.  12271  .
+
+Xu, Y., F. Jia, L. Wang, and L. Chen. 2024. 'Can Digital Transformation Improve  Firm  Resilience  to  Supply  Chain  Disruption?  The  Role of Diversification Strategies.' Journal of Purchasing and Supply Management 30,  no.  5:  100952.  https://  doi.  org/  10.  1016/j.  pursup.  2024. 100952.
+
+Zhang,  Q.,  A.  Min  Du,  and  B.  Lin.  2025.  'Driving  Total  Factor Productivity: The Spillover Effect of Digitalization in the New Energy Supply  Chain.' Research  in  International  Business  and  Finance 75: 102764. https://  doi.  org/  10.  1016/j.  ribaf.  2025.  102764.
+
+Zhang,  X.,  R.  Liang,  and  Y.  Chen.  2025.  'The  Impact  of  Digital Transformation of Chain-  Leading Enterprises on Supply Chain Efficiency.' Supply  Chain  Management:  An  International  Journal 30: 369-382. https://  doi.  org/  10.  1108/  SCM-  11-  2024-  0772.
+
+Zhao, K., Z. Zuo, and J. V. Blackhurst. 2019. 'Modelling Supply Chain Adaptation for Disruptions: An Empirically Grounded Complex Adaptive  Systems  Approach.' Journal  of  Operations  Management 65, no. 2: 190-212. https://  doi.  org/  10.  1002/  joom.  1009.
+
+Zsidisin,  G.  A.,  and  S.  M.  Wagner.  2010.  'Do  Perceptions  Become Reality? The Moderating Role of Supply Chain Resiliency on Disruption Occurrence.' Journal of Business Logistics 31,  no.  2:  1-20.  https://  doi. org/  10.  1002/j.  2158-  1592.  2010.  tb001  40.  x.
+
+## Supporting Information
+
+Additional supporting information can be found online in the Supporting Information section.

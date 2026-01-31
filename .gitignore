@@ -9,6 +9,9 @@ dist/
 build/
 eggs/
 *.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
 # Jupyter Notebook
 .ipynb_checkpoints/
@@ -25,13 +28,22 @@ eggs/
 env/
 venv/
 
-# Output folders (optional - remove if you want to include samples)
+# Output folders (created at runtime)
 build_docling/
 chunks_output/
+kg_output/
+uploads/
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Test files
+# Logs
 *.log
+
+# Docker (local overrides)
+docker-compose.override.yml
+
+
+# Agent guidelines (not tracked)
+AGENTS.md

@@ -1,37 +1,57 @@
 # DynamicKGConstruction
 
-A toolkit for tools inventory management and knowledge graph construction, enabling context-aware retrieval and reasoning for resilient and sustainable supply chains.
+A comprehensive toolkit for document processing, semantic chunking, and knowledge graph construction — enabling context-aware retrieval and reasoning for resilient and sustainable supply chains.
 
 ---
 
-## ⚠️ Attribution & Acknowledgment
+## 🙏 Attribution & Ethical Acknowledgment
 
-> **This repository is a wrapper around [Docling](https://github.com/docling-project/docling)**, the powerful document conversion library developed by the **Docling Project team**.
+This project stands on the shoulders of giants. We are deeply grateful to the open-source communities whose exceptional work makes this project possible.
+
+### Docling - Document Conversion Foundation
+
+> **This repository integrates [Docling](https://github.com/docling-project/docling)**, the powerful document conversion library developed by the **Docling Project team**.
 >
-> We extend our sincere gratitude and ethical acknowledgment to the creators and maintainers of Docling for their excellent work in building a robust, open-source document processing framework that supports 17+ document formats.
+> We extend our sincere gratitude and ethical acknowledgment to the creators and maintainers of Docling for their excellent work in building a robust, open-source document processing framework that supports 17+ document formats. Their commitment to open science and accessible document processing tools has been invaluable to the research community.
 >
-> **Docling Repository:** [https://github.com/docling-project/docling](https://github.com/docling-project/docling)
+> 📦 **Docling Repository:** [https://github.com/docling-project/docling](https://github.com/docling-project/docling)
 >
-> This project adds a **semantic chunking layer** on top of Docling's document conversion capabilities to facilitate RAG (Retrieval-Augmented Generation) pipelines and knowledge graph construction.
+> 📄 **Docling License:** Please refer to Docling's license for the underlying document conversion library.
+
+### iText2KG - Knowledge Graph Construction Engine
+
+> **This repository integrates [iText2KG](https://github.com/AuvaLab/itext2kg)**, an innovative knowledge graph construction framework developed by the **AuvaLab team**.
+>
+> We express our heartfelt appreciation to the iText2KG creators for developing a state-of-the-art approach to extracting structured knowledge from unstructured text using LLM-powered entity and relationship extraction. Their ATOM (Atomic Text Operations for Meaning) methodology represents a significant advancement in automated knowledge graph construction.
+>
+> 📦 **iText2KG Repository:** [https://github.com/AuvaLab/itext2kg](https://github.com/AuvaLab/itext2kg)
+>
+> 📄 **iText2KG License:** Please refer to iText2KG's license for the underlying knowledge graph construction library.
+
+### Our Commitment to Ethical Open Source
+
+We believe in:
+- **Transparent Attribution**: Clearly acknowledging all libraries and tools we build upon
+- **Respecting Licenses**: Adhering to the terms of all integrated open-source projects
+- **Giving Back**: Contributing improvements upstream when possible
+- **Academic Integrity**: Properly citing these works in any academic publications
 
 ---
-
-# Docling Chunking - Semantic Document Processing
-
-A Python toolkit that wraps [Docling](https://github.com/docling-project/docling) for multi-format document conversion and adds intelligent semantic chunking for better document understanding, embedding generation, and information retrieval.
 
 ## 📋 Overview
 
-This repository provides two main functionalities:
+DynamicKGConstruction provides a complete pipeline from raw documents to structured knowledge graphs:
 
-1. **Multi-Format Document Conversion** - Convert documents (PDF, DOCX, PPTX, XLSX, HTML, images, CSV, and more) to structured Markdown using Docling
-2. **Semantic Chunking** - Intelligently split documents into meaningful chunks based on headers, structure, and semantic coherence
+1. **Multi-Format Document Conversion** (`docling_ingest/`) - Convert documents (PDF, DOCX, PPTX, XLSX, HTML, images, CSV, and more) to structured Markdown using Docling
+2. **Semantic Chunking** (`chunking_semantic/`) - Intelligently split documents into meaningful chunks based on headers, structure, and semantic coherence
+3. **Knowledge Graph Construction** (`itext2KG/`) - Extract entities and relationships from chunks using LLM-powered analysis to build structured knowledge graphs
 
-Perfect for **RAG (Retrieval-Augmented Generation)** systems, document analysis, and research paper processing.
+Perfect for **RAG (Retrieval-Augmented Generation)** systems, document analysis, research paper processing, and knowledge base construction.
 
 ## 🚀 Features
 
 ### Multi-Format Document Processing (`docling_ingest/`)
+*Powered by [Docling](https://github.com/docling-project/docling)*
 - 📄 Batch process multiple documents from a folder
 - 🔄 Convert **17+ formats** to structured Markdown (PDF, DOCX, PPTX, XLSX, HTML, images, CSV, etc.)
 - 📊 Preserve document structure (headings, lists, tables)
@@ -45,20 +65,39 @@ Perfect for **RAG (Retrieval-Augmented Generation)** systems, document analysis,
 - 📏 **Configurable parameters** - Customize chunk sizes and overlap
 - 🔄 **Overlapping chunks** - Adds context overlap for better semantic continuity
 - 📊 **Multiple export formats** - JSON, Markdown, and plain text output
-- 🏷️ **Hierarchy detection** - Automatically identifies major sections and subsections
+
+### Knowledge Graph Construction (`itext2KG/`)
+*Powered by [iText2KG](https://github.com/AuvaLab/itext2kg)*
+- 🧠 **LLM-powered extraction** - Uses advanced language models for entity/relationship extraction
+- 🔌 **Multi-provider support** - Ollama (local), OpenAI, Anthropic, or custom LLMs
+- 📊 **ATOM methodology** - Atomic Text Operations for Meaning extraction
+- 🕸️ **Graph exports** - JSON, CSV, GraphML formats for visualization tools
+- ⚡ **Async/sync interfaces** - Flexible integration with any application architecture
+- 📈 **Statistics & reports** - Detailed construction reports and metrics
 
 ## 📦 Installation
 
 ### Prerequisites
 ```bash
-# Python 3.10 or higher required (Docling requirement)
+# Python 3.10 or higher required
 python --version
 ```
 
 ### Install Dependencies
 ```bash
-# Install Docling for multi-format document processing
+# Core: Docling for multi-format document processing
 pip install docling docling-core
+
+# Core: iText2KG for knowledge graph construction
+pip install itext2kg
+
+# LLM Providers (choose based on your needs)
+pip install langchain-ollama      # For local Ollama models (recommended)
+pip install langchain-openai      # For OpenAI API
+pip install langchain-anthropic   # For Anthropic/Claude API
+
+# Additional dependencies
+pip install networkx pandas nest_asyncio
 
 # Optional: For OCR support
 pip install docling[ocr]
@@ -69,28 +108,84 @@ pip install docling[audio]
 
 ### Create a Conda Environment (Recommended)
 ```bash
-conda create -n docling310 python=3.10 pip ipykernel
-conda activate docling310
-pip install docling docling-core
+conda create -n dynamickg python=3.10 pip ipykernel
+conda activate dynamickg
+pip install docling docling-core itext2kg
+pip install langchain-ollama networkx pandas nest_asyncio
 ```
 
 ## 🛠️ Usage
 
-### Quick Start with main.py
+### 🐳 Quick Start with Docker (Recommended)
 
-The easiest way to get started is using the provided `main.py` script:
+The easiest way to get started is using Docker Compose:
 
 ```bash
-# 1. Edit main.py and update the PDF_FOLDER path
-# 2. Run the complete pipeline
-python main.py
+# Clone the repository
+git clone https://github.com/edwinidrus/DynamicKGConstruction.git
+cd DynamicKGConstruction
+
+# Start all services (API + Ollama LLM)
+docker-compose up -d
+
+# Pull LLM models (first time only)
+docker-compose --profile setup up ollama-pull
+
+# Access the API
+open http://localhost:8000/docs
 ```
 
-This will:
-1. ✅ Convert all PDFs in your folder to text
-2. ✅ Create semantic chunks from each document
-3. ✅ Export chunks in JSON, Markdown, and Text formats
-4. ✅ Display detailed statistics
+### 🚀 Quick Start with uvicorn
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the FastAPI server
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+# Access the API documentation
+open http://localhost:8000/docs
+```
+
+### 📡 API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/health` | GET | Health check for Docker/K8s |
+| `/chunk` | POST | Chunk markdown content |
+| `/chunk/file` | POST | Upload and chunk a file |
+| `/convert` | POST | Convert document to Markdown |
+| `/convert/batch` | POST | Convert multiple documents |
+| `/kg/build` | POST | Build knowledge graph from chunks |
+| `/kg/test-connection` | GET | Test LLM connection |
+| `/pipeline` | POST | Run full pipeline (convert → chunk → KG) |
+| `/pipeline/status/{job_id}` | GET | Check pipeline job status |
+| `/files/markdown` | GET | List converted files |
+| `/files/chunks` | GET | List chunk files |
+| `/files/kg` | GET | List KG files |
+
+### Example API Calls
+
+**Chunk Content:**
+```bash
+curl -X POST "http://localhost:8000/chunk" \
+  -H "Content-Type: application/json" \
+  -d '{"content": "## Introduction\nThis is a test document.\n\n## Methods\nWe used Python."}'
+```
+
+**Convert a Document:**
+```bash
+curl -X POST "http://localhost:8000/convert" \
+  -F "file=@document.pdf"
+```
+
+**Build Knowledge Graph:**
+```bash
+curl -X POST "http://localhost:8000/kg/build" \
+  -H "Content-Type: application/json" \
+  -d '{"chunks": [{"header": "Introduction", "content": "AI is transforming..."}]}'
+```
 
 ### 1. Convert Documents to Markdown
 
@@ -99,20 +194,114 @@ from docling_ingest import convert_documents_to_markdown
 from docling.datamodel.base_models import InputFormat
 
 # Process all documents in a folder (supports 17+ formats)
-folder_path = "C:/path/to/your/documents"
 output_files = convert_documents_to_markdown(
-    input_path=folder_path,
+    input_path="path/to/your/documents",
     output_dir="build_docling",
     allowed_formats=[InputFormat.PDF, InputFormat.DOCX, InputFormat.HTML],
     enable_ocr=False,
     enable_table_structure=True,
 )
-
-# Output: List of generated Markdown file paths
 print(f"Processed {len(output_files)} files")
 ```
 
-### Supported Input Formats
+### 2. Chunk Documents Semantically
+
+```python
+from chunking_semantic.chunking_semantic_by_header import SemanticChunker
+
+chunker = SemanticChunker(
+    min_chunk_size=200,
+    max_chunk_size=800,
+    overlap_size=50,
+    preserve_metadata=True
+)
+
+chunks = chunker.parse_document('path/to/document.md')
+
+for chunk in chunks:
+    print(f"Header: {chunk.header}")
+    print(f"Word count: {chunk.word_count}")
+```
+
+### 3. Build Knowledge Graph from Chunks
+
+```python
+from itext2KG import KGConstructor, KGConfig
+
+# Configure the KG constructor (default: Ollama local models)
+config = KGConfig(
+    llm_provider="ollama",           # or "openai", "anthropic"
+    llm_model="qwen2.5:32b",
+    embeddings_model="nomic-embed-text",
+    entity_threshold=0.8,
+    relation_threshold=0.7,
+)
+
+# Build the knowledge graph
+constructor = KGConstructor(config)
+result = await constructor.build_from_chunks(chunks)
+
+# Access results
+print(f"Entities: {result.num_entities}")
+print(f"Relationships: {result.num_relationships}")
+
+# Export to various formats
+constructor.export_to_json(result, "kg_output/knowledge_graph.json")
+constructor.export_to_csv(result, "kg_output/")
+constructor.export_to_graphml(result, "kg_output/knowledge_graph.graphml")
+```
+
+### 4. Using OpenAI or Anthropic
+
+```python
+from itext2KG import KGConstructor, KGConfig
+
+# OpenAI configuration
+config = KGConfig(
+    llm_provider="openai",
+    llm_model="gpt-4o",
+    embeddings_model="text-embedding-3-small",
+    # API key from environment: OPENAI_API_KEY
+)
+
+# Anthropic configuration
+config = KGConfig(
+    llm_provider="anthropic",
+    llm_model="claude-3-sonnet-20240229",
+    # API key from environment: ANTHROPIC_API_KEY
+)
+
+constructor = KGConstructor(config)
+```
+
+## 🏗️ Project Structure
+
+```
+DynamicKGConstruction/
+├── main.py                            # FastAPI application entry point
+├── requirements.txt                   # Python dependencies
+├── .env.example                       # Environment variables template
+├── docling_ingest/                    # Document conversion module
+│   ├── __init__.py
+│   └── docling_multiple_document.py   # Multi-format conversion (wraps Docling)
+├── chunking_semantic/                 # Semantic chunking module
+│   ├── __init__.py
+│   └── chunking_semantic_by_header.py # Header-based chunking engine
+├── itext2KG/                          # Knowledge graph construction module
+│   ├── __init__.py
+│   └── kg_constructor.py              # KG builder (wraps iText2KG)
+├── examples/                          # Example data for testing
+│   └── robotics - paper.txt           # Sample document
+├── AGENTS.md                          # Guidelines for AI coding agents
+└── README.md
+
+# Output directories (created at runtime, git-ignored):
+# ├── build_docling/                   # Converted Markdown files
+# ├── chunks_output/                   # Semantic chunks (JSON, MD, TXT)
+# └── kg_output/                       # Knowledge graphs (JSON, CSV, GraphML)
+```
+
+## 📊 Supported Input Formats
 
 | Format | Extensions |
 |--------|------------|
@@ -127,200 +316,44 @@ print(f"Processed {len(output_files)} files")
 | Audio | `.wav`, `.mp3`, `.m4a` (requires ASR models) |
 | AsciiDoc | `.adoc`, `.asciidoc`, `.asc` |
 
-### 2. Chunk Documents Semantically
-
-```python
-from chunking_semantic.chunking_semantic_by_header import SemanticChunker
-
-# Initialize chunker with your preferences
-chunker = SemanticChunker(
-    min_chunk_size=200,      # Minimum words per chunk
-    max_chunk_size=800,      # Maximum words per chunk
-    overlap_size=50,         # Overlap between chunks
-    preserve_metadata=True   # Keep document metadata
-)
-
-# Parse document into semantic chunks
-chunks = chunker.parse_document('path/to/document.txt')
-
-# Access chunk information
-for chunk in chunks:
-    print(f"Header: {chunk.header}")
-    print(f"Level: {chunk.level}")
-    print(f"Word count: {chunk.word_count}")
-    print(f"Content preview: {chunk.content[:100]}...")
-```
-
-### 3. Export Chunks in Different Formats
-
-```python
-# Export as JSON (for APIs, databases)
-json_output = chunker.export_chunks(chunks, 'json')
-with open('chunks.json', 'w', encoding='utf-8') as f:
-    f.write(json_output)
-
-# Export as Markdown (for documentation)
-md_output = chunker.export_chunks(chunks, 'markdown')
-with open('chunks.md', 'w', encoding='utf-8') as f:
-    f.write(md_output)
-
-# Export as plain text (for analysis)
-text_output = chunker.export_chunks(chunks, 'text')
-with open('chunks.txt', 'w', encoding='utf-8') as f:
-    f.write(text_output)
-```
-
-## 🏗️ Project Structure
-
-```
-DynamicKGConstruction/
-├── chunking_semantic/
-│   ├── __init__.py
-│   └── chunking_semantic_by_header.py    # Semantic chunking engine
-├── docling_ingest/
-│   ├── __init__.py
-│   └── docling_multiple_document.py      # Multi-format document conversion (wrapper around Docling)
-├── build_docling/                        # Output folder for converted Markdown files
-├── docling_multi_format_test.ipynb       # Jupyter notebook for testing
-├── test_docling_multiformat.py           # Python test script
-└── README.md
-```
-
-## 📊 Chunking Algorithm
-
-The semantic chunker uses an intelligent multi-step process:
-
-1. **Header Extraction** - Identifies all section headers (## markers)
-2. **Hierarchy Detection** - Determines header levels (major sections vs. subsections)
-3. **Initial Chunking** - Creates chunks based on document structure
-4. **Size Optimization**:
-   - Merges chunks smaller than `min_chunk_size`
-   - Splits chunks larger than `max_chunk_size`
-5. **Context Overlap** - Adds overlapping text between chunks for continuity
-6. **Metadata Preservation** - Maintains document information and relationships
-
-### Chunk Properties
-
-Each chunk contains:
-- `header` - Section title
-- `content` - Section text
-- `level` - Hierarchy level (0=meta, 1=major, 2=subsection)
-- `word_count` - Number of words
-- `start_line` & `end_line` - Line range in original document
-- `parent_header` - Parent section for context
-
-## 🎓 Use Cases
-
-### Research & Academia
-- Process research papers and extract sections
-- Create embeddings for academic literature
-- Build knowledge bases from scientific documents
-
-### RAG Systems
-- Prepare documents for vector databases
-- Generate context-aware embeddings
-- Improve retrieval accuracy with semantic chunks
-
-### Document Analysis
-- Analyze document structure and organization
-- Extract specific sections automatically
-- Compare documents based on structure
-
 ## ⚙️ Configuration Options
 
 ### SemanticChunker Parameters
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
-| `min_chunk_size` | 200 | Minimum words per chunk (smaller chunks get merged) |
-| `max_chunk_size` | 1000 | Maximum words per chunk (larger chunks get split) |
-| `overlap_size` | 50 | Number of overlapping words between chunks |
-| `preserve_metadata` | True | Keep document metadata in output |
+| `min_chunk_size` | 200 | Minimum words per chunk |
+| `max_chunk_size` | 1000 | Maximum words per chunk |
+| `overlap_size` | 50 | Overlapping words between chunks |
+| `preserve_metadata` | True | Keep document metadata |
 
-### Recommended Settings
+### KGConfig Parameters
 
-**For Embeddings (RAG/Search)**
-```python
-chunker = SemanticChunker(
-    min_chunk_size=150,
-    max_chunk_size=500,
-    overlap_size=50
-)
-```
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `llm_provider` | "ollama" | LLM provider: "ollama", "openai", "anthropic" |
+| `llm_model` | "qwen2.5:32b" | Model name for the provider |
+| `embeddings_model` | "nomic-embed-text" | Embeddings model name |
+| `entity_threshold` | 0.8 | Entity similarity threshold |
+| `relation_threshold` | 0.7 | Relationship similarity threshold |
+| `output_dir` | "kg_output" | Output directory for exports |
 
-**For Document Analysis**
-```python
-chunker = SemanticChunker(
-    min_chunk_size=300,
-    max_chunk_size=1500,
-    overlap_size=100
-)
-```
+## 🎓 Use Cases
 
-**For Fast Processing**
-```python
-chunker = SemanticChunker(
-    min_chunk_size=100,
-    max_chunk_size=600,
-    overlap_size=0
-)
-```
+### Research & Academia
+- Process research papers and extract structured knowledge
+- Build literature review knowledge bases
+- Create embeddings for academic document retrieval
 
-## 🎬 Running the Complete Pipeline
+### Supply Chain & Industry
+- Extract entities and relationships from technical documents
+- Build knowledge graphs for inventory management
+- Enable context-aware reasoning for decision support
 
-### Using main.py
-
-1. **Edit the configuration** in `main.py`:
-```python
-PDF_FOLDER = "C:/path/to/your/pdfs"  # Update this path
-```
-
-2. **Run the script**:
-```bash
-python main.py
-```
-
-3. **Check the output**:
-   - Markdown files: `build_docling/` directory
-   - Chunk files: `chunks_output/` directory (JSON, MD, TXT formats)
-
-### Example Functions in main.py
-
-The script includes two example functions:
-
-1. **`main()`** - Complete pipeline (Documents → Markdown → Chunks → Export)
-2. **`example_single_file()`** - Process one file at a time
-
-Uncomment the function calls at the bottom of `main.py` to try different examples.
-
-## 📈 Example Output
-
-### Statistics
-```
-Document parsed into 15 semantic chunks
-
-Statistics:
-  Total chunks: 15
-  Total words: 8,542
-  Average words per chunk: 569.5
-  Smallest chunk: 203 words
-  Largest chunk: 798 words
-```
-
-### Chunk Structure
-```
-1. Introduction...
-   Level: 1 | Words: 450 | Lines: 10-55
-   Parent: 
-
-2. Literature Review...
-   Level: 1 | Words: 623 | Lines: 56-110
-   Parent: 
-
-3. 2.1 | Theoretical Framework...
-   Level: 2 | Words: 301 | Lines: 111-145
-   Parent: Literature Review
-```
+### RAG Systems
+- Prepare documents for vector databases
+- Generate high-quality semantic chunks
+- Improve retrieval accuracy with structured knowledge
 
 ## 🤝 Contributing
 
@@ -330,7 +363,9 @@ This is a PhD research project. Contributions, suggestions, and feedback are wel
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Note: This project is a wrapper around [Docling](https://github.com/docling-project/docling). Please also refer to Docling's license for the underlying document conversion library.
+**Important**: This project integrates the following open-source libraries. Please also refer to their respective licenses:
+- [Docling](https://github.com/docling-project/docling) - Document conversion
+- [iText2KG](https://github.com/AuvaLab/itext2kg) - Knowledge graph construction
 
 ## 👨‍🔬 Author
 
@@ -338,9 +373,20 @@ Note: This project is a wrapper around [Docling](https://github.com/docling-proj
 
 ## 🔍 Keywords
 
-`document processing` `semantic chunking` `PDF extraction` `NLP` `RAG` `embeddings` `document analysis` `text segmentation` `Docling` `research tools`
+`knowledge graph` `document processing` `semantic chunking` `PDF extraction` `NLP` `RAG` `embeddings` `itext2kg` `docling` `LLM` `entity extraction` `relationship extraction`
 
 ---
 
-**Note**: This tool is specifically designed for academic papers and structured documents with clear header hierarchies. For best results, ensure your documents use `##` markers for section headers.
+## 📚 Citations
 
+If you use this project in academic work, please consider citing the underlying libraries:
+
+### Docling
+Please refer to the [Docling repository](https://github.com/docling-project/docling) for citation information.
+
+### iText2KG
+Please refer to the [iText2KG repository](https://github.com/AuvaLab/itext2kg) for citation information.
+
+---
+
+**Note**: This toolkit is designed for structured documents with clear header hierarchies. For best results with semantic chunking, ensure your documents use `##` markers for section headers.
