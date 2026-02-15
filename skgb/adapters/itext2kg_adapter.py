@@ -8,10 +8,11 @@ logger = logging.getLogger(__name__)
 
 
 def _run(coro):
+    """Run async coroutine, handling Jupyter/Colab event loop conflicts."""
     try:
         return asyncio.run(coro)
     except RuntimeError as exc:
-        # In rare cases (already-running loop), fall back to creating a task.
+        # In Jupyter/Colab environments, there's already an event loop running
         if "asyncio.run() cannot be called" not in str(exc):
             raise
         import nest_asyncio
@@ -74,16 +75,27 @@ async def _build_async(
             max_workers=max_workers,
         )
     except IndexError as e:
-        # Handle the itext2kg bug where empty quintuples cause IndexError
-        if "list index out of range" in str(e):
+        # Handle the itext2kg bug where parallel_atomic_merge returns current[0]
+        # on an empty list - this happens when all atomic KGs are empty
+        logger.warning(
+            "itext2kg IndexError during atomic KG building - likely no valid entities/relations extracted. "
+            "This can happen when: (1) LLM returns malformed quintuples, (2) embeddings fail to match entities, "
+            "(3) the model provider is not recognized (check for 'Unknown provider' warnings above). "
+            f"Error: {e}"
+        )
+        # Return empty KG instead of crashing
+        kg = KnowledgeGraph()
+    except Exception as e:
+        # Catch any other exceptions from itext2kg and provide helpful context
+        error_msg = str(e)
+        if "list index out of range" in error_msg.lower():
             logger.warning(
-                "itext2kg failed to build atomic KGs - likely no valid quintuples extracted. "
-                "This can happen when the LLM doesn't return properly formatted quintuples. "
-                f"Try: (1) a different model, (2) lower thresholds, (3) checking Ollama logs."
+                f"itext2kg failed with IndexError: {e}. "
+                "This typically means no valid knowledge graph entities could be extracted."
             )
-            # Return empty KG instead of crashing
             kg = KnowledgeGraph()
         else:
+            logger.error(f"itext2kg failed with unexpected error: {e}")
             raise
     
     # Log results
@@ -107,15 +119,26 @@ def build_kg_from_atomic_facts(
     max_workers: int = 4,
 ):
     """Build a KnowledgeGraph using itext2kg ATOM (async under the hood)."""
-    return _run(
-        _build_async(
-            atomic_facts_dict=atomic_facts_dict,
-            ollama_base_url=ollama_base_url,
-            llm_model=llm_model,
-            embeddings_model=embeddings_model,
-            temperature=temperature,
-            ent_threshold=ent_threshold,
-            rel_threshold=rel_threshold,
-            max_workers=max_workers,
+    try:
+        return _run(
+            _build_async(
+                atomic_facts_dict=atomic_facts_dict,
+                ollama_base_url=ollama_base_url,
+                llm_model=llm_model,
+                embeddings_model=embeddings_model,
+                temperature=temperature,
+                ent_threshold=ent_threshold,
+                rel_threshold=rel_threshold,
+                max_workers=max_workers,
+            )
         )
-    )
+    except IndexError as e:
+        # Catch IndexError that propagates through the event loop
+        # This is the itext2kg parallel_atomic_merge bug where current[0] fails on empty list
+        logger.warning(
+            f"itext2kg IndexError (caught at sync level): {e}. "
+            "No valid knowledge graph could be built from the atomic facts. "
+            "Returning empty KnowledgeGraph."
+        )
+        from itext2kg.graphs.knowledge_graph import KnowledgeGraph
+        return KnowledgeGraph()
