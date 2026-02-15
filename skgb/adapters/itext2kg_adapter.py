@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 from typing import Dict, List
+
+logger = logging.getLogger(__name__)
 
 
 def _run(coro):
@@ -45,6 +48,7 @@ async def _build_async(
         ) from e
 
     from itext2kg.atom import Atom
+    from itext2kg.graphs.knowledge_graph import KnowledgeGraph
 
     llm = ChatOllama(
         model=llm_model,
@@ -56,13 +60,38 @@ async def _build_async(
         base_url=ollama_base_url,
     )
 
+    # Log what we're processing
+    total_facts = sum(len(facts) for facts in atomic_facts_dict.values())
+    logger.info(f"Building KG from {total_facts} atomic facts across {len(atomic_facts_dict)} timestamps")
+
     atom = Atom(llm_model=llm, embeddings_model=embeddings)
-    kg = await atom.build_graph_from_different_obs_times(
-        atomic_facts_with_obs_timestamps=atomic_facts_dict,
-        ent_threshold=ent_threshold,
-        rel_threshold=rel_threshold,
-        max_workers=max_workers,
-    )
+    
+    try:
+        kg = await atom.build_graph_from_different_obs_times(
+            atomic_facts_with_obs_timestamps=atomic_facts_dict,
+            ent_threshold=ent_threshold,
+            rel_threshold=rel_threshold,
+            max_workers=max_workers,
+        )
+    except IndexError as e:
+        # Handle the itext2kg bug where empty quintuples cause IndexError
+        if "list index out of range" in str(e):
+            logger.warning(
+                "itext2kg failed to build atomic KGs - likely no valid quintuples extracted. "
+                "This can happen when the LLM doesn't return properly formatted quintuples. "
+                f"Try: (1) a different model, (2) lower thresholds, (3) checking Ollama logs."
+            )
+            # Return empty KG instead of crashing
+            kg = KnowledgeGraph()
+        else:
+            raise
+    
+    # Log results
+    if kg and not kg.is_empty():
+        logger.info(f"Successfully built KG with {len(kg.entities)} entities and {len(kg.relations)} relations")
+    else:
+        logger.warning("Knowledge graph is empty - no entities or relations extracted")
+    
     return kg
 
 
