@@ -95,7 +95,7 @@ def chunk_markdown_files(
     md_paths: List[Path],
     min_chunk_words: int = 200,
     max_chunk_words: int = 800,
-    overlap_words: int = 50,
+    overlap_words: int = 0,
     preserve_metadata: bool = True,
 ) -> List[Dict[str, Any]]:
     """Chunk Docling Markdown files into the `all_chunks.json` schema expected by the notebook."""

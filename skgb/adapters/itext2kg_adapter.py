@@ -11,6 +11,8 @@ def _run(coro):
         # In rare cases (already-running loop), fall back to creating a task.
         if "asyncio.run() cannot be called" not in str(exc):
             raise
+        import nest_asyncio
+        nest_asyncio.apply()
         loop = asyncio.get_event_loop()
         return loop.run_until_complete(coro)
 
