@@ -1,20 +1,10 @@
 from __future__ import annotations
 
 import argparse
-import sys
 from pathlib import Path
 
 
-def _ensure_import_paths() -> None:
-    """Ensure `DynamicKGConstruction/` is importable when running as a script."""
-    here = Path(__file__).resolve()
-    pkg_root = here.parent.parent  # DynamicKGConstruction/
-    if str(pkg_root) not in sys.path:
-        sys.path.insert(0, str(pkg_root))
-
-
 def main(argv: list[str] | None = None) -> int:
-    _ensure_import_paths()
 
     parser = argparse.ArgumentParser(
         prog="skgb",
@@ -63,8 +53,8 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if args.cmd == "run":
-        from skgb.config import SKGBConfig
-        from skgb.pipeline import run_pipeline
+        from .config import SKGBConfig
+        from .pipeline import run_pipeline
 
         cfg = SKGBConfig.from_out_dir(
             args.out,
@@ -95,7 +85,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.cmd == "export-neo4j":
-        from skgb.export.neo4j_export import write_neo4j_load_cypher
+        from .export.neo4j_export import write_neo4j_load_cypher
 
         kg_out = Path(args.kg_output)
         cypher_path = write_neo4j_load_cypher(kg_out)

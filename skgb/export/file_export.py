@@ -64,6 +64,79 @@ def _write_csv(
             w.writerow(out)
 
 
+def _export_visualization_html(
+    kg_obj,
+    output_path: Path,
+    max_nodes: int = 150,
+) -> None:
+    """Create interactive KG visualization with PyVis (matches notebook output).
+
+    Generates an HTML file with an interactive force-directed graph.
+    """
+    try:
+        from pyvis.network import Network
+    except ImportError:
+        print("⚠️  pyvis not installed, skipping kg_visualization.html")
+        print("   Install with: pip install pyvis")
+        return
+
+    net = Network(
+        height="750px",
+        width="100%",
+        bgcolor="#222222",
+        font_color="white",
+        notebook=False,  # We're saving to file, not displaying in notebook
+    )
+
+    # Configure physics for better layout
+    net.force_atlas_2based()
+
+    # Get entities and relationships from KnowledgeGraph object
+    entities = getattr(kg_obj, "entities", []) or []
+    relationships = getattr(kg_obj, "relationships", []) or []
+
+    # Limit nodes if needed
+    entities = entities[:max_nodes]
+
+    # Build a set of entity names for the nodes we're including
+    node_ids: set = set()
+
+    for entity in entities:
+        entity_name = getattr(entity, "name", str(id(entity)))
+        entity_label = getattr(entity, "label", "Entity")
+        node_ids.add(entity_name)
+
+        net.add_node(
+            entity_name,
+            label=entity_name[:50],  # Truncate long labels
+            title=f"{entity_name}\nLabel: {entity_label}",
+            color="#00ff1e",
+        )
+
+    # Add edges (only for nodes we included)
+    for rel in relationships:
+        start_entity = getattr(rel, "startEntity", None)
+        end_entity = getattr(rel, "endEntity", None)
+
+        if start_entity and end_entity:
+            source = getattr(start_entity, "name", None)
+            target = getattr(end_entity, "name", None)
+            rel_name = getattr(rel, "name", "")
+
+            if source in node_ids and target in node_ids:
+                net.add_edge(
+                    source,
+                    target,
+                    title=rel_name,
+                    label=rel_name[:20],
+                    color="#ff9999",
+                )
+
+    # Save to file
+    net.save_graph(str(output_path))
+    print(f"✓ Interactive visualization saved to {output_path}")
+
+
 def export_kg_outputs(
     *,
     kg,
@@ -137,3 +210,10 @@ def export_kg_outputs(
         + "\n"
     )
     (kg_output_dir / "construction_report.txt").write_text(report, encoding="utf-8")
+
+    # 5) Interactive HTML visualization (PyVis)
+    _export_visualization_html(
+        kg_obj=kg,
+        output_path=kg_output_dir / "kg_visualization.html",
+        max_nodes=150,
+    )

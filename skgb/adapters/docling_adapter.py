@@ -22,7 +22,7 @@ def docling_convert_to_markdown(
         ) from e
 
     # The existing function accepts a folder path; accept a single file too.
-    from docling_ingest.docling_multiple_document import convert_documents_to_markdown
+    from ...docling_ingest.docling_multiple_document import convert_documents_to_markdown
 
     output_dir.mkdir(parents=True, exist_ok=True)
 

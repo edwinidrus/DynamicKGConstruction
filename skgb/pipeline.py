@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List
 
-from skgb.config import SKGBConfig
+from .config import SKGBConfig
 
 
 @dataclass(frozen=True)
@@ -29,11 +29,11 @@ def run_pipeline(
 ) -> PipelineResult:
     _ensure_dirs(cfg)
 
-    from skgb.adapters.docling_adapter import docling_convert_to_markdown
-    from skgb.adapters.chunking_adapter import chunk_markdown_files
-    from skgb.adapters.itext2kg_adapter import build_kg_from_atomic_facts
-    from skgb.export.file_export import export_kg_outputs
-    from skgb.export.neo4j_export import write_neo4j_load_cypher
+    from .adapters.docling_adapter import docling_convert_to_markdown
+    from .adapters.chunking_adapter import chunk_markdown_files
+    from .adapters.itext2kg_adapter import build_kg_from_atomic_facts
+    from .export.file_export import export_kg_outputs
+    from .export.neo4j_export import write_neo4j_load_cypher
 
     md_paths = docling_convert_to_markdown(
         input_path=input_path,
