@@ -49,7 +49,7 @@ async def _build_async(
         ) from e
 
     from itext2kg.atom import Atom
-    from itext2kg.graphs.knowledge_graph import KnowledgeGraph
+    from itext2kg.atom.models.knowledge_graph import KnowledgeGraph
 
     llm = ChatOllama(
         model=llm_model,
@@ -140,5 +140,5 @@ def build_kg_from_atomic_facts(
             "No valid knowledge graph could be built from the atomic facts. "
             "Returning empty KnowledgeGraph."
         )
-        from itext2kg.graphs.knowledge_graph import KnowledgeGraph
+        from itext2kg.atom.models.knowledge_graph import KnowledgeGraph
         return KnowledgeGraph()
