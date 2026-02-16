@@ -34,6 +34,7 @@ build_docling/
 chunks_output/
 kg_output/
 uploads/
+docling_ingest\
 
 # OS
 .DS_Store
