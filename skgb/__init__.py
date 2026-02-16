@@ -18,12 +18,14 @@ from __future__ import annotations
 
 from .config import SKGBConfig
 from .pipeline import run_pipeline, PipelineResult
+from .adapters.docling_adapter import docling_convert_to_text
 
 __all__ = [
     "__version__",
     "SKGBConfig",
     "run_pipeline",
     "PipelineResult",
+    "docling_convert_to_text",
 ]
 
 __version__ = "0.1.0"

@@ -98,7 +98,12 @@ def chunk_markdown_files(
     overlap_words: int = 0,
     preserve_metadata: bool = True,
 ) -> List[Dict[str, Any]]:
-    """Chunk Docling Markdown files into the `all_chunks.json` schema expected by the notebook."""
+    """Chunk text files with ``#`` headers into the ``all_chunks.json`` schema.
+
+    Accepts both ``.md`` (Markdown) and ``.txt`` (plain text with ``#``
+    hierarchical headers) produced by the Docling adapter.  Sections are
+    detected via ``# … ######`` header lines.
+    """
     all_chunks: List[Dict[str, Any]] = []
 
     for md_path in md_paths:
