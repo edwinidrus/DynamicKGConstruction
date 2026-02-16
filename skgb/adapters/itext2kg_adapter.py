@@ -119,26 +119,34 @@ def _patch_json_parser():
 
 
 def _patch_itext2kg_for_empty_results():
-    """Patch itext2kg to handle empty atomic KG lists gracefully."""
+    """Patch itext2kg to handle empty atomic KG lists gracefully.
+
+    Patches three methods on the Atom class:
+    1. parallel_atomic_merge  – handles empty KG lists (``current[0]`` bug)
+    2. build_atomic_kg_from_quintuples – catches IndexError from entity
+       look-ups / embedding failures and returns an empty KG instead
+    3. build_graph – uses ``return_exceptions=True`` in asyncio.gather so
+       that one bad quintuple doesn't kill the whole batch, and tolerates
+       an all-empty atomic-KG list gracefully
+    """
     try:
         import itext2kg.atom.atom as atom_module
         from itext2kg.atom.models.knowledge_graph import KnowledgeGraph
 
+        # --- 1. parallel_atomic_merge: guard against empty kgs list -------
         original_merge = atom_module.Atom.parallel_atomic_merge
 
         @functools.wraps(original_merge)
         def safe_parallel_atomic_merge(
             self, kgs, existing_kg=None, rel_threshold=0.7, ent_threshold=0.8, max_workers=8
         ):
-            """Patched version that handles empty kgs list."""
             if not kgs:
-                logger.warning("No atomic KGs to merge (empty quintuples). Returning empty KG.")
+                logger.warning("No atomic KGs to merge (empty list). Returning empty KG.")
                 return KnowledgeGraph()
 
-            # Filter out None or empty KGs
             valid_kgs = [kg for kg in kgs if kg is not None]
             if not valid_kgs:
-                logger.warning("All atomic KGs are None/empty. Returning empty KG.")
+                logger.warning("All atomic KGs are None. Returning empty KG.")
                 return KnowledgeGraph()
 
             return original_merge(
@@ -146,7 +154,47 @@ def _patch_itext2kg_for_empty_results():
             )
 
         atom_module.Atom.parallel_atomic_merge = safe_parallel_atomic_merge
-        logger.info("Applied itext2kg patch for empty result handling")
+
+        # --- 2. build_atomic_kg_from_quintuples: catch per-quintuple errors
+        original_build_atomic = atom_module.Atom.build_atomic_kg_from_quintuples
+
+        @functools.wraps(original_build_atomic)
+        async def safe_build_atomic_kg_from_quintuples(self, relationships, *args, **kwargs):
+            if not relationships:
+                logger.debug("Empty relationships list for quintuple – returning empty KG.")
+                return KnowledgeGraph()
+            try:
+                return await original_build_atomic(self, relationships, *args, **kwargs)
+            except (IndexError, ValueError, TypeError) as exc:
+                logger.warning(
+                    "build_atomic_kg_from_quintuples failed for a quintuple "
+                    "(likely malformed entities or embedding failure): %s", exc,
+                )
+                return KnowledgeGraph()
+
+        atom_module.Atom.build_atomic_kg_from_quintuples = safe_build_atomic_kg_from_quintuples
+
+        # --- 3. build_graph: fault-tolerant asyncio.gather ----------------
+        original_build_graph = atom_module.Atom.build_graph
+
+        @functools.wraps(original_build_graph)
+        async def safe_build_graph(self, atomic_facts, obs_timestamp, **kwargs):
+            """Wraps build_graph to survive individual quintuple failures."""
+            try:
+                return await original_build_graph(
+                    self, atomic_facts, obs_timestamp, **kwargs
+                )
+            except (IndexError, ValueError, TypeError) as exc:
+                logger.warning(
+                    "build_graph failed for timestamp %s: %s. Returning empty KG.",
+                    obs_timestamp, exc,
+                )
+                return KnowledgeGraph()
+
+        atom_module.Atom.build_graph = safe_build_graph
+
+        logger.info("Applied itext2kg patches (parallel_atomic_merge, "
+                     "build_atomic_kg_from_quintuples, build_graph)")
         return True
 
     except Exception as e:
@@ -249,12 +297,14 @@ async def _build_async(
                 return kg
 
         except IndexError as e:
-            # Handle the itext2kg bug where parallel_atomic_merge returns current[0]
-            # on an empty list - this happens when all atomic KGs are empty
             last_error = e
             logger.warning(
-                f"Attempt {attempt}: IndexError during atomic KG building - "
-                f"likely no valid entities/relations extracted. Error: {e}"
+                f"Attempt {attempt}/{max_attempts}: IndexError during atomic KG "
+                f"building - likely no valid entities/relations extracted. "
+                f"This can happen when: (1) LLM returns quintuples that can't be "
+                f"parsed into entities, (2) embeddings fail to match entities, "
+                f"(3) the model provider is not recognized by itext2kg (check for "
+                f"'Unknown provider' warnings above). Error: {e}"
             )
             if attempt < max_attempts:
                 await asyncio.sleep(model_config["retry_delay"])
