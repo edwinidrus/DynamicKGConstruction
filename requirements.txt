@@ -46,8 +46,8 @@ langchain-ollama>=0.1.0,<1.0.0
 # OpenAI API (optional)
 langchain-openai>=0.2.14,<0.3.0
 
-# Anthropic/Claude API (optional)
-# langchain-anthropic>=0.1.0
+# Anthropic/Claude API (required for claude-* models)
+langchain-anthropic>=0.1.0
 
 # =============================================================================
 # Data Processing & Graph Libraries

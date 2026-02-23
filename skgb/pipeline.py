@@ -73,6 +73,8 @@ def run_pipeline(
         ent_threshold=cfg.ent_threshold,
         rel_threshold=cfg.rel_threshold,
         max_workers=cfg.max_workers,
+        api_key=cfg.api_key,
+        embeddings_api_key=cfg.embeddings_api_key,
     )
 
     export_kg_outputs(

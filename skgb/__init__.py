@@ -19,6 +19,7 @@ from __future__ import annotations
 from .config import SKGBConfig
 from .pipeline import run_pipeline, PipelineResult
 from .adapters.docling_adapter import docling_convert_to_text
+from .models import ModelRegistry, LLMProvider, detect_provider
 
 __all__ = [
     "__version__",
@@ -26,6 +27,9 @@ __all__ = [
     "run_pipeline",
     "PipelineResult",
     "docling_convert_to_text",
+    "ModelRegistry",
+    "LLMProvider",
+    "detect_provider",
 ]
 
 __version__ = "0.1.0"

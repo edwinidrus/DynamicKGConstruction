@@ -49,3 +49,5 @@ docker-compose.override.yml
 
 # Agent guidelines (not tracked)
 AGENTS.md
+CLAUDE.md
+.claude/

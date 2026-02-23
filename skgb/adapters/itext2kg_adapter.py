@@ -5,61 +5,11 @@ import functools
 import json
 import logging
 import re
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable, Dict, List, Optional
+
+from ..models import ModelRegistry, get_model_config, get_model_tier
 
 logger = logging.getLogger(__name__)
-
-
-# Model capability tiers - adjust batch sizes and retry behavior based on model size
-MODEL_CONFIGS = {
-    # Large models (32B+) - more capable, can handle larger batches
-    "large": {
-        "batch_size": 5,
-        "max_retries": 3,
-        "retry_delay": 5,
-        "batch_delay": 10,
-    },
-    # Medium models (7B-32B) - balanced settings
-    "medium": {
-        "batch_size": 3,
-        "max_retries": 4,
-        "retry_delay": 3,
-        "batch_delay": 5,
-    },
-    # Small models (<7B) - more conservative, more retries
-    "small": {
-        "batch_size": 2,
-        "max_retries": 5,
-        "retry_delay": 2,
-        "batch_delay": 3,
-    },
-}
-
-# Model name patterns to tier mapping
-MODEL_TIER_PATTERNS = {
-    # Large models
-    r"(qwen2\.5:32b|qwen2\.5:72b|llama3\.1:70b|gpt-oss:120b|mixtral:8x22b)": "large",
-    # Medium models
-    r"(qwen2\.5:14b|qwen2\.5:7b|llama3\.1:8b|gpt-oss:20b|mistral|gemma2:27b)": "medium",
-    # Small models (default for unknown)
-    r"(qwen2\.5:3b|qwen2\.5:1\.5b|phi|tinyllama|gemma2:9b|gemma2:2b)": "small",
-}
-
-
-def get_model_tier(model_name: str) -> str:
-    """Determine model tier based on model name."""
-    model_lower = model_name.lower()
-    for pattern, tier in MODEL_TIER_PATTERNS.items():
-        if re.search(pattern, model_lower):
-            return tier
-    # Default to medium for unknown models
-    return "medium"
-
-
-def get_model_config(model_name: str) -> Dict[str, Any]:
-    """Get configuration for a specific model."""
-    tier = get_model_tier(model_name)
-    return MODEL_CONFIGS[tier].copy()
 
 
 def _run(coro):
@@ -225,6 +175,8 @@ async def _build_async(
     ent_threshold: float,
     rel_threshold: float,
     max_workers: int,
+    api_key: Optional[str] = None,
+    embeddings_api_key: Optional[str] = None,
 ):
     # Ensure patches are applied
     _ensure_patches()
@@ -237,30 +189,25 @@ async def _build_async(
             "Install dependencies first (see DynamicKGConstruction/requirements.txt)."
         ) from e
 
-    try:
-        from langchain_ollama import ChatOllama, OllamaEmbeddings
-    except Exception as e:
-        raise RuntimeError(
-            "langchain-ollama is not installed in this Python environment. "
-            "Install dependencies first (see DynamicKGConstruction/requirements.txt)."
-        ) from e
-
     from itext2kg.atom import Atom
     from itext2kg.atom.models.knowledge_graph import KnowledgeGraph
 
-    # Get model-specific configuration
+    # Get model-specific configuration via centralized registry
     model_config = get_model_config(llm_model)
     model_tier = get_model_tier(llm_model)
     logger.info(f"Using model tier '{model_tier}' configuration for {llm_model}")
 
-    llm = ChatOllama(
-        model=llm_model,
+    # Build LLM and embeddings via ModelRegistry (provider auto-detected)
+    llm = ModelRegistry.create_llm(
+        llm_model,
         temperature=temperature,
-        base_url=ollama_base_url,
+        api_key=api_key,
+        ollama_base_url=ollama_base_url,
     )
-    embeddings = OllamaEmbeddings(
-        model=embeddings_model,
-        base_url=ollama_base_url,
+    embeddings = ModelRegistry.create_embeddings(
+        embeddings_model,
+        api_key=embeddings_api_key,
+        ollama_base_url=ollama_base_url,
     )
 
     # Log what we're processing
@@ -345,27 +292,33 @@ def build_kg_from_atomic_facts(
     ent_threshold: float = 0.8,
     rel_threshold: float = 0.7,
     max_workers: int = 4,
+    api_key: Optional[str] = None,
+    embeddings_api_key: Optional[str] = None,
 ):
     """Build a KnowledgeGraph using itext2kg ATOM (async under the hood).
 
-    This function is robust to various LLM models, including smaller ones
-    that may produce malformed JSON output. It includes:
-    - JSON repair for common LLM output errors
-    - Retry logic with model-specific configurations
-    - Graceful handling of empty results
+    Provider is determined automatically from *llm_model* and *embeddings_model*
+    by :class:`~skgb.models.ModelRegistry`.  Supported combinations:
+
+    * Ollama LLM + Ollama embeddings (fully local)
+    * Claude LLM + Ollama embeddings  (quality + privacy)
+    * OpenAI LLM + OpenAI embeddings
+    * Any mix of the above
 
     Args:
-        atomic_facts_dict: Dict mapping observation timestamps to lists of atomic facts
-        ollama_base_url: Base URL for Ollama server
-        llm_model: Name of the LLM model to use
-        embeddings_model: Name of the embeddings model
-        temperature: LLM temperature (0.0 for deterministic)
-        ent_threshold: Entity similarity threshold for deduplication
-        rel_threshold: Relation similarity threshold for deduplication
-        max_workers: Number of parallel workers
+        atomic_facts_dict: Dict mapping observation timestamps to lists of atomic facts.
+        ollama_base_url: Base URL for Ollama server (used for Ollama LLM/embeddings).
+        llm_model: LLM model name (e.g. ``"claude-sonnet-4-6"``, ``"qwen2.5:32b"``).
+        embeddings_model: Embeddings model name (e.g. ``"nomic-embed-text"``).
+        temperature: LLM temperature (0.0 for deterministic).
+        ent_threshold: Entity similarity threshold for deduplication.
+        rel_threshold: Relation similarity threshold for deduplication.
+        max_workers: Number of parallel workers.
+        api_key: API key for cloud LLM providers (Anthropic / OpenAI).
+        embeddings_api_key: API key for cloud embeddings providers (OpenAI).
 
     Returns:
-        KnowledgeGraph object (may be empty if extraction failed)
+        KnowledgeGraph object (may be empty if extraction failed).
     """
     try:
         return _run(
@@ -378,6 +331,8 @@ def build_kg_from_atomic_facts(
                 ent_threshold=ent_threshold,
                 rel_threshold=rel_threshold,
                 max_workers=max_workers,
+                api_key=api_key,
+                embeddings_api_key=embeddings_api_key,
             )
         )
     except IndexError as e:
