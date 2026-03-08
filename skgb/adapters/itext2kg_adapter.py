@@ -68,6 +68,67 @@ def _patch_json_parser():
         return False
 
 
+def _patch_itext2kg_provider_detection():
+    """Patch itext2kg to recognize ChatOllama and OllamaEmbeddings as Ollama provider.
+
+    itext2kg internally checks the type of LLM/embeddings objects to determine
+    the provider. When it doesn't recognize ChatOllama (from langchain_ollama),
+    it falls back to "Unknown" provider which may trigger OpenAI key requirements.
+
+    This patch adds recognition for:
+    - langchain_ollama.ChatOllama -> "ollama"
+    - langchain_ollama.OllamaEmbeddings -> "ollama"
+    - langchain_community.chat_models.ollama.ChatOllama -> "ollama"
+    - langchain_community.embeddings.ollama.OllamaEmbeddings -> "ollama"
+    """
+    try:
+        import itext2kg.utils.llm as llm_utils
+
+        # Get the original provider detection function
+        original_get_provider = getattr(llm_utils, 'get_provider', None)
+        if original_get_provider is None:
+            # Try alternative location - some versions store it differently
+            logger.debug("get_provider not found in llm_utils, trying alternative detection")
+            return False
+
+        @functools.wraps(original_get_provider)
+        def patched_get_provider(llm_model):
+            """Enhanced provider detection that recognizes ChatOllama."""
+            # Import here to avoid hard dependency issues
+            try:
+                from langchain_ollama import ChatOllama
+                from langchain_ollama import OllamaEmbeddings
+            except ImportError:
+                pass
+
+            try:
+                from langchain_community.chat_models.ollama import ChatOllama as CommunityChatOllama
+                from langchain_community.embeddings.ollama import OllamaEmbeddings as CommunityOllamaEmbeddings
+            except ImportError:
+                CommunityChatOllama = None
+                CommunityOllamaEmbeddings = None
+
+            # Check if it's a ChatOllama instance (from langchain_ollama)
+            if isinstance(llm_model, ChatOllama):
+                return "ollama"
+
+            # Check if it's from langchain_community
+            if CommunityChatOllama and isinstance(llm_model, CommunityChatOllama):
+                return "ollama"
+
+            # Delegate to original for other cases
+            return original_get_provider(llm_model)
+
+        # Apply the patch
+        llm_utils.get_provider = patched_get_provider
+        logger.info("Applied itext2kg provider detection patch for ChatOllama")
+        return True
+
+    except Exception as e:
+        logger.warning(f"Could not patch itext2kg provider detection: {e}")
+        return False
+
+
 def _patch_itext2kg_for_empty_results():
     """Patch itext2kg to handle empty atomic KG lists gracefully.
 
@@ -161,6 +222,7 @@ def _ensure_patches():
     global _patches_applied
     if not _patches_applied:
         _patch_json_parser()
+        _patch_itext2kg_provider_detection()
         _patch_itext2kg_for_empty_results()
         _patches_applied = True
 

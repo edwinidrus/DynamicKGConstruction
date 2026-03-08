@@ -91,9 +91,14 @@ class SKGBConfig:
         _provider = detect_provider(_llm_model).value
         _emb_provider = detect_provider(_emb_model).value
 
-        # Resolve API keys (parameter > env var)
-        _api_key = api_key or os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("OPENAI_API_KEY")
-        _emb_api_key = embeddings_api_key or os.environ.get("OPENAI_API_KEY")
+        # Resolve API keys only for cloud providers (Anthropic/OpenAI)
+        # For Ollama, no API key is needed
+        _api_key = None
+        _emb_api_key = None
+        if _provider in ("anthropic", "openai"):
+            _api_key = api_key or os.environ.get(f"{_provider.upper()}_API_KEY")
+        if _emb_provider == "openai":
+            _emb_api_key = embeddings_api_key or os.environ.get("OPENAI_API_KEY")
 
         return SKGBConfig(
             out_dir=out,
