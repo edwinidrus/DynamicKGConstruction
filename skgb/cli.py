@@ -23,6 +23,18 @@ def main(argv: list[str] | None = None) -> int:
     run_p.add_argument("--embeddings-model", default=None)
     run_p.add_argument("--ollama-base-url", default=None)
     run_p.add_argument("--temperature", type=float, default=0.0)
+    run_p.add_argument(
+        "--ollama-num-ctx",
+        type=int,
+        default=None,
+        help="Optional Ollama LLM context window override passed to ChatOllama",
+    )
+    run_p.add_argument(
+        "--ollama-embeddings-num-ctx",
+        type=int,
+        default=None,
+        help="Optional Ollama embeddings context window override passed to OllamaEmbeddings",
+    )
     run_p.add_argument("--ent-threshold", type=float, default=0.8)
     run_p.add_argument("--rel-threshold", type=float, default=0.7)
     run_p.add_argument("--max-workers", type=int, default=4)
@@ -62,6 +74,8 @@ def main(argv: list[str] | None = None) -> int:
             llm_model=args.llm_model,
             embeddings_model=args.embeddings_model,
             temperature=args.temperature,
+            ollama_num_ctx=args.ollama_num_ctx,
+            ollama_embeddings_num_ctx=args.ollama_embeddings_num_ctx,
             ent_threshold=args.ent_threshold,
             rel_threshold=args.rel_threshold,
             max_workers=args.max_workers,

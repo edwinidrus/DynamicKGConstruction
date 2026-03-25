@@ -13,12 +13,178 @@ This module provides repair functions to handle these cases.
 
 from __future__ import annotations
 
+import ast
 import json
 import re
 import logging
 from typing import Any, Optional, List, Dict
 
 logger = logging.getLogger(__name__)
+
+
+def _split_top_level_csv(text: str) -> List[str]:
+    """Split comma-separated values while respecting nested lists and quotes."""
+    parts: List[str] = []
+    current: List[str] = []
+    paren_depth = 0
+    bracket_depth = 0
+    brace_depth = 0
+    quote_char = ""
+    escape_next = False
+
+    for char in text:
+        if escape_next:
+            current.append(char)
+            escape_next = False
+            continue
+
+        if char == "\\":
+            current.append(char)
+            escape_next = True
+            continue
+
+        if quote_char:
+            current.append(char)
+            if char == quote_char:
+                quote_char = ""
+            continue
+
+        if char in ('\"', "'"):
+            current.append(char)
+            quote_char = char
+            continue
+
+        if char == "(":
+            paren_depth += 1
+        elif char == ")":
+            paren_depth = max(paren_depth - 1, 0)
+        elif char == "[":
+            bracket_depth += 1
+        elif char == "]":
+            bracket_depth = max(bracket_depth - 1, 0)
+        elif char == "{":
+            brace_depth += 1
+        elif char == "}":
+            brace_depth = max(brace_depth - 1, 0)
+
+        if char == "," and paren_depth == 0 and bracket_depth == 0 and brace_depth == 0:
+            part = "".join(current).strip()
+            if part:
+                parts.append(part)
+            current = []
+            continue
+
+        current.append(char)
+
+    tail = "".join(current).strip()
+    if tail:
+        parts.append(tail)
+    return parts
+
+
+def _strip_balanced_quotes(text: str) -> str:
+    text = text.strip().rstrip(".")
+    if len(text) >= 2 and text[0] == text[-1] and text[0] in ('\"', "'"):
+        return text[1:-1].strip()
+    return text.strip()
+
+
+def _parse_temporal_field(text: str) -> List[str]:
+    cleaned = text.strip()
+    if not cleaned or cleaned == "[]":
+        return []
+
+    try:
+        parsed = ast.literal_eval(cleaned)
+    except Exception:
+        parsed = None
+
+    if isinstance(parsed, list):
+        return [str(item).strip() for item in parsed if str(item).strip()]
+    if parsed is None:
+        return []
+    return [str(parsed).strip()]
+
+
+def repair_quintuple_tuples(text: str) -> Optional[Dict[str, Any]]:
+    """Convert tuple-style quintuple output into itext2kg's JSON schema.
+
+    Some models answer with lines like:
+    ``(Subject, relation, Object, [], [])``
+    instead of JSON. This function normalizes that format into the
+    ``{"relationships": [...]}`` structure expected by RelationshipsExtractor.
+    """
+    if not text or "(" not in text or ")" not in text:
+        return None
+
+    tuple_bodies: List[str] = []
+    depth = 0
+    start_idx: Optional[int] = None
+    quote_char = ""
+    escape_next = False
+
+    for idx, char in enumerate(text):
+        if escape_next:
+            escape_next = False
+            continue
+
+        if char == "\\":
+            escape_next = True
+            continue
+
+        if quote_char:
+            if char == quote_char:
+                quote_char = ""
+            continue
+
+        if char in ('\"', "'"):
+            quote_char = char
+            continue
+
+        if char == "(":
+            if depth == 0:
+                start_idx = idx + 1
+            depth += 1
+            continue
+
+        if char == ")" and depth > 0:
+            depth -= 1
+            if depth == 0 and start_idx is not None:
+                body = text[start_idx:idx].strip()
+                if body:
+                    tuple_bodies.append(body)
+                start_idx = None
+
+    relationships: List[Dict[str, Any]] = []
+    for body in tuple_bodies:
+        fields = _split_top_level_csv(body)
+        if len(fields) < 5:
+            continue
+
+        start_node = _strip_balanced_quotes(fields[0])
+        relation_name = _strip_balanced_quotes(fields[1])
+        end_node_parts = [_strip_balanced_quotes(value) for value in fields[2:-2]]
+        end_node_parts = [value for value in end_node_parts if value]
+        end_node = ", ".join(end_node_parts)
+        t_start = _parse_temporal_field(fields[-2])
+        t_end = _parse_temporal_field(fields[-1])
+
+        if not start_node or not relation_name or not end_node:
+            continue
+
+        relationships.append(
+            {
+                "startNode": {"name": start_node, "label": "Entity"},
+                "endNode": {"name": end_node, "label": "Entity"},
+                "name": relation_name,
+                "t_start": t_start,
+                "t_end": t_end,
+            }
+        )
+
+    if not relationships:
+        return None
+    return {"relationships": relationships}
 
 
 def extract_json_from_text(text: str) -> Optional[str]:
@@ -237,26 +403,31 @@ def repair_json(text: str) -> Optional[Any]:
     except json.JSONDecodeError:
         pass
 
-    # Step 2: Extract JSON from surrounding text
+    # Step 2: Convert tuple-style quintuple output to JSON when possible
+    repaired_quintuples = repair_quintuple_tuples(text)
+    if repaired_quintuples is not None:
+        return repaired_quintuples
+
+    # Step 3: Extract JSON from surrounding text
     extracted = extract_json_from_text(text)
     if not extracted:
         logger.debug("Could not extract JSON structure from text")
         return None
 
-    # Step 3: Try parsing extracted JSON
+    # Step 4: Try parsing extracted JSON
     try:
         return json.loads(extracted)
     except json.JSONDecodeError:
         pass
 
-    # Step 4: Fix common errors
+    # Step 5: Fix common errors
     fixed = fix_common_json_errors(extracted)
     try:
         return json.loads(fixed)
     except json.JSONDecodeError:
         pass
 
-    # Step 5: Fix truncation
+    # Step 6: Fix truncation
     fixed = fix_truncated_json(fixed)
     try:
         return json.loads(fixed)

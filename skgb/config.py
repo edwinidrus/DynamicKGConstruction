@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 
 @dataclass(frozen=True)
@@ -24,6 +24,9 @@ class SKGBConfig:
     embeddings_model: str
     embeddings_provider: str           # "ollama" | "openai"
     embeddings_api_key: Optional[str]  # API key for OpenAI embeddings
+    embeddings_ollama_base_url: str
+    ollama_llm_kwargs: dict[str, Any]
+    ollama_embeddings_kwargs: dict[str, Any]
 
     temperature: float
 
@@ -45,6 +48,7 @@ class SKGBConfig:
         ollama_base_url: str | None = None,
         llm_model: str | None = None,
         embeddings_model: str | None = None,
+        embeddings_ollama_base_url: str | None = None,
         temperature: float = 0.0,
         ent_threshold: float = 0.8,
         rel_threshold: float = 0.7,
@@ -53,6 +57,8 @@ class SKGBConfig:
         max_chunk_words: int = 800,
         overlap_words: int = 50,
         preserve_metadata: bool = True,
+        ollama_num_ctx: int | None = None,
+        ollama_embeddings_num_ctx: int | None = None,
         # Cloud provider keys
         api_key: str | None = None,
         embeddings_api_key: str | None = None,
@@ -91,6 +97,22 @@ class SKGBConfig:
         _provider = detect_provider(_llm_model).value
         _emb_provider = detect_provider(_emb_model).value
 
+        resolved_ollama_base_url = (
+            ollama_base_url
+            or os.environ.get("OLLAMA_BASE_URL")
+            or os.environ.get("OLLAMA_HOST")
+            or "http://localhost:11434"
+        )
+
+        resolved_embeddings_ollama_base_url = embeddings_ollama_base_url
+        if resolved_embeddings_ollama_base_url is None:
+            resolved_embeddings_ollama_base_url = os.environ.get("OLLAMA_EMBEDDINGS_BASE_URL")
+        if resolved_embeddings_ollama_base_url is None:
+            if _emb_provider == "ollama" and "api.ollama.com" in resolved_ollama_base_url.lower():
+                resolved_embeddings_ollama_base_url = "http://localhost:11434"
+            else:
+                resolved_embeddings_ollama_base_url = resolved_ollama_base_url
+
         # Resolve API keys only for cloud providers (Anthropic/OpenAI)
         # For Ollama, no API key is needed
         _api_key = None
@@ -100,23 +122,44 @@ class SKGBConfig:
         if _emb_provider == "openai":
             _emb_api_key = embeddings_api_key or os.environ.get("OPENAI_API_KEY")
 
+        llm_kwargs: dict[str, Any] = {}
+        embeddings_kwargs: dict[str, Any] = {}
+        if _provider == "ollama":
+            resolved_num_ctx = ollama_num_ctx
+            if resolved_num_ctx is None:
+                env_value = os.environ.get("SKGB_OLLAMA_NUM_CTX") or os.environ.get("OLLAMA_NUM_CTX")
+                if env_value:
+                    resolved_num_ctx = int(env_value)
+            if resolved_num_ctx is not None:
+                llm_kwargs["num_ctx"] = resolved_num_ctx
+
+        if _emb_provider == "ollama":
+            resolved_embed_num_ctx = ollama_embeddings_num_ctx
+            if resolved_embed_num_ctx is None:
+                env_value = (
+                    os.environ.get("SKGB_OLLAMA_EMBED_NUM_CTX")
+                    or os.environ.get("OLLAMA_EMBED_NUM_CTX")
+                )
+                if env_value:
+                    resolved_embed_num_ctx = int(env_value)
+            if resolved_embed_num_ctx is not None:
+                embeddings_kwargs["num_ctx"] = resolved_embed_num_ctx
+
         return SKGBConfig(
             out_dir=out,
             build_docling_dir=out / "build_docling",
             chunks_output_dir=out / "chunks_output",
             kg_output_dir=out / "kg_output",
-            ollama_base_url=(
-                ollama_base_url
-                or os.environ.get("OLLAMA_BASE_URL")
-                or os.environ.get("OLLAMA_HOST")
-                or "http://localhost:11434"
-            ),
+            ollama_base_url=resolved_ollama_base_url,
             llm_model=_llm_model,
             provider=_provider,
             api_key=_api_key,
             embeddings_model=_emb_model,
             embeddings_provider=_emb_provider,
             embeddings_api_key=_emb_api_key,
+            embeddings_ollama_base_url=resolved_embeddings_ollama_base_url,
+            ollama_llm_kwargs=llm_kwargs,
+            ollama_embeddings_kwargs=embeddings_kwargs,
             temperature=temperature,
             ent_threshold=ent_threshold,
             rel_threshold=rel_threshold,

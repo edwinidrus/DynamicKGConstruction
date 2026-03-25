@@ -58,6 +58,7 @@ class LLMProvider(str, Enum):
 # ---------------------------------------------------------------------------
 
 _ANTHROPIC_RE = re.compile(r"^claude[-_]", re.IGNORECASE)
+_OLLAMA_CLOUD_RE = re.compile(r"^gpt-oss:.*(?:-cloud|/cloud|:cloud)$", re.IGNORECASE)
 _OPENAI_RE = re.compile(
     r"^(gpt-|o1-|o3-|chatgpt-|text-embedding-|text-davinci-)",
     re.IGNORECASE,
@@ -73,9 +74,41 @@ def detect_provider(model_name: str) -> LLMProvider:
     """
     if _ANTHROPIC_RE.match(model_name):
         return LLMProvider.ANTHROPIC
+    if _OLLAMA_CLOUD_RE.match(model_name):
+        return LLMProvider.OLLAMA
     if _OPENAI_RE.match(model_name):
         return LLMProvider.OPENAI
     return LLMProvider.OLLAMA
+
+
+def _get_ollama_api_key(explicit_api_key: Optional[str] = None) -> Optional[str]:
+    """Return an Ollama API key from an explicit value or supported env vars."""
+    return (
+        explicit_api_key
+        or os.environ.get("OLLAMA_API_KEY")
+        or os.environ.get("ollamaApiKey")
+    )
+
+
+def _apply_ollama_auth(kwargs: Dict[str, Any], api_key: Optional[str]) -> Dict[str, Any]:
+    """Inject Authorization headers for authenticated Ollama endpoints.
+
+    langchain-ollama forwards client_kwargs / sync_client_kwargs / async_client_kwargs
+    directly to the underlying ollama Client classes. For Ollama cloud endpoints,
+    we need to attach the bearer token there rather than monkey-patching the SDK.
+    """
+    resolved_api_key = _get_ollama_api_key(api_key)
+    if not resolved_api_key:
+        return kwargs
+
+    merged_kwargs = dict(kwargs)
+    for key in ("client_kwargs", "sync_client_kwargs", "async_client_kwargs"):
+        client_kwargs = dict(merged_kwargs.get(key) or {})
+        headers = dict(client_kwargs.get("headers") or {})
+        headers.setdefault("Authorization", f"Bearer {resolved_api_key}")
+        client_kwargs["headers"] = headers
+        merged_kwargs[key] = client_kwargs
+    return merged_kwargs
 
 
 # ---------------------------------------------------------------------------
@@ -98,6 +131,8 @@ _TIER_PATTERNS: List[Tuple[str, str]] = [
     # OpenAI
     (r"gpt-4o|gpt-4",                            "large"),
     (r"gpt-3\.5",                                "medium"),
+    # Ollama cloud models exposed with gpt-style names
+    (r"gpt-oss:.*(?:-cloud|/cloud|:cloud)$",      "large"),
     # Ollama — Qwen 2.5
     (r"qwen2\.5:(32b|72b)",                      "large"),
     (r"qwen2\.5:(14b|7b)",                       "medium"),
@@ -225,6 +260,7 @@ class ModelRegistry:
                 "langchain-ollama is required for Ollama models. "
                 "Install it: pip install 'langchain-ollama>=0.1.0,<1.0.0'"
             ) from exc
+        kwargs = _apply_ollama_auth(kwargs, api_key)
         return ChatOllama(
             model=model_name,
             temperature=temperature,
@@ -294,4 +330,5 @@ class ModelRegistry:
                 "langchain-ollama is required for Ollama embeddings. "
                 "Install it: pip install 'langchain-ollama>=0.1.0,<1.0.0'"
             ) from exc
+        kwargs = _apply_ollama_auth(kwargs, api_key)
         return OllamaEmbeddings(model=model_name, base_url=ollama_base_url, **kwargs)

@@ -44,7 +44,7 @@ def _patch_json_parser():
             # First try the original parser
             try:
                 return original_parse_json_markdown(json_string, parser=parser)
-            except json.JSONDecodeError:
+            except Exception:
                 pass
 
             # Try our repair logic
@@ -82,46 +82,64 @@ def _patch_itext2kg_provider_detection():
     - langchain_community.embeddings.ollama.OllamaEmbeddings -> "ollama"
     """
     try:
-        import itext2kg.utils.llm as llm_utils
+        try:
+            import itext2kg.utils.llm as llm_utils
+        except ImportError:
+            llm_utils = None
 
-        # Get the original provider detection function
-        original_get_provider = getattr(llm_utils, 'get_provider', None)
-        if original_get_provider is None:
-            # Try alternative location - some versions store it differently
-            logger.debug("get_provider not found in llm_utils, trying alternative detection")
-            return False
+        if llm_utils is not None:
+            # Get the original provider detection function
+            original_get_provider = getattr(llm_utils, 'get_provider', None)
+            if original_get_provider is not None:
+                @functools.wraps(original_get_provider)
+                def patched_get_provider(llm_model):
+                    """Enhanced provider detection that recognizes ChatOllama."""
+                    try:
+                        from langchain_ollama import ChatOllama
+                    except ImportError:
+                        ChatOllama = None
 
-        @functools.wraps(original_get_provider)
-        def patched_get_provider(llm_model):
-            """Enhanced provider detection that recognizes ChatOllama."""
-            # Import here to avoid hard dependency issues
+                    try:
+                        from langchain_community.chat_models.ollama import ChatOllama as CommunityChatOllama
+                    except ImportError:
+                        CommunityChatOllama = None
+
+                    if ChatOllama and isinstance(llm_model, ChatOllama):
+                        return "ollama"
+
+                    if CommunityChatOllama and isinstance(llm_model, CommunityChatOllama):
+                        return "ollama"
+
+                    return original_get_provider(llm_model)
+
+                llm_utils.get_provider = patched_get_provider
+                logger.info("Applied itext2kg provider detection patch for ChatOllama")
+                return True
+
+        from itext2kg.llm_output_parsing.langchain_output_parser import LangchainOutputParser, ProviderType
+
+        original_detect_provider = LangchainOutputParser._detect_provider
+
+        @functools.wraps(original_detect_provider)
+        def patched_detect_provider(self):
             try:
-                from langchain_ollama import ChatOllama
-                from langchain_ollama import OllamaEmbeddings
+                from langchain_ollama import ChatOllama, OllamaEmbeddings
             except ImportError:
-                pass
+                ChatOllama = None
+                OllamaEmbeddings = None
 
-            try:
-                from langchain_community.chat_models.ollama import ChatOllama as CommunityChatOllama
-                from langchain_community.embeddings.ollama import OllamaEmbeddings as CommunityOllamaEmbeddings
-            except ImportError:
-                CommunityChatOllama = None
-                CommunityOllamaEmbeddings = None
+            model = getattr(self, "model", None)
+            embeddings_model = getattr(self, "embeddings_model", None)
 
-            # Check if it's a ChatOllama instance (from langchain_ollama)
-            if isinstance(llm_model, ChatOllama):
-                return "ollama"
+            if ChatOllama and isinstance(model, ChatOllama):
+                return ProviderType.UNKNOWN
+            if OllamaEmbeddings and isinstance(embeddings_model, OllamaEmbeddings):
+                return ProviderType.UNKNOWN
 
-            # Check if it's from langchain_community
-            if CommunityChatOllama and isinstance(llm_model, CommunityChatOllama):
-                return "ollama"
+            return original_detect_provider(self)
 
-            # Delegate to original for other cases
-            return original_get_provider(llm_model)
-
-        # Apply the patch
-        llm_utils.get_provider = patched_get_provider
-        logger.info("Applied itext2kg provider detection patch for ChatOllama")
+        LangchainOutputParser._detect_provider = patched_detect_provider
+        logger.info("Applied itext2kg provider detection patch for newer LangchainOutputParser layout")
         return True
 
     except Exception as e:
@@ -231,6 +249,7 @@ async def _build_async(
     *,
     atomic_facts_dict: Dict[str, List[str]],
     ollama_base_url: str,
+    embeddings_ollama_base_url: Optional[str],
     llm_model: str,
     embeddings_model: str,
     temperature: float,
@@ -239,6 +258,8 @@ async def _build_async(
     max_workers: int,
     api_key: Optional[str] = None,
     embeddings_api_key: Optional[str] = None,
+    llm_kwargs: Optional[Dict[str, Any]] = None,
+    embeddings_kwargs: Optional[Dict[str, Any]] = None,
 ):
     # Ensure patches are applied
     _ensure_patches()
@@ -265,11 +286,13 @@ async def _build_async(
         temperature=temperature,
         api_key=api_key,
         ollama_base_url=ollama_base_url,
+        **(llm_kwargs or {}),
     )
     embeddings = ModelRegistry.create_embeddings(
         embeddings_model,
         api_key=embeddings_api_key,
-        ollama_base_url=ollama_base_url,
+        ollama_base_url=embeddings_ollama_base_url or ollama_base_url,
+        **(embeddings_kwargs or {}),
     )
 
     # Log what we're processing
@@ -348,6 +371,7 @@ def build_kg_from_atomic_facts(
     *,
     atomic_facts_dict: Dict[str, List[str]],
     ollama_base_url: str,
+    embeddings_ollama_base_url: Optional[str] = None,
     llm_model: str,
     embeddings_model: str,
     temperature: float = 0.0,
@@ -356,6 +380,8 @@ def build_kg_from_atomic_facts(
     max_workers: int = 4,
     api_key: Optional[str] = None,
     embeddings_api_key: Optional[str] = None,
+    llm_kwargs: Optional[Dict[str, Any]] = None,
+    embeddings_kwargs: Optional[Dict[str, Any]] = None,
 ):
     """Build a KnowledgeGraph using itext2kg ATOM (async under the hood).
 
@@ -369,7 +395,9 @@ def build_kg_from_atomic_facts(
 
     Args:
         atomic_facts_dict: Dict mapping observation timestamps to lists of atomic facts.
-        ollama_base_url: Base URL for Ollama server (used for Ollama LLM/embeddings).
+        ollama_base_url: Base URL for the Ollama LLM server.
+        embeddings_ollama_base_url: Optional base URL for Ollama embeddings. When
+            omitted, defaults to ``ollama_base_url``.
         llm_model: LLM model name (e.g. ``"claude-sonnet-4-6"``, ``"qwen2.5:32b"``).
         embeddings_model: Embeddings model name (e.g. ``"nomic-embed-text"``).
         temperature: LLM temperature (0.0 for deterministic).
@@ -378,6 +406,8 @@ def build_kg_from_atomic_facts(
         max_workers: Number of parallel workers.
         api_key: API key for cloud LLM providers (Anthropic / OpenAI).
         embeddings_api_key: API key for cloud embeddings providers (OpenAI).
+        llm_kwargs: Optional provider-specific kwargs forwarded to the LLM factory.
+        embeddings_kwargs: Optional provider-specific kwargs forwarded to the embeddings factory.
 
     Returns:
         KnowledgeGraph object (may be empty if extraction failed).
@@ -387,6 +417,7 @@ def build_kg_from_atomic_facts(
             _build_async(
                 atomic_facts_dict=atomic_facts_dict,
                 ollama_base_url=ollama_base_url,
+                embeddings_ollama_base_url=embeddings_ollama_base_url,
                 llm_model=llm_model,
                 embeddings_model=embeddings_model,
                 temperature=temperature,
@@ -395,6 +426,8 @@ def build_kg_from_atomic_facts(
                 max_workers=max_workers,
                 api_key=api_key,
                 embeddings_api_key=embeddings_api_key,
+                llm_kwargs=llm_kwargs,
+                embeddings_kwargs=embeddings_kwargs,
             )
         )
     except IndexError as e:

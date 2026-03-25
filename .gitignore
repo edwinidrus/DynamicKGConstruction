@@ -52,3 +52,5 @@ AGENTS.md
 CLAUDE.md
 .claude/
 # notebooks/
+notebooks/MD/
+notebooks/MD/plan-fixEmptyMineKgs.prompt.md

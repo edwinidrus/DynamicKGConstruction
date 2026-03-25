@@ -67,6 +67,7 @@ def run_pipeline(
     kg = build_kg_from_atomic_facts(
         atomic_facts_dict=atomic_facts_dict,
         ollama_base_url=cfg.ollama_base_url,
+        embeddings_ollama_base_url=cfg.embeddings_ollama_base_url,
         llm_model=cfg.llm_model,
         embeddings_model=cfg.embeddings_model,
         temperature=cfg.temperature,
@@ -75,6 +76,8 @@ def run_pipeline(
         max_workers=cfg.max_workers,
         api_key=cfg.api_key,
         embeddings_api_key=cfg.embeddings_api_key,
+        llm_kwargs=cfg.ollama_llm_kwargs,
+        embeddings_kwargs=cfg.ollama_embeddings_kwargs,
     )
 
     export_kg_outputs(
