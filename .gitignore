@@ -54,3 +54,4 @@ CLAUDE.md
 # notebooks/
 notebooks/MD/
 notebooks/MD/plan-fixEmptyMineKgs.prompt.md
+*.md

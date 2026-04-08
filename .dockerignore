@@ -50,6 +50,10 @@ uploads/
 *.log
 examples/
 
+# Neo4j import data (CSVs generated at runtime)
+neo4j/import/*.csv
+neo4j/import/*.cypher
+
 # OS
 .DS_Store
 Thumbs.db

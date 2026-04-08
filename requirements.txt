@@ -39,8 +39,9 @@ langchain-core>=0.3.69,<0.4.0
 langchain-ollama>=0.1.0,<1.0.0
 
 # =============================================================================
-# SKGB - Neo4j export support (optional, CSV+Cypher export does not require it)
+# SKGB - Neo4j (optional, direct Bolt driver; CSV+Cypher export does not require it)
 # =============================================================================
+neo4j>=5.0.0,<6.0.0
 
 
 # OpenAI API (optional)

@@ -1,0 +1,72 @@
+# docker-compose.yml
+# DynamicKGConstruction - Neo4j Community Edition + future GraphRAG service
+#
+# Usage:
+#   docker compose up -d                    # Start Neo4j
+#   docker compose logs -f neo4j            # Follow Neo4j logs
+#   docker compose down                     # Stop (data preserved in volumes)
+#   docker compose down -v                  # Stop and delete volumes
+#
+# After SKGB pipeline generates CSVs, copy them to the import directory:
+#   cp kg_output/kg_nodes.csv kg_output/kg_edges.csv ./neo4j/import/
+# Then run the cypher script via cypher-shell or Neo4j Browser (http://localhost:7474).
+
+services:
+  neo4j:
+    image: neo4j:5-community
+    container_name: skgb-neo4j
+    restart: unless-stopped
+    ports:
+      - "${NEO4J_HTTP_PORT:-7474}:7474"
+      - "${NEO4J_BOLT_PORT:-7687}:7687"
+    environment:
+      NEO4J_AUTH: "${NEO4J_AUTH:-none}"
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_server_memory_heap_initial__size: "${NEO4J_HEAP_INITIAL:-512m}"
+      NEO4J_server_memory_heap_max__size: "${NEO4J_HEAP_MAX:-1G}"
+      NEO4J_server_memory_pagecache_size: "${NEO4J_PAGECACHE:-256m}"
+      NEO4J_server_directories_import: "/import"
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+      - ./neo4j/import:/import
+      - neo4j_plugins:/plugins
+    networks:
+      - skgb-net
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell 'RETURN 1' || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+  # -----------------------------------------------------------------------
+  # Placeholder for future GraphRAG service
+  # Uncomment and configure when the GraphRAG service is ready.
+  # -----------------------------------------------------------------------
+  # graphrag:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: skgb-graphrag
+  #   environment:
+  #     - NEO4J_URI=bolt://neo4j:7687
+  #     - OLLAMA_BASE_URL=http://host.docker.internal:11434
+  #   extra_hosts:
+  #     - "host.docker.internal:host-gateway"
+  #   depends_on:
+  #     neo4j:
+  #       condition: service_healthy
+  #   networks:
+  #     - skgb-net
+  #   ports:
+  #     - "8000:8000"
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+  neo4j_plugins:
+
+networks:
+  skgb-net:
+    driver: bridge

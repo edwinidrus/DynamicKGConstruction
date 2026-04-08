@@ -2,7 +2,18 @@
 
 This guide provides step-by-step instructions for setting up and using different LLM models with the SKGB framework via Ollama.
 
+
 ---
+
+## GLM 5.1 OPencode
+
+ollama launch opencode --model glm-5.1:cloud
+
+## claude for the web
+
+ollama launch claude --model glm-5.1:cloud
+
+
 
 ## Table of Contents
 
