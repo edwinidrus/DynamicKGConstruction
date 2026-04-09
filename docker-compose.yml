@@ -1,9 +1,10 @@
 # docker-compose.yml
-# DynamicKGConstruction - Neo4j Community Edition + future GraphRAG service
+# DynamicKGConstruction - Neo4j Community Edition + Jupyter retrieval notebook
 #
 # Usage:
-#   docker compose up -d                    # Start Neo4j
+#   docker compose up -d                    # Start Neo4j + Jupyter
 #   docker compose logs -f neo4j            # Follow Neo4j logs
+#   docker compose logs -f jupyter          # Follow Jupyter logs
 #   docker compose down                     # Stop (data preserved in volumes)
 #   docker compose down -v                  # Stop and delete volumes
 #
@@ -40,27 +41,31 @@ services:
       retries: 10
       start_period: 30s
 
-  # -----------------------------------------------------------------------
-  # Placeholder for future GraphRAG service
-  # Uncomment and configure when the GraphRAG service is ready.
-  # -----------------------------------------------------------------------
-  # graphrag:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   container_name: skgb-graphrag
-  #   environment:
-  #     - NEO4J_URI=bolt://neo4j:7687
-  #     - OLLAMA_BASE_URL=http://host.docker.internal:11434
-  #   extra_hosts:
-  #     - "host.docker.internal:host-gateway"
-  #   depends_on:
-  #     neo4j:
-  #       condition: service_healthy
-  #   networks:
-  #     - skgb-net
-  #   ports:
-  #     - "8000:8000"
+  jupyter:
+    build:
+      context: .
+      dockerfile: notebooks/Dockerfile.jupyter
+    container_name: skgb-jupyter
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    environment:
+      PYTHONPATH: /workspace
+      NEO4J_URI: "${JUPYTER_NEO4J_URI:-neo4j://neo4j:7687}"
+    ports:
+      - "${JUPYTER_PORT:-8888}:8888"
+    volumes:
+      - ./:/workspace
+    working_dir: /workspace
+    command: >
+      jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+      --ServerApp.token=${JUPYTER_TOKEN:-skgb}
+      --ServerApp.root_dir=/workspace/notebooks
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    networks:
+      - skgb-net
 
 volumes:
   neo4j_data:

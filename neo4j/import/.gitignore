@@ -1,3 +1,0 @@
-# SKGB-generated CSV and Cypher files -- copied here before Neo4j import
-*.csv
-*.cypher

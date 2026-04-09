@@ -1,0 +1,6 @@
+# Minimal dependencies for notebook-based Neo4j GraphRAG retrieval.
+# Install with:
+#   python3 -m pip install -r skgb/retrieval/requirements.txt
+
+neo4j>=5.18.1,<6.0.0
+neo4j-graphrag[ollama]>=1.14.1

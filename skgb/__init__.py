@@ -18,8 +18,13 @@ from __future__ import annotations
 
 from .config import SKGBConfig
 from .pipeline import run_pipeline, PipelineResult
-from .adapters.docling_adapter import docling_convert_to_text
 from .models import ModelRegistry, LLMProvider, detect_provider
+
+
+def docling_convert_to_text(*args, **kwargs):
+    from .adapters.docling_adapter import docling_convert_to_text as _docling_convert_to_text
+
+    return _docling_convert_to_text(*args, **kwargs)
 
 __all__ = [
     "__version__",

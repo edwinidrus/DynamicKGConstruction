@@ -1,363 +1,296 @@
 # DynamicKGConstruction
 
-**Automated Knowledge Graph Construction from Documents using Local LLMs**
+**Working document-to-knowledge-graph construction and Neo4j retrieval**
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/License-PhD%20Research-orange.svg)](LICENSE)
 
-DynamicKGConstruction turns unstructured documents (PDF, DOCX, PPTX, XLSX, HTML, Markdown, images, audio, and more) into structured, queryable knowledge graphs — fully offline, using [Ollama](https://ollama.com) for local LLM inference.
+DynamicKGConstruction is a research codebase centered on `skgb/`.
 
-The core framework, **SKGB (Semantic Knowledge Graph Builder)**, orchestrates a three-stage pipeline:
+It currently has two working flows:
 
-```
-Documents  ──►  Docling  ──►  Semantic Chunks  ──►  itext2kg (ATOM)  ──►  Knowledge Graph
-               (parsing)      (header-aware)        (entity/relation       (JSON, CSV,
-                               splitting)            extraction)           GraphML, Neo4j)
-```
+- Construction: documents -> Docling -> header-aware chunks -> itext2kg ATOM -> JSON/CSV/GraphML/HTML/Neo4j export
+- Retrieval: imported Neo4j graph -> `skgb.retrieval` -> evidence search and grounded answers from notebooks
 
----
-
-## Why DynamicKG?
-
-Traditional knowledge graph construction requires:
-- Expensive API calls (OpenAI, Anthropic, etc.)
-- Cloud dependencies and data privacy concerns
-- Complex setup and configuration
-
-DynamicKG solves this by running **entirely locally** on your machine:
-
-- **Zero API costs** — use any Ollama model
-- **Complete privacy** — your documents never leave your machine
-- **17+ formats supported** — PDF, DOCX, PPTX, XLSX, HTML, Markdown, images, audio
-- **Incremental construction** — ATOM method builds and deduplicates entities/relations progressively
-- **Multiple export formats** — JSON, CSV, GraphML, interactive HTML, Neo4j Cypher
-
----
-
-## Features
-
-- **17+ document formats** — PDF, DOCX, PPTX, XLSX, HTML, Markdown, images, audio, and more via Docling
-- **Fully local & private** — runs entirely on your machine with Ollama (no API keys required)
-- **Semantic chunking** — header-aware splitting with configurable size and overlap, stable SHA-256 chunk IDs
-- **Incremental KG construction** — uses the ATOM method from itext2kg for entity/relation extraction and deduplication
-- **Multiple export formats** — JSON, CSV, GraphML, interactive HTML visualization (PyVis), and Neo4j Cypher scripts
-- **CLI + Python API + Colab** — use it however fits your workflow
-
----
-
-## How It Works
-
-The pipeline consists of four stages:
-
-### 1. Document Parsing (Docling)
-Documents are converted to Markdown using [Docling](https://github.com/docling-project/docling), preserving structure and layout from 17+ formats.
-
-### 2. Semantic Chunking
-Markdown is split into semantic chunks based on headers. Each chunk:
-- Has a hierarchical section path (e.g., `Introduction/Background/Related Work`)
-- Is sized between `min_chunk_words` and `max_chunk_words` (default: 200-800)
-- Uses SHA-256 hashing for stable, reproducible IDs
-
-### 3. KG Construction (itext2kg ATOM)
-Each chunk is processed to extract entities and relations using the ATOM method:
-1. **Atomic Fact Extraction** — LLM generates (subject, predicate, object) quintuples
-2. **Entity Deduplication** — Similar entities are merged using embedding similarity
-3. **Relation Deduplication** — Similar relations are merged
-4. **Incremental Merge** — New facts are added to the existing graph
-
-### 4. Export
-The final knowledge graph is exported in multiple formats for downstream use.
-
----
-
-## Quick Start
-
-### Prerequisites
-
-- **Python 3.10+**
-- **Ollama** installed and running ([install guide](https://ollama.com/download))
-
-```bash
-# Pull the required models
-ollama pull qwen2.5:32b        # LLM for extraction (~20 GB)
-ollama pull nomic-embed-text   # Embeddings (~274 MB)
+```text
+Documents
+  -> Docling markdown conversion
+  -> semantic chunking
+  -> itext2kg ATOM graph construction
+  -> kg_output/ exports
+  -> Neo4j import
+  -> notebook retrieval with skgb.retrieval
 ```
 
-> **Tip:** For smaller setups, use `qwen2.5` (7B, ~4.7 GB) or `qwen2.5:14b` instead.
+## Current Status
 
-### Installation
+- `python3 -m skgb run ...` works end to end and writes `build_docling/`, `chunks_output/`, and `kg_output/`
+- Neo4j export is generated automatically as `kg_output/neo4j_load.cypher`
+- `skgb.retrieval` works against an imported Neo4j graph
+- Default retrieval mode is `entity_graph`, which works directly on the current entity graph export
+- Optional `vector` retrieval is also supported when your Neo4j database already contains chunk embeddings and a vector index
+
+## Highlights
+
+- Multi-format document ingestion by default: PDF, DOCX, PPTX, XLSX, HTML, Markdown, AsciiDoc, CSV, and common image formats
+- Working semantic chunking with header paths, stable chunk IDs, optional metadata chunk, and configurable overlap
+- Working knowledge graph construction with itext2kg ATOM and export to JSON, CSV, GraphML, HTML, and Neo4j Cypher
+- Construction provider auto-detection from model names: Ollama, Anthropic, and OpenAI LLMs are supported; embeddings can use Ollama or OpenAI
+- Working notebook retrieval API: `build_rag()`, `search_context()`, and `ask_graph()`
+- Docker Compose stack for Neo4j + Jupyter retrieval work
+
+## Repo Usage
+
+- Real source lives in `skgb/`
+- Run commands from the repository root with `python3 -m skgb ...`
+- Import from the repository root with `import skgb`
+- `notebooks/archive/` mostly contains older benchmark and experiment artifacts, not the main implementation
+
+## Installation
+
+### Construction
 
 ```bash
 git clone https://github.com/edwinidrus/DynamicKGConstruction.git
 cd DynamicKGConstruction
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 
-### Run the Pipeline
+### Retrieval Extras
 
-**CLI:**
+`skgb.retrieval` depends on Neo4j GraphRAG packages that are kept separate from the construction stack. If you use the provided Jupyter Docker image, those packages are installed there already.
 
 ```bash
-python -m DynamicKGConstruction.skgb run \
-  --input "path/to/document.pdf" \
-  --out "output/"
+python3 -m pip install -r skgb/retrieval/requirements.txt
 ```
 
-**Python:**
+## Construction Quick Start
 
-```python
-from pathlib import Path
-from DynamicKGConstruction.skgb import SKGBConfig, run_pipeline
+### Local Ollama Example
 
-cfg = SKGBConfig.from_out_dir("output/")
-result = run_pipeline(Path("document.pdf"), cfg)
-
-print(f"Nodes: {result.kg_output_dir / 'kg_nodes.csv'}")
-print(f"Edges: {result.kg_output_dir / 'kg_edges.csv'}")
-print(f"Visualization: {result.kg_output_dir / 'kg_visualization.html'}")
-```
-
----
-
-## Using with Ollama (Step by Step)
-
-This is the recommended workflow. A complete, runnable example is provided in the [Colab notebook](DynamicKGConstruction/notebooks/skgb_colab_demo.ipynb).
-
-### 1. Start Ollama and Pull Models
+If you want a fully local run, start Ollama and pull a chat model plus an embeddings model:
 
 ```bash
-# Start the Ollama server (if not already running)
-ollama serve
-
-# Pull models
-ollama pull qwen2.5:32b
+ollama pull qwen2.5:14b
 ollama pull nomic-embed-text
 ```
 
-### 2. Configure the Pipeline
+Then run the pipeline from the repo root:
+
+```bash
+python3 -m skgb run \
+  --input "path/to/document-or-folder" \
+  --out "runs/demo" \
+  --recursive
+```
+
+Notes:
+
+- `--recursive` matters only when `--input` is a folder
+- CLI folder traversal is non-recursive unless `--recursive` is passed
+- `run` already generates `kg_output/neo4j_load.cypher`; `export-neo4j` is only needed to regenerate that file later
+
+### Python API
 
 ```python
 from pathlib import Path
-from DynamicKGConstruction.skgb import SKGBConfig, run_pipeline
+
+from skgb import SKGBConfig, run_pipeline
 
 cfg = SKGBConfig.from_out_dir(
-    "skgb_output",
-    llm_model="qwen2.5:32b",              # Ollama LLM model
-    embeddings_model="nomic-embed-text",   # Ollama embeddings model
+    "runs/demo",
+    llm_model="qwen2.5:14b",
+    embeddings_model="nomic-embed-text",
     ollama_base_url="http://localhost:11434",
-    temperature=0.0,                       # Deterministic output
-    ent_threshold=0.8,                     # Entity deduplication threshold
-    rel_threshold=0.7,                     # Relation deduplication threshold
-    max_workers=2,                         # Parallel workers
-    min_chunk_words=200,                   # Minimum words per chunk
-    max_chunk_words=800,                   # Maximum words per chunk
-    overlap_words=0,                       # Word overlap between chunks
 )
+
+result = run_pipeline(Path("path/to/document.pdf"), cfg)
+
+print(result.build_docling_dir)
+print(result.chunks_json_path)
+print(result.kg_output_dir)
+print(result.neo4j_cypher_path)
 ```
 
-### 3. Run the Pipeline
+## Construction Providers
 
-```python
-pdf_path = Path("input_docs/my_paper.pdf")
-result = run_pipeline(pdf_path, cfg)
+Construction provider selection is inferred from model names.
 
-print(f"Markdown:      {result.build_docling_dir}")
-print(f"Chunks:        {result.chunks_json_path}")
-print(f"KG outputs:    {result.kg_output_dir}")
-print(f"Neo4j Cypher:  {result.neo4j_cypher_path}")
+| Example model | Detected provider | Usage |
+|---|---|---|
+| `qwen2.5:14b` | Ollama | local or Ollama-compatible endpoint |
+| `claude-sonnet-4-6` | Anthropic | LLM only |
+| `gpt-4o` | OpenAI | LLM |
+| `text-embedding-3-small` | OpenAI | embeddings |
+| `nomic-embed-text` | Ollama | embeddings |
+
+Important:
+
+- Anthropic embeddings are not supported; pair Claude with Ollama or OpenAI embeddings
+- If you run from the repo root, use `import skgb`, not `import DynamicKGConstruction.skgb`
+- The construction pipeline enables a focused set of Docling formats by default; audio/XML helpers exist in the adapter but are not enabled by default
+
+## Construction Output Layout
+
+Each run writes this layout under `--out`:
+
+```text
+runs/demo/
+  build_docling/
+  chunks_output/
+    all_chunks.json
+  kg_output/
+    knowledge_graph.json
+    kg_nodes.csv
+    kg_edges.csv
+    knowledge_graph.graphml
+    kg_visualization.html
+    construction_report.txt
+    neo4j_load.cypher
 ```
 
-### 4. Explore the Results
+## Neo4j Export And Import
 
-```python
-import json
-import pandas as pd
+The construction pipeline exports `kg_nodes.csv`, `kg_edges.csv`, and `neo4j_load.cypher`.
 
-# Load the knowledge graph
-kg = json.loads((result.kg_output_dir / "knowledge_graph.json").read_text())
-print(f"Entities: {len(kg['nodes'])}, Relations: {len(kg['edges'])}")
-
-# Work with DataFrames
-df_nodes = pd.read_csv(result.kg_output_dir / "kg_nodes.csv")
-df_edges = pd.read_csv(result.kg_output_dir / "kg_edges.csv")
-
-# Open the interactive visualization in your browser
-# result.kg_output_dir / "kg_visualization.html"
-```
-
-### 5. Load into Neo4j (Optional)
+To regenerate the Cypher loader for an existing run:
 
 ```bash
-python -m DynamicKGConstruction.skgb export-neo4j \
-  --kg-output "skgb_output/kg_output"
+python3 -m skgb export-neo4j --kg-output "runs/demo/kg_output"
 ```
 
-This generates a `neo4j_load.cypher` script using `LOAD CSV`. Copy the CSV files to your Neo4j import directory and run the Cypher script.
+To load into the provided Docker Neo4j setup:
 
----
+1. Start Neo4j with `docker compose up -d`
+2. Copy `kg_nodes.csv` and `kg_edges.csv` into `./neo4j/import/`
+3. Run the generated `neo4j_load.cypher` in Neo4j Browser or `cypher-shell`
 
-## Google Colab
+The generated importer uses a generic `:REL` relationship type and stores the actual predicate in `r.relation`.
 
-A ready-to-run notebook is provided at [`notebooks/skgb_colab_demo.ipynb`](DynamicKGConstruction/notebooks/skgb_colab_demo.ipynb). It:
+## Retrieval Quick Start
 
-1. Installs Ollama inside Colab (CPU or T4/V100 GPU)
-2. Pulls `qwen2.5:7b` (default) or your chosen model
-3. Runs the full pipeline on an uploaded PDF
-4. Displays an interactive knowledge graph visualization
-5. Exports results as a downloadable ZIP
+Retrieval is notebook-first. There is no retrieval CLI yet.
 
-### Colab GPU Setup
+### 1. Configure Neo4j And Retrieval
 
-For faster processing, enable GPU acceleration in Colab:
+Start from the example file:
 
-1. Runtime → Change runtime type → Hardware accelerator → GPU
-2. Select T4 or V100 for best performance
-3. With GPU, you can use larger models like `qwen2.5:14b` or `qwen2.5:32b`
-
-### Colab Memory Considerations
-
-- **Free tier (CPU only)**: Use `qwen2.5:7b` for reasonable performance
-- **Colab Pro (GPU)**: `qwen2.5:14b` works well on T4
-- **Large documents**: Process in batches or reduce chunk size
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/edwinidrus/DynamicKGConstruction/blob/main/DynamicKGConstruction/notebooks/skgb_colab_demo.ipynb)
-
----
-
-## Output Files
-
-The pipeline writes all results to `<out_dir>/kg_output/`:
-
-| File | Description |
-|------|-------------|
-| `knowledge_graph.json` | Full KG as JSON (nodes + edges with metadata) |
-| `kg_nodes.csv` | Nodes table for downstream analysis or Neo4j |
-| `kg_edges.csv` | Edges table with temporal fields and atomic facts |
-| `knowledge_graph.graphml` | GraphML for Gephi, Cytoscape, or NetworkX |
-| `kg_visualization.html` | Interactive graph visualization (PyVis) |
-| `construction_report.txt` | Summary: entity/relation counts, parameters used |
-| `neo4j_load.cypher` | Ready-to-run Cypher LOAD CSV script |
-
----
-
-## Configuration Reference
-
-All parameters can be set via `SKGBConfig.from_out_dir()` or environment variables:
-
-| Parameter | Default | Env Variable | Description |
-|-----------|---------|--------------|-------------|
-| `llm_model` | `qwen2.5:32b` | `LLM_MODEL` | Ollama LLM for extraction |
-| `embeddings_model` | `nomic-embed-text` | `EMBEDDINGS_MODEL` | Ollama embeddings model |
-| `ollama_base_url` | `http://localhost:11434` | `OLLAMA_BASE_URL` | Ollama server URL |
-| `temperature` | `0.0` | — | LLM temperature (0 = deterministic) |
-| `ent_threshold` | `0.8` | — | Entity similarity threshold for deduplication |
-| `rel_threshold` | `0.7` | — | Relation similarity threshold for deduplication |
-| `max_workers` | `4` | — | Parallel processing workers |
-| `min_chunk_words` | `200` | — | Minimum words per semantic chunk |
-| `max_chunk_words` | `800` | — | Maximum words per semantic chunk |
-| `overlap_words` | `50` | — | Word overlap between adjacent chunks |
-
----
-
-## Project Structure
-
-```
-DynamicKGConstruction/
-├── requirements.txt
-├── notebooks/
-│   └── skgb_colab_demo.ipynb      # Interactive Colab demo
-└── skgb/                           # Core framework
-    ├── cli.py                      # CLI entry point (run, export-neo4j)
-    ├── config.py                   # SKGBConfig dataclass
-    ├── pipeline.py                 # Pipeline orchestration
-    ├── adapters/
-    │   ├── docling_adapter.py      # Document → Markdown
-    │   ├── chunking_adapter.py     # Markdown → semantic chunks
-    │   └── itext2kg_adapter.py     # Chunks → knowledge graph
-    └── export/
-        ├── file_export.py          # JSON / CSV / GraphML / HTML
-        └── neo4j_export.py         # Neo4j Cypher script generation
+```bash
+cp .env.example .env
 ```
 
----
+For the current exported entity graph, the recommended setup is `entity_graph` retrieval:
+
+```env
+NEO4J_AUTH=none
+NEO4J_URI=neo4j://localhost:7687
+NEO4J_DATABASE=neo4j
+RETRIEVAL_STRATEGY=entity_graph
+OLLAMA_HOST=http://localhost:11434
+OLLAMA_LLM_MODEL=qwen2.5:14b
+RETRIEVER_TOP_K=5
+LLM_TEMPERATURE=0.0
+```
+
+Use `vector` retrieval only when your Neo4j database already has chunk embeddings and a vector index:
+
+```env
+RETRIEVAL_STRATEGY=vector
+NEO4J_VECTOR_INDEX=chunkEmbeddings
+OLLAMA_EMBEDDINGS_MODEL=nomic-embed-text
+```
+
+For Ollama Cloud, set `OLLAMA_HOST=https://ollama.com` and `OLLAMA_API_KEY=...`. The repository `.env.example` already includes that shape.
+
+### 2. Start Neo4j And Jupyter
+
+```bash
+docker compose up -d
+```
+
+This starts:
+
+- `neo4j` on `http://localhost:7474` and `neo4j://localhost:7687`
+- `jupyter` on `http://localhost:8888`
+
+### 3. Import The Graph Into Neo4j
+
+Run the construction pipeline first, then copy the exported CSVs into `./neo4j/import/`, and execute the generated `neo4j_load.cypher`.
+
+### 4. Query From Python Or Notebooks
+
+```python
+from skgb.retrieval import ask_graph, build_rag, search_context
+
+with build_rag(env_file=".env", validate=True) as runtime:
+    context = search_context(
+        "What are the main findings?",
+        runtime=runtime,
+        top_k=5,
+    )
+    answer = ask_graph(
+        "What are the main findings?",
+        runtime=runtime,
+        top_k=5,
+        return_context=True,
+    )
+
+print(answer.answer)
+print(context.metadata)
+```
+
+Notebook demo:
+
+- `notebooks/skgb_retrieval_evidence_demo.ipynb`
+
+## Retrieval Modes
+
+### `entity_graph`
+
+- Default mode
+- Recommended for the current exported Neo4j entity graph
+- Does not require chunk nodes, embeddings, or a Neo4j vector index
+- Ranks graph nodes using lexical matching plus graph salience, then builds evidence from connected facts
+
+### `vector`
+
+- Uses Neo4j GraphRAG `VectorCypherRetriever` plus `GraphRAG`
+- Requires a Neo4j vector index and chunk embeddings already stored in the database
+- Best when your Neo4j graph includes chunk-level retrieval structures beyond the default entity export
+
+## Main Modules
+
+```text
+skgb/
+  cli.py
+  config.py
+  pipeline.py
+  adapters/
+    docling_adapter.py
+    chunking_adapter.py
+    itext2kg_adapter.py
+  export/
+    file_export.py
+    neo4j_export.py
+  retrieval/
+    config.py
+    factory.py
+    query.py
+    entity_graph.py
+```
 
 ## Known Constraints
 
-- **langchain < 0.4.0** — pinned for itext2kg 1.0.0 compatibility
-- **numpy < 2.0** — required by itext2kg's scipy dependency in some environments
-- Neo4j export uses a generic `:REL` relationship type with the actual predicate in `r.relation` (avoids invalid Cypher type names from dynamic predicates)
-
----
-
-## Troubleshooting
-
-### Ollama Connection Issues
-
-**Error: `ConnectionRefusedError` or `Cannot connect to Ollama`**
-- Ensure Ollama is running: `ollama serve`
-- Check the URL in config matches your setup (default: `http://localhost:11434`)
-- Verify firewall settings allow local connections
-
-**Error: `model not found`**
-- Pull the required models: `ollama pull qwen2.5:32b` and `ollama pull nomic-embed-text`
-- List installed models: `ollama list`
-
-### Memory Issues
-
-**Out of memory errors**
-- Use a smaller LLM model (e.g., `qwen2.5:7b` instead of `qwen2.5:32b`)
-- Reduce `max_workers` in config to limit parallel processing
-- Process documents one at a time instead of batching
-
-### langchain Compatibility
-
-**Import errors or version conflicts**
-- This project pins `langchain < 0.4.0` for itext2kg compatibility
-- Do NOT upgrade langchain to 1.x
-- If you have conflicts, create a fresh virtual environment:
-  ```bash
-  python -m venv .venv
-  source .venv/bin/activate  # or .venv\Scripts\activate on Windows
-  pip install -r requirements.txt
-  ```
-
-### itext2kg Errors
-
-**`IndexError: list index out of range` in itext2kg**
-- The adapter includes patches for known itext2kg v1.0.0 bugs
-- This typically occurs with empty input or failed extraction
-- Check your input documents are valid and have extractable text
-
----
-
-## Frequently Asked Questions
-
-**Q: Can I use models other than qwen2.5?**
-A: Yes! Any Ollama model that supports JSON mode output should work. You may need to adjust `temperature` and prompt formatting.
-
-**Q: How do I process multiple documents?**
-A: Pass a directory path to `--input` or use `recursive=True` in the Python API. The pipeline will process all supported files.
-
-**Q: Can I use this without Ollama?**
-A: Not directly — SKGB requires Ollama for LLM inference. However, you could modify the adapters to use a different LLM provider.
-
-**Q: How are entities deduplicated?**
-A: The ATOM method uses embedding-based similarity. Entities with similarity above `ent_threshold` (default 0.8) are merged. Relations use `rel_threshold` (default 0.7).
-
-**Q: What's the difference between the JSON and GraphML exports?**
-A: JSON is best for programmatic access and Neo4j import. GraphML works with tools like Gephi, Cytoscape, and NetworkX for advanced visualization.
-
----
+- `python3 -m skgb --help` still imports package code, so missing construction dependencies such as `docling` will fail before help output
+- `construction_report.txt` currently labels LLM and embeddings as `(Ollama)` even when a run used a different provider; trust config or logs for the real provider
+- Chunk overlap is applied after chunks from all documents are flattened, so overlap can cross document boundaries in multi-document runs
+- The default Neo4j export is entity-centric; vector retrieval needs extra graph/index preparation beyond the default export
 
 ## Acknowledgments
 
-This project builds on the excellent work of two open-source teams:
-
-- **[Docling](https://github.com/docling-project/docling)** by the Docling Project — for robust, multi-format document parsing that makes ingestion of PDFs, Office documents, and more seamless and reliable. Thank you for making document understanding accessible.
-
-- **[itext2kg](https://github.com/AuvaLab/itext2kg)** by AuvaLab — for the ATOM (Augmented Text-to-KG Ontology Mapping) method that powers incremental knowledge graph construction with entity and relation deduplication. Thank you for advancing the state of automated KG building.
-
----
+- [Docling](https://github.com/docling-project/docling) for robust multi-format document parsing
+- [itext2kg](https://github.com/AuvaLab/itext2kg) for the ATOM-based graph construction workflow
+- [Neo4j GraphRAG Python](https://github.com/neo4j/neo4j-graphrag-python) for the retrieval building blocks used by `skgb.retrieval`
 
 ## License
 
